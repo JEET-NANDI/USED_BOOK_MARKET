@@ -1,0 +1,93 @@
+.sell-page {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.sell-page h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.sell-page > p {
+  max-width: 600px;
+  margin: 0 auto 25px;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.sell-form {
+  width: 700px;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.sell-form input,
+.sell-form select,
+.sell-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  font-size: 15px;
+  border: 1px solid #888;
+  border-radius: 5px;
+  background: #333;
+  color: white;
+  outline: none;
+}
+
+.sell-form input::placeholder,
+.sell-form textarea::placeholder {
+  color: #aaa;
+}
+
+.sell-form input:focus,
+.sell-form select:focus,
+.sell-form textarea:focus {
+  border-color: #aaa;
+}
+
+.sell-form textarea {
+  display: block;
+  min-height: 100px;
+  margin-bottom: 15px;
+  resize: vertical;
+}
+
+.sell-form button {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.sell-form button:hover {
+  opacity: 0.8;
+}
+
+@media (max-width: 600px) {
+  .sell-page {
+    padding: 30px 15px;
+  }
+
+  .sell-page h1 {
+    font-size: 34px;
+  }
+
+  .sell-form {
+    width: 100%;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

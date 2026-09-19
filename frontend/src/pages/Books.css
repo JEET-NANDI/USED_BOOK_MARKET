@@ -1,0 +1,32 @@
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  margin-top: 25px; 
+}
+/* search box */
+.search-box {
+  display: flex;
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.search-box input {
+  width: 300px;
+  padding: 12px;
+  font-size: 16px;
+}
+
+.search-box button {
+  padding: 12px 20px;
+  cursor: pointer;
+}
+/* CATEGORY DROPDOWN */
+.search-box select {
+  padding: 12px;
+
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}

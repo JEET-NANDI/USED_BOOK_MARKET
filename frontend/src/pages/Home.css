@@ -1,0 +1,23 @@
+main {
+  padding: 40px;
+}
+
+section {
+  margin-bottom: 50px;
+}
+
+h1 {
+  font-size: 42px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+button {
+  padding: 12px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
