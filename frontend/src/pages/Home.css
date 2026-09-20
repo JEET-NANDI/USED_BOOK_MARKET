@@ -1,23 +1,712 @@
-main {
-  padding: 40px;
+/* =========================================
+   HOME PAGE
+========================================= */
+
+.home-page {
+  width: 100%;
+  overflow: hidden;
+  background: #f8f6ef;
+  color: #172554;
 }
 
-section {
-  margin-bottom: 50px;
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.hero-section {
+  position: relative;
+  min-height: 520px;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 190, 150, 0.35), transparent 25%),
+    radial-gradient(circle at 85% 30%, rgba(160, 210, 230, 0.35), transparent 28%),
+    linear-gradient(135deg, #fff9ed, #edf7f5);
+  border-bottom: 1px solid #e5dfd2;
+  overflow: hidden;
 }
 
-h1 {
+
+/* Decorative background */
+
+.hero-section::before {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(255, 180, 120, 0.12);
+  top: -130px;
+  left: -100px;
+  animation: floatingCircle 6s ease-in-out infinite;
+}
+
+.hero-section::after {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  background: rgba(100, 180, 190, 0.10);
+  right: -150px;
+  bottom: -180px;
+  animation: floatingCircle 7s ease-in-out infinite reverse;
+}
+
+
+/* =========================================
+   HERO CONTENT
+========================================= */
+
+.hero-content {
+  width: min(1150px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================================
+   HERO TEXT
+========================================= */
+
+.hero-text {
+  animation: heroText 0.9s ease forwards;
+}
+
+.hero-small-title {
+  display: inline-block;
+  padding: 7px 14px;
+  margin-bottom: 18px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid #d9d1c3;
+  color: #315b63;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.hero-small-title:hover {
+  transform: translateY(-3px);
+  background: #315b63;
+  color: white;
+  box-shadow: 0 8px 20px rgba(49, 91, 99, 0.25);
+}
+
+
+.hero-text h1 {
+  margin: 0 0 18px;
+  font-size: clamp(42px, 5vw, 68px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+  color: #172554;
+}
+
+.hero-text h1 span {
+  color: #e76f51;
+  display: inline-block;
+  animation: titleFloat 3s ease-in-out infinite;
+}
+
+
+.hero-text p {
+  max-width: 560px;
+  margin: 0 0 28px;
+  color: #475569;
+  font-size: 19px;
+  line-height: 1.65;
+}
+
+
+/* =========================================
+   HERO BUTTONS
+========================================= */
+
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  min-width: 170px;
+  padding: 14px 22px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 700;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.browse-btn {
+  background: #e76f51;
+  color: white;
+  box-shadow: 0 8px 20px rgba(231, 111, 81, 0.25);
+}
+
+.browse-btn:hover {
+  background: #d9573b;
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 14px 28px rgba(231, 111, 81, 0.35);
+}
+
+
+.sell-btn {
+  background: rgba(255, 255, 255, 0.7);
+  color: #172554;
+  border: 2px solid #7895aa;
+}
+
+.sell-btn:hover {
+  background: #315b63;
+  color: white;
+  border-color: #315b63;
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 14px 28px rgba(49, 91, 99, 0.25);
+}
+
+
+.btn-arrow {
+  transition: transform 0.3s ease;
+}
+
+.hero-btn:hover .btn-arrow {
+  transform: translateX(6px);
+}
+
+
+/* =========================================
+   BOOK ILLUSTRATION
+========================================= */
+
+.hero-books {
+  position: relative;
+  min-height: 330px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bookEntrance 1s ease forwards;
+}
+
+
+.book-stack {
+  position: relative;
+  width: 310px;
+  height: 260px;
+  transform: rotate(-3deg);
+  transition: transform 0.5s ease;
+}
+
+.book-stack:hover {
+  transform: rotate(0deg) scale(1.06);
+}
+
+
+.book {
+  position: absolute;
+  width: 180px;
+  height: 62px;
+  border-radius: 5px 10px 10px 5px;
+  left: 65px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  box-shadow: 5px 7px 12px rgba(0, 0, 0, 0.18);
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+
+.book:hover {
+  transform: translateX(-10px) rotate(-3deg);
+  box-shadow: 12px 12px 20px rgba(0, 0, 0, 0.22);
+}
+
+
+.book-red {
+  top: 15px;
+  background: linear-gradient(135deg, #c94c4c, #e76f51);
+  transform: rotate(-8deg);
+}
+
+.book-blue {
+  top: 65px;
+  background: linear-gradient(135deg, #315b85, #457b9d);
+  transform: rotate(4deg);
+}
+
+.book-green {
+  top: 115px;
+  background: linear-gradient(135deg, #398a72, #52b788);
+  transform: rotate(-3deg);
+}
+
+.book-yellow {
+  top: 165px;
+  background: linear-gradient(135deg, #e0a62b, #f4c95d);
+  transform: rotate(6deg);
+}
+
+.book-orange {
+  top: 215px;
+  background: linear-gradient(135deg, #c66b35, #e99b5a);
+  transform: rotate(-5deg);
+}
+
+
+.book-shadow {
+  position: absolute;
+  width: 260px;
+  height: 30px;
+  bottom: 20px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.16);
+  filter: blur(12px);
+}
+
+
+/* =========================================
+   FLOATING BOOKS
+========================================= */
+
+.floating-book {
+  position: absolute;
   font-size: 42px;
-  margin-bottom: 15px;
+  opacity: 0.35;
+  animation: floatingBook 4s ease-in-out infinite;
+  z-index: 1;
 }
 
-p {
+.book-one {
+  top: 12%;
+  left: 4%;
+}
+
+.book-two {
+  top: 20%;
+  right: 5%;
+  animation-delay: 1s;
+}
+
+.book-three {
+  bottom: 12%;
+  left: 8%;
+  animation-delay: 2s;
+}
+
+.book-four {
+  bottom: 10%;
+  right: 8%;
+  animation-delay: 3s;
+}
+
+
+/* =========================================
+   HOW IT WORKS
+========================================= */
+
+.how-section {
+  position: relative;
+  padding: 75px 5%;
+  background: #fffdf8;
+}
+
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.section-heading span {
+  color: #e76f51;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 8px 0;
+  font-size: 38px;
+  color: #172554;
+}
+
+.section-heading p {
+  margin: 0 auto;
+  max-width: 600px;
+  color: #64748b;
+  font-size: 17px;
+}
+
+
+/* =========================================
+   STEP CARDS
+========================================= */
+
+.steps-container {
+  width: min(1050px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+
+.step-card {
+  position: relative;
+  padding: 32px 25px;
+  text-align: center;
+  border-radius: 18px;
+  background: white;
+  border: 1px solid #e7e1d5;
+  box-shadow: 0 8px 25px rgba(40, 50, 70, 0.07);
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    background 0.35s ease;
+  overflow: hidden;
+}
+
+
+.step-card::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  top: 0;
+  left: 0;
+  background: #315b63;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+
+.step-card:hover {
+  transform: translateY(-10px);
+  background: #f8fffc;
+  border-color: #6aa69a;
+  box-shadow: 0 18px 35px rgba(49, 91, 99, 0.16);
+}
+
+
+.step-card:hover::before {
+  transform: scaleX(1);
+}
+
+
+.step-icon {
+  width: 75px;
+  height: 75px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 32px;
+  transition: transform 0.35s ease;
+}
+
+
+.step-card:hover .step-icon {
+  transform: rotate(8deg) scale(1.12);
+}
+
+
+.find-icon {
+  background: #d9ebf7;
+}
+
+.buy-icon {
+  background: #d7f1e5;
+}
+
+.sell-icon {
+  background: #ffe9a8;
+}
+
+
+.step-number {
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+
+.step-card h3 {
+  margin: 8px 0 10px;
+  font-size: 23px;
+  color: #172554;
+}
+
+
+.step-card p {
+  margin: 0 auto 18px;
+  max-width: 260px;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+
+.step-link {
+  color: #315b63;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.25s ease;
+}
+
+
+.step-link:hover {
+  color: #e76f51;
+}
+
+
+/* =========================================
+   MARKETPLACE CTA
+========================================= */
+
+.marketplace-section {
+  padding: 85px 5%;
+  background:
+    linear-gradient(135deg, #183b4a, #315b63);
+  color: white;
+}
+
+
+.marketplace-content {
+  width: min(900px, 92%);
+  margin: auto;
+  text-align: center;
+}
+
+
+.marketplace-content > span {
+  font-size: 13px;
+  letter-spacing: 3px;
+  font-weight: 800;
+  color: #f4c95d;
+}
+
+
+.marketplace-content h2 {
+  margin: 12px 0;
+  font-size: clamp(35px, 5vw, 55px);
+  line-height: 1.1;
+}
+
+
+.marketplace-content h2 strong {
+  color: #f4c95d;
+}
+
+
+.marketplace-content p {
+  max-width: 600px;
+  margin: 0 auto 28px;
+  color: #dce8eb;
   font-size: 18px;
   line-height: 1.6;
 }
 
-button {
-  padding: 12px 20px;
-  margin-right: 10px;
-  cursor: pointer;
+
+.marketplace-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+
+.market-btn {
+  padding: 14px 24px;
+  border-radius: 8px;
+  background: #e76f51;
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+
+.market-btn:hover {
+  background: #f4c95d;
+  color: #172554;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
+
+.market-btn.outline {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+
+
+.market-btn.outline:hover {
+  background: white;
+  color: #315b63;
+}
+
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes heroText {
+  from {
+    opacity: 0;
+    transform: translateX(-35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+@keyframes bookEntrance {
+  from {
+    opacity: 0;
+    transform: translateX(35px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+
+@keyframes titleFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+
+@keyframes floatingBook {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-14px) rotate(5deg);
+  }
+}
+
+
+@keyframes floatingCircle {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(20px);
+  }
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 850px) {
+
+  .hero-section {
+    min-height: auto;
+    padding: 70px 0;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .hero-text p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-books {
+    min-height: 300px;
+  }
+
+  .steps-container {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .hero-text h1 {
+    font-size: 42px;
+  }
+
+  .hero-text p {
+    font-size: 16px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-btn {
+    width: min(280px, 90%);
+  }
+
+  .book-stack {
+    transform: scale(0.85) rotate(-3deg);
+  }
+
+  .book-stack:hover {
+    transform: scale(0.9);
+  }
+
+  .section-heading h2 {
+    font-size: 32px;
+  }
+
+  .marketplace-section {
+    padding: 65px 5%;
+  }
+
 }

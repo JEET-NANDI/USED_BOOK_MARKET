@@ -1,40 +1,323 @@
+/* =========================================
+   NAVBAR
+========================================= */
+
 .navbar {
+  width: 100%;
+  min-height: 58px;
+  padding: 0 32px;
+  box-sizing: border-box;
+
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
-  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+  gap: 25px;
+
+  background: rgba(255, 252, 243, 0.96);
+  border-bottom: 1px solid #ddd6c8;
+
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  box-shadow: 0 3px 15px rgba(40, 50, 60, 0.08);
+
+  backdrop-filter: blur(10px);
 }
 
-.logo {
-  font-size: 22px;
-  font-weight: bold;
-  animation: logoBlink 1s infinite;
+
+/* =========================================
+   LOGO
+========================================= */
+
+.navbar-logo {
+  position: relative;
+
+  color: #01101b;
+  text-decoration: none;
+
+  font-size: 21px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease,
+    text-shadow 0.3s ease;
 }
+
+
+/* blinking / glowing effect */
+
+.navbar-logo::after {
+  content: "";
+  position: absolute;
+
+  left: 0;
+  bottom: -5px;
+
+  width: 100%;
+  height: 2px;
+
+  background: #e76f51;
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 0.3s ease;
+}
+
+
+.navbar-logo:hover {
+  color: #e76f51;
+  transform: translateY(-2px);
+
+  text-shadow:
+    0 0 6px rgba(231, 111, 81, 0.35);
+}
+
+
+.navbar-logo:hover::after {
+  transform: scaleX(1);
+}
+
+
+/* blinking logo */
 
 @keyframes logoBlink {
+
   0%,
-  50% {
+  45%,
+  100% {
     opacity: 1;
   }
 
-  50.1%,
-  100% {
-    opacity: 0;
+  50%,
+  58% {
+    opacity: 0.35;
   }
+
 }
+
+
+.navbar-logo {
+  animation: logoBlink 2s ease-in-out infinite;
+}
+
+
+/* Stop blink while touching/hovering */
+
+.navbar-logo:hover {
+  animation-play-state: paused;
+}
+
+
+/* =========================================
+   NAVIGATION LINKS
+========================================= */
 
 .nav-links {
   display: flex;
-  gap: 25px;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 4px;
+
+  flex-wrap: wrap;
 }
 
-.nav-links a {
+
+.nav-link {
+  position: relative;
+
+  padding: 9px 10px;
+
+  color: #263238;
   text-decoration: none;
-  color: #222;
+
+  font-size: 16px;
   font-weight: 500;
+
+  border-radius: 7px;
+
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.nav-links a:hover {
-  text-decoration: underline;
+
+/* =========================================
+   HOVER EFFECT
+========================================= */
+
+.nav-link:hover {
+  color: #ffffff;
+
+  background: #315b63;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 14px rgba(49, 91, 99, 0.25);
+}
+
+
+/* small line underneath */
+
+.nav-link::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+  bottom: 4px;
+
+  width: 0;
+  height: 2px;
+
+  background: #f4c95d;
+
+  transform: translateX(-50%);
+
+  transition: width 0.25s ease;
+}
+
+
+.nav-link:hover::after {
+  width: 55%;
+}
+
+
+/* =========================================
+   ACTIVE PAGE
+========================================= */
+
+.nav-link.active {
+  color: #ffffff;
+
+  background: #e76f51;
+
+  box-shadow:
+    0 5px 12px rgba(231, 111, 81, 0.25);
+}
+
+
+.nav-link.active:hover {
+  background: #d9573b;
+
+  transform: translateY(-2px);
+}
+
+
+/* =========================================
+   LOGIN
+========================================= */
+
+.nav-link[href="/login"] {
+  margin-left: 4px;
+}
+
+
+.nav-link[href="/login"]:hover {
+  background: #457b9d;
+}
+
+
+/* =========================================
+   REGISTER
+========================================= */
+
+.nav-link[href="/register"] {
+  color: #315b63;
+  font-weight: 700;
+
+  border: 1px solid #315b63;
+}
+
+
+.nav-link[href="/register"]:hover {
+  color: white;
+
+  background: #315b63;
+
+  border-color: #315b63;
+}
+
+
+/* =========================================
+   CLICK EFFECT
+========================================= */
+
+.nav-link:active {
+  transform: scale(0.94);
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1050px) {
+
+  .navbar {
+    padding: 10px 20px;
+
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .nav-links {
+    justify-content: center;
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .navbar {
+    padding: 12px 10px;
+  }
+
+  .navbar-logo {
+    font-size: 19px;
+  }
+
+  .nav-links {
+    width: 100%;
+
+    justify-content: center;
+
+    gap: 3px;
+  }
+
+  .nav-link {
+    padding: 7px 8px;
+    font-size: 14px;
+  }
+
+}
+
+
+@media (max-width: 450px) {
+
+  .navbar-logo {
+    font-size: 17px;
+  }
+
+  .nav-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    width: 100%;
+  }
+
+  .nav-link {
+    text-align: center;
+  }
+
 }

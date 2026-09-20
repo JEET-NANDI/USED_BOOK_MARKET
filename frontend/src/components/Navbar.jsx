@@ -1,34 +1,45 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
+  const navItems = [
+    { name: "Home", path: "/" },
+    { name: "Books", path: "/books" },
+    { name: "Sell", path: "/sell" },
+    { name: "Dashboard", path: "/dashboard" },
+    { name: "Orders", path: "/orders" },
+    { name: "Listings", path: "/listings" },
+    { name: "Wishlist", path: "/wishlist" },
+    { name: "Profile", path: "/profile" },
+    { name: "Login", path: "/login" },
+    { name: "Register", path: "/register" },
+  ];
+
   return (
     <nav className="navbar">
-      <div className="logo">
+
+      {/* Logo */}
+      <NavLink to="/" className="navbar-logo">
         USED BOOK MARKET
-      </div>
+      </NavLink>
 
+      {/* Navigation */}
       <div className="nav-links">
-        <Link to="/">Home</Link>
 
-        <Link to="/books">Books</Link>
+        {navItems.map((item) => (
+          <NavLink
+            key={item.name}
+            to={item.path}
+            className={({ isActive }) =>
+              isActive ? "nav-link active" : "nav-link"
+            }
+          >
+            {item.name}
+          </NavLink>
+        ))}
 
-        <Link to="/sell">Sell</Link>
-
-        <Link to="/dashboard">Dashboard</Link>
-
-        <Link to="/orders">Orders</Link>
-
-        <Link to="/listings">Listings</Link>
-
-        <Link to="/wishlist">Wishlist</Link>
-
-        <Link to="/profile">Profile</Link>
-
-        <Link to="/login">Login</Link>
-
-        <Link to="/register">Register</Link>
       </div>
+
     </nav>
   );
 }
