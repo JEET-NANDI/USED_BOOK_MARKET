@@ -321,3 +321,141 @@
   }
 
 }
+
+/* =========================================================
+   LOGOUT BUTTON
+========================================================= */
+
+.nav-logout-button {
+  position: relative;
+  overflow: hidden;
+
+  min-height: 42px;
+  padding: 0 17px;
+
+  border: 1px solid #d7e1e6;
+  border-radius: 9px;
+
+  background: #ffffff;
+  color: #173f5b;
+
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    color 0.3s ease,
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+/* Moving light */
+.nav-logout-button::before {
+  content: "";
+
+  position: absolute;
+  top: 0;
+  left: -100%;
+
+  width: 60%;
+  height: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
+
+  transform: skewX(-20deg);
+
+  transition: left 0.5s ease;
+
+  pointer-events: none;
+}
+
+
+/* Hover */
+.nav-logout-button:hover {
+  color: white;
+
+  background: #168f78;
+
+  border-color: #168f78;
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 5px 15px rgba(22, 143, 120, 0.25),
+    0 0 18px rgba(22, 143, 120, 0.12);
+}
+
+
+/* Moving shine */
+.nav-logout-button:hover::before {
+  left: 140%;
+}
+
+
+/* Click */
+.nav-logout-button:active {
+  transform: translateY(0) scale(0.96);
+
+  box-shadow:
+    0 2px 8px rgba(22, 143, 120, 0.2);
+}
+
+
+/* =========================================================
+   SUBTLE IDLE ANIMATION
+========================================================= */
+
+@keyframes logoutGlow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 rgba(22, 143, 120, 0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 10px rgba(22, 143, 120, 0.08);
+  }
+}
+
+.nav-logout-button {
+  animation: logoutGlow 3s ease-in-out infinite;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+  .nav-logout-button {
+    min-height: 40px;
+    padding: 0 15px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-logout-button {
+    animation: none;
+    transition: none;
+  }
+
+  .nav-logout-button::before {
+    display: none;
+  }
+}
