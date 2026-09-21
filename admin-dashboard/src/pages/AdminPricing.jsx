@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./AdminPricing.css";
 
 function AdminPricing() {
   const [settings, setSettings] = useState(null);
@@ -84,9 +85,7 @@ function AdminPricing() {
     }
 
     if (feeValue === "") {
-      setMessage(
-        "Fee value is required"
-      );
+      setMessage("Fee value is required");
       return;
     }
 
@@ -106,9 +105,7 @@ function AdminPricing() {
       feeType !== "fixed" &&
       feeType !== "percentage"
     ) {
-      setMessage(
-        "Invalid fee type"
-      );
+      setMessage("Invalid fee type");
       return;
     }
 
@@ -186,192 +183,516 @@ function AdminPricing() {
     if (feeType === "percentage") {
       return (
         sellerPrice +
-        (sellerPrice * numericFee) /
-          100
+        (sellerPrice * numericFee) / 100
       );
     }
 
     return sellerPrice + numericFee;
   };
 
+  const exampleFee =
+    Number(feeValue) || 0;
+
+  const exampleBuyerPrice =
+    calculateExample();
+
   return (
-    <div>
-      <h1>Pricing Settings</h1>
+    <main className="admin-pricing-page">
 
-      <p>
-        Configure the platform fee added
-        to the seller price.
-      </p>
+      {/* Background Animation */}
+      <div className="pricing-bg pricing-bg-one"></div>
+      <div className="pricing-bg pricing-bg-two"></div>
+      <div className="pricing-bg pricing-bg-three"></div>
 
+      {/* Header */}
+      <section className="pricing-header">
+
+        <div className="pricing-header-icon">
+          💰
+        </div>
+
+        <div>
+          <p className="pricing-label">
+            ADMIN CONTROL CENTER
+          </p>
+
+          <h1>
+            Pricing <span>Settings</span>
+          </h1>
+
+          <p className="pricing-description">
+            Configure the platform fee added
+            to the seller price.
+          </p>
+        </div>
+
+      </section>
+
+      {/* Message */}
       {message && (
-        <p>{message}</p>
+        <div
+          className={`pricing-message ${
+            message.includes("successfully")
+              ? "pricing-success"
+              : "pricing-error"
+          }`}
+        >
+          <span>
+            {message.includes("successfully")
+              ? "✅"
+              : "⚠️"}
+          </span>
+
+          {message}
+        </div>
       )}
 
       {loading ? (
-        <p>
-          Loading pricing settings...
-        </p>
+
+        /* Loading */
+        <section className="pricing-loading">
+
+          <div className="pricing-loader">
+            💰
+          </div>
+
+          <h2>
+            Loading Pricing Settings...
+          </h2>
+
+          <p>
+            Fetching current platform pricing
+          </p>
+
+        </section>
+
       ) : (
+
         <>
-          <hr />
 
-          <h2>
-            Platform Fee
-          </h2>
+          {/* Main Pricing Layout */}
+          <section className="pricing-layout">
 
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                Fee Type:
-                {" "}
+            {/* Settings Form */}
+            <div className="pricing-settings-card">
 
-                <select
-                  value={feeType}
-                  onChange={(e) =>
-                    setFeeType(
-                      e.target.value
-                    )
-                  }
-                >
-                  <option value="fixed">
-                    Fixed Amount
-                  </option>
+              <div className="pricing-card-heading">
 
-                  <option value="percentage">
-                    Percentage
-                  </option>
-                </select>
-              </label>
-            </div>
+                <div className="pricing-card-icon">
+                  ⚙️
+                </div>
 
-            <br />
+                <div>
+                  <span>
+                    PLATFORM CONFIGURATION
+                  </span>
 
-            <div>
-              <label>
-                Fee Value:
-                {" "}
+                  <h2>
+                    Platform Fee
+                  </h2>
+                </div>
 
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={feeValue}
-                  onChange={(e) =>
-                    setFeeValue(
-                      e.target.value
-                    )
-                  }
-                  placeholder={
-                    feeType ===
+              </div>
+
+              <p className="pricing-card-description">
+                Choose how much extra amount
+                will be added to the seller price.
+              </p>
+
+              <form
+                className="pricing-form"
+                onSubmit={handleSubmit}
+              >
+
+                {/* Fee Type */}
+                <div className="pricing-field">
+
+                  <label htmlFor="fee-type">
+                    Fee Type
+                  </label>
+
+                  <div className="pricing-select-wrapper">
+                    <span>📊</span>
+
+                    <select
+                      id="fee-type"
+                      value={feeType}
+                      onChange={(e) =>
+                        setFeeType(
+                          e.target.value
+                        )
+                      }
+                    >
+                      <option value="fixed">
+                        Fixed Amount
+                      </option>
+
+                      <option value="percentage">
+                        Percentage
+                      </option>
+                    </select>
+                  </div>
+
+                </div>
+
+                {/* Fee Value */}
+                <div className="pricing-field">
+
+                  <label htmlFor="fee-value">
+                    Fee Value
+                  </label>
+
+                  <div className="pricing-input-wrapper">
+
+                    <span>
+                      {feeType ===
+                      "percentage"
+                        ? "%"
+                        : "₹"}
+                    </span>
+
+                    <input
+                      id="fee-value"
+                      type="number"
+                      min="0"
+                      max={
+                        feeType ===
+                        "percentage"
+                          ? "100"
+                          : undefined
+                      }
+                      step="0.01"
+                      value={feeValue}
+                      onChange={(e) =>
+                        setFeeValue(
+                          e.target.value
+                        )
+                      }
+                      placeholder={
+                        feeType ===
+                        "percentage"
+                          ? "Example: 10"
+                          : "Example: 20"
+                      }
+                      required
+                    />
+
+                  </div>
+
+                  <small>
+                    {feeType ===
                     "percentage"
-                      ? "Example: 10"
-                      : "Example: 20"
-                  }
-                  required
-                />
-              </label>
+                      ? "Enter a value from 0% to 100%."
+                      : "Enter a fixed amount in Indian Rupees."}
+                  </small>
 
-              {feeType ===
-                "percentage" && (
-                <span>
-                  {" "}%
-                </span>
-              )}
+                </div>
 
-              {feeType === "fixed" && (
-                <span>
-                  {" "}₹
-                </span>
-              )}
+                {/* Save */}
+                <button
+                  type="submit"
+                  className="save-pricing-button"
+                  disabled={saving}
+                >
+                  {saving ? (
+                    <>
+                      <span className="button-spinner"></span>
+                      Saving...
+                    </>
+                  ) : (
+                    <>
+                      💾 Save Pricing
+                    </>
+                  )}
+                </button>
+
+              </form>
+
             </div>
 
-            <br />
+            {/* Live Preview */}
+            <div className="pricing-preview-card">
 
-            <button
-              type="submit"
-              disabled={saving}
-            >
-              {saving
-                ? "Saving..."
-                : "Save Pricing"}
-            </button>
-          </form>
+              <div className="preview-top">
 
-          <hr />
+                <div className="preview-icon">
+                  🧮
+                </div>
 
-          <h2>
-            Example Calculation
-          </h2>
+                <div>
+                  <span>
+                    LIVE PREVIEW
+                  </span>
 
-          <p>
-            Example seller price:{" "}
-            <strong>₹100</strong>
-          </p>
+                  <h2>
+                    Price Calculation
+                  </h2>
+                </div>
 
-          <p>
-            Fee type:{" "}
-            <strong>
-              {feeType}
-            </strong>
-          </p>
+              </div>
 
-          <p>
-            Platform fee:{" "}
-            <strong>
-              {feeType ===
-              "percentage"
-                ? `${feeValue || 0}%`
-                : `₹${feeValue || 0}`}
-            </strong>
-          </p>
+              <div className="calculation-box">
 
-          <p>
-            Example buyer price:{" "}
-            <strong>
-              ₹
-              {calculateExample().toFixed(
-                2
-              )}
-            </strong>
-          </p>
+                <div className="calculation-row">
+                  <span>
+                    Seller Price
+                  </span>
 
-          {settings && (
-            <>
-              <hr />
+                  <strong>
+                    ₹100.00
+                  </strong>
+                </div>
 
+                <div className="calculation-symbol">
+                  +
+                </div>
+
+                <div className="calculation-row fee-row">
+                  <span>
+                    Platform Fee
+                  </span>
+
+                  <strong>
+                    {feeType ===
+                    "percentage"
+                      ? `${exampleFee}%`
+                      : `₹${exampleFee.toFixed(2)}`}
+                  </strong>
+                </div>
+
+                <div className="calculation-line"></div>
+
+                <div className="calculation-row final-row">
+                  <span>
+                    Buyer Price
+                  </span>
+
+                  <strong>
+                    ₹
+                    {exampleBuyerPrice.toFixed(
+                      2
+                    )}
+                  </strong>
+                </div>
+
+              </div>
+
+              <div className="pricing-formula">
+
+                <span>FORMULA</span>
+
+                <p>
+                  Seller Price + Platform Fee
+                  = Buyer Price
+                </p>
+
+              </div>
+
+              <div className="preview-note">
+                💡 This example uses a seller
+                price of ₹100.
+              </div>
+
+            </div>
+
+          </section>
+
+          {/* Current Settings */}
+          <section className="current-pricing-section">
+
+            <div className="current-pricing-heading">
+
+              <div>
+                <span>
+                  ACTIVE CONFIGURATION
+                </span>
+
+                <h2>
+                  📋 Current Settings
+                </h2>
+              </div>
+
+              <div className="active-badge">
+                ● ACTIVE
+              </div>
+
+            </div>
+
+            {settings ? (
+
+              <div className="current-pricing-grid">
+
+                <div className="current-pricing-item">
+
+                  <div className="current-icon">
+                    📊
+                  </div>
+
+                  <div>
+                    <p>
+                      Fee Type
+                    </p>
+
+                    <strong>
+                      {settings.fee_type ===
+                      "percentage"
+                        ? "Percentage"
+                        : "Fixed Amount"}
+                    </strong>
+                  </div>
+
+                </div>
+
+                <div className="current-pricing-item">
+
+                  <div className="current-icon">
+                    💰
+                  </div>
+
+                  <div>
+                    <p>
+                      Fee Value
+                    </p>
+
+                    <strong>
+                      {settings.fee_type ===
+                      "percentage"
+                        ? `${settings.fee_value}%`
+                        : `₹${settings.fee_value}`}
+                    </strong>
+                  </div>
+
+                </div>
+
+                <div className="current-pricing-item">
+
+                  <div className="current-icon">
+                    🧮
+                  </div>
+
+                  <div>
+                    <p>
+                      Example Buyer Price
+                    </p>
+
+                    <strong>
+                      ₹
+                      {(() => {
+                        const value =
+                          Number(
+                            settings.fee_value
+                          ) || 0;
+
+                        const price =
+                          settings.fee_type ===
+                          "percentage"
+                            ? 100 +
+                              (100 * value) /
+                                100
+                            : 100 + value;
+
+                        return price.toFixed(
+                          2
+                        );
+                      })()}
+                    </strong>
+                  </div>
+
+                </div>
+
+                {settings.updated_at && (
+                  <div className="current-pricing-item">
+
+                    <div className="current-icon">
+                      🕒
+                    </div>
+
+                    <div>
+                      <p>
+                        Last Updated
+                      </p>
+
+                      <strong>
+                        {new Date(
+                          settings.updated_at
+                        ).toLocaleString()}
+                      </strong>
+                    </div>
+
+                  </div>
+                )}
+
+              </div>
+
+            ) : (
+
+              <div className="no-pricing-settings">
+                <span>⚙️</span>
+
+                <h3>
+                  No Pricing Settings Found
+                </h3>
+
+                <p>
+                  Save a pricing configuration
+                  to create the active settings.
+                </p>
+              </div>
+
+            )}
+
+          </section>
+
+          {/* Information */}
+          <section className="pricing-info">
+
+            <div className="pricing-info-icon">
+              💡
+            </div>
+
+            <div>
+              <h3>
+                How Pricing Works
+              </h3>
+
+              <p>
+                The seller sets the original
+                book price. The configured
+                platform fee is then added to
+                calculate the buyer price.
+              </p>
+            </div>
+
+          </section>
+
+          {/* Footer */}
+          <section className="pricing-footer">
+
+            <div className="pricing-footer-icon">
+              💰
+            </div>
+
+            <div>
               <h2>
-                Current Settings
+                USED BOOK MARKET
               </h2>
 
               <p>
-                Fee type:{" "}
-                <strong>
-                  {settings.fee_type}
-                </strong>
+                Pricing management control panel
               </p>
+            </div>
 
-              <p>
-                Fee value:{" "}
-                <strong>
-                  {settings.fee_value}
-                </strong>
-              </p>
+            <div className="pricing-footer-status">
+              <span></span>
+              System Online
+            </div>
 
-              {settings.updated_at && (
-                <p>
-                  Last updated:{" "}
-                  <strong>
-                    {new Date(
-                      settings.updated_at
-                    ).toLocaleString()}
-                  </strong>
-                </p>
-              )}
-            </>
-          )}
+          </section>
+
         </>
       )}
-    </div>
+
+    </main>
   );
 }
 

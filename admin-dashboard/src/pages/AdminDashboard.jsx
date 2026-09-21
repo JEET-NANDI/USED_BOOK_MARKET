@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const [products, setProducts] = useState([]);
   const [users, setUsers] = useState([]);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -11,31 +13,26 @@ function AdminDashboard() {
 
       if (!token) {
         setMessage("Admin login required");
+        setLoading(false);
         return;
       }
 
       try {
         const [productsResponse, usersResponse] =
           await Promise.all([
-            fetch(
-              "http://localhost:5000/api/admin/products",
-              {
-                method: "GET",
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            ),
+            fetch("http://localhost:5000/api/admin/products", {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }),
 
-            fetch(
-              "http://localhost:5000/api/admin/users",
-              {
-                method: "GET",
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            ),
+            fetch("http://localhost:5000/api/admin/users", {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }),
           ]);
 
         const productsData =
@@ -71,6 +68,8 @@ function AdminDashboard() {
         setMessage(
           "Unable to connect to server"
         );
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -107,93 +106,352 @@ function AdminDashboard() {
   ).length;
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
+    <main className="admin-dashboard">
 
-      <p>
-        Manage USED BOOK MARKET from one place.
-      </p>
+      {/* BACKGROUND */}
+      <div className="admin-bg admin-bg-one"></div>
+      <div className="admin-bg admin-bg-two"></div>
 
+
+      {/* HEADER */}
+      <section className="admin-header">
+
+        <div className="admin-header-icon">
+          ⚙️
+        </div>
+
+        <div>
+          <p className="admin-label">
+            ADMIN CONTROL CENTER
+          </p>
+
+          <h1>
+            Admin <span>Dashboard</span>
+          </h1>
+
+          <p className="admin-description">
+            Manage users, books and marketplace
+            activity from one place.
+          </p>
+        </div>
+
+      </section>
+
+
+      {/* MESSAGE */}
       {message && (
-        <p>{message}</p>
+        <div className="admin-message">
+          <span>⚠️</span>
+          {message}
+        </div>
       )}
 
-      <hr />
 
-      <h2>User Statistics</h2>
+      {/* LOADING */}
+      {loading ? (
+        <section className="admin-loading">
 
-      <div>
-        <div>
-          <h3>Total Users</h3>
-          <p>{totalUsers}</p>
-        </div>
+          <div className="admin-loader">
+            ⚙️
+          </div>
 
-        <div>
-          <h3>Normal Users</h3>
-          <p>{normalUsers}</p>
-        </div>
+          <h2>
+            Loading Admin Dashboard...
+          </h2>
 
-        <div>
-          <h3>Admin Users</h3>
-          <p>{adminUsers}</p>
-        </div>
-      </div>
+          <p>
+            Fetching marketplace information
+          </p>
 
-      <hr />
+        </section>
+      ) : (
+        <>
 
-      <h2>Product Statistics</h2>
 
-      <div>
-        <div>
-          <h3>Total Products</h3>
-          <p>{totalProducts}</p>
-        </div>
+          {/* USER STATISTICS */}
+          <section className="admin-section">
 
-        <div>
-          <h3>Pending Products</h3>
-          <p>{pendingProducts}</p>
-        </div>
+            <div className="section-heading">
+              <div>
+                <span>
+                  USER MANAGEMENT
+                </span>
 
-        <div>
-          <h3>Approved Products</h3>
-          <p>{approvedProducts}</p>
-        </div>
+                <h2>
+                  👥 User Statistics
+                </h2>
+              </div>
 
-        <div>
-          <h3>Rejected Products</h3>
-          <p>{rejectedProducts}</p>
-        </div>
-      </div>
+              <div className="section-badge">
+                LIVE DATA
+              </div>
+            </div>
 
-      <hr />
 
-      <h2>Quick Overview</h2>
+            <div className="admin-grid">
 
-      <p>
-        Total registered users:{" "}
-        <strong>{totalUsers}</strong>
-      </p>
+              <div className="admin-card blue-card">
+                <div className="card-icon">
+                  👥
+                </div>
 
-      <p>
-        Total book listings:{" "}
-        <strong>{totalProducts}</strong>
-      </p>
+                <div className="card-info">
+                  <p>Total Users</p>
+                  <h3>{totalUsers}</h3>
+                </div>
 
-      <p>
-        Listings waiting for approval:{" "}
-        <strong>{pendingProducts}</strong>
-      </p>
+                <div className="card-decoration">
+                  👤
+                </div>
+              </div>
 
-      <p>
-        Approved listings:{" "}
-        <strong>{approvedProducts}</strong>
-      </p>
 
-      <p>
-        Rejected listings:{" "}
-        <strong>{rejectedProducts}</strong>
-      </p>
-    </div>
+              <div className="admin-card teal-card">
+                <div className="card-icon">
+                  👤
+                </div>
+
+                <div className="card-info">
+                  <p>Normal Users</p>
+                  <h3>{normalUsers}</h3>
+                </div>
+
+                <div className="card-decoration">
+                  📚
+                </div>
+              </div>
+
+
+              <div className="admin-card orange-card">
+                <div className="card-icon">
+                  🛡️
+                </div>
+
+                <div className="card-info">
+                  <p>Admin Users</p>
+                  <h3>{adminUsers}</h3>
+                </div>
+
+                <div className="card-decoration">
+                  ⚙️
+                </div>
+              </div>
+
+            </div>
+
+          </section>
+
+
+          {/* PRODUCT STATISTICS */}
+          <section className="admin-section">
+
+            <div className="section-heading">
+              <div>
+                <span>
+                  BOOK MANAGEMENT
+                </span>
+
+                <h2>
+                  📚 Product Statistics
+                </h2>
+              </div>
+
+              <div className="section-badge">
+                MARKETPLACE
+              </div>
+            </div>
+
+
+            <div className="admin-grid">
+
+              <div className="admin-card purple-card">
+                <div className="card-icon">
+                  📚
+                </div>
+
+                <div className="card-info">
+                  <p>Total Products</p>
+                  <h3>{totalProducts}</h3>
+                </div>
+
+                <div className="card-decoration">
+                  📖
+                </div>
+              </div>
+
+
+              <div className="admin-card yellow-card">
+                <div className="card-icon">
+                  ⏳
+                </div>
+
+                <div className="card-info">
+                  <p>Pending Products</p>
+                  <h3>{pendingProducts}</h3>
+                </div>
+
+                <div className="card-decoration">
+                  ⏰
+                </div>
+              </div>
+
+
+              <div className="admin-card green-card">
+                <div className="card-icon">
+                  ✅
+                </div>
+
+                <div className="card-info">
+                  <p>Approved Products</p>
+                  <h3>{approvedProducts}</h3>
+                </div>
+
+                <div className="card-decoration">
+                  ✔️
+                </div>
+              </div>
+
+
+              <div className="admin-card red-card">
+                <div className="card-icon">
+                  ❌
+                </div>
+
+                <div className="card-info">
+                  <p>Rejected Products</p>
+                  <h3>{rejectedProducts}</h3>
+                </div>
+
+                <div className="card-decoration">
+                  🚫
+                </div>
+              </div>
+
+            </div>
+
+          </section>
+
+
+          {/* QUICK OVERVIEW */}
+          <section className="overview-section">
+
+            <div className="section-heading">
+              <div>
+                <span>
+                  MARKETPLACE SUMMARY
+                </span>
+
+                <h2>
+                  📊 Quick Overview
+                </h2>
+              </div>
+            </div>
+
+
+            <div className="overview-grid">
+
+              <div className="overview-item">
+                <div className="overview-icon">
+                  👥
+                </div>
+
+                <div>
+                  <p>Registered Users</p>
+                  <strong>
+                    {totalUsers}
+                  </strong>
+                </div>
+              </div>
+
+
+              <div className="overview-item">
+                <div className="overview-icon">
+                  📚
+                </div>
+
+                <div>
+                  <p>Book Listings</p>
+                  <strong>
+                    {totalProducts}
+                  </strong>
+                </div>
+              </div>
+
+
+              <div className="overview-item">
+                <div className="overview-icon">
+                  ⏳
+                </div>
+
+                <div>
+                  <p>Waiting Approval</p>
+                  <strong>
+                    {pendingProducts}
+                  </strong>
+                </div>
+              </div>
+
+
+              <div className="overview-item">
+                <div className="overview-icon">
+                  ✅
+                </div>
+
+                <div>
+                  <p>Approved Listings</p>
+                  <strong>
+                    {approvedProducts}
+                  </strong>
+                </div>
+              </div>
+
+
+              <div className="overview-item">
+                <div className="overview-icon">
+                  ❌
+                </div>
+
+                <div>
+                  <p>Rejected Listings</p>
+                  <strong>
+                    {rejectedProducts}
+                  </strong>
+                </div>
+              </div>
+
+            </div>
+
+          </section>
+
+
+          {/* FOOTER */}
+          <section className="admin-footer">
+
+            <div className="footer-book">
+              📚
+            </div>
+
+            <div>
+              <h2>
+                USED BOOK MARKET
+              </h2>
+
+              <p>
+                Admin control panel
+              </p>
+            </div>
+
+            <div className="footer-status">
+              <span></span>
+              System Online
+            </div>
+
+          </section>
+
+        </>
+      )}
+
+    </main>
   );
 }
 

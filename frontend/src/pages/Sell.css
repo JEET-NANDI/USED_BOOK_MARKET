@@ -1,93 +1,614 @@
+/* =========================================
+   SELL PAGE
+========================================= */
+
 .sell-page {
-  padding: 40px 20px;
+  position: relative;
+  min-height: calc(100vh - 70px);
+  padding: 65px 20px 80px;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 15% 30%, rgba(226, 215, 180, 0.3), transparent 25%),
+    radial-gradient(circle at 85% 70%, rgba(226, 215, 180, 0.25), transparent 25%),
+    linear-gradient(135deg, #fffdf6, #f7f3e8 55%, #f0eadb);
+
+  color: #111b38;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.sell-header {
+  position: relative;
+  z-index: 2;
+
   text-align: center;
+  margin-bottom: 38px;
+
+  animation: sellHeader 0.9s ease both;
 }
 
-.sell-page h1 {
-  font-size: 42px;
-  margin-bottom: 10px;
+.sell-header h1 {
+  margin: 0;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(48px, 6vw, 76px);
+  font-weight: 800;
+
+  color: #17356f;
+
+  text-shadow:
+    2px 3px 0 rgba(190, 161, 91, 0.35),
+    0 8px 15px rgba(24, 43, 81, 0.15);
 }
 
-.sell-page > p {
-  max-width: 600px;
-  margin: 0 auto 25px;
-  font-size: 18px;
-  line-height: 1.6;
+.sell-header p {
+  margin: 10px auto 0;
+
+  max-width: 760px;
+
+  font-size: 21px;
+  color: #1d2435;
 }
+
+/* =========================================
+   FORM
+========================================= */
 
 .sell-form {
-  width: 700px;
-  max-width: 95%;
+  position: relative;
+  z-index: 3;
+
+  width: min(100%, 1015px);
   margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  animation: formAppear 1s ease 0.15s both;
 }
+
+/* =========================================
+   FORM ROW
+========================================= */
 
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
+  gap: 20px;
+}
+
+/* =========================================
+   INPUTS
+========================================= */
+
+.form-field {
+  position: relative;
 }
 
 .sell-form input,
 .sell-form select,
 .sell-form textarea {
-  box-sizing: border-box;
   width: 100%;
-  padding: 12px;
-  font-size: 15px;
-  border: 1px solid #888;
-  border-radius: 5px;
-  background: #333;
-  color: white;
+  box-sizing: border-box;
+
+  border: 1.5px solid #d9d7d0;
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.64);
+
+  color: #1b2437;
+
+  font-size: 19px;
+  font-family: inherit;
+
   outline: none;
+
+  box-shadow:
+    inset 0 1px 2px rgba(0, 0, 0, 0.04),
+    0 3px 12px rgba(70, 67, 58, 0.06);
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.sell-form input {
+  height: 65px;
+  padding: 0 17px;
 }
 
 .sell-form input::placeholder,
 .sell-form textarea::placeholder {
-  color: #aaa;
+  color: #697181;
 }
 
 .sell-form input:focus,
 .sell-form select:focus,
 .sell-form textarea:focus {
-  border-color: #aaa;
+  border-color: #76a9ed;
+
+  background: rgba(255, 255, 255, 0.88);
+
+  box-shadow:
+    0 0 0 3px rgba(82, 145, 229, 0.16),
+    0 6px 20px rgba(70, 125, 205, 0.12);
+
+  transform: translateY(-1px);
 }
 
-.sell-form textarea {
-  display: block;
-  min-height: 100px;
-  margin-bottom: 15px;
-  resize: vertical;
+.full-field input {
+  height: 62px;
 }
 
-.sell-form button {
-  display: block;
-  margin: 0 auto;
-  padding: 12px 28px;
-  border: none;
-  border-radius: 5px;
+/* =========================================
+   SELECT
+========================================= */
+
+.select-wrapper {
+  position: relative;
+}
+
+.sell-form select {
+  height: 62px;
+
+  padding: 0 55px 0 18px;
+
+  appearance: none;
+  -webkit-appearance: none;
+
   cursor: pointer;
-  font-size: 15px;
 }
 
-.sell-form button:hover {
-  opacity: 0.8;
+.select-wrapper::after {
+  content: "⌄";
+
+  position: absolute;
+  right: 18px;
+  top: 50%;
+
+  transform: translateY(-52%);
+
+  font-size: 24px;
+  color: #333d50;
+
+  pointer-events: none;
 }
 
-@media (max-width: 600px) {
+.select-icon {
+  position: absolute;
+
+  right: 53px;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  font-size: 22px;
+
+  pointer-events: none;
+
+  transition: transform 0.3s ease;
+}
+
+.select-wrapper:hover .select-icon {
+  transform: translateY(-50%) scale(1.15);
+}
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.description-field textarea {
+  min-height: 195px;
+
+  padding: 17px;
+
+  resize: vertical;
+
+  line-height: 1.5;
+}
+
+/* =========================================
+   LIST BOOK BUTTON
+========================================= */
+
+.list-book-btn {
+  align-self: center;
+
+  min-width: 310px;
+  height: 72px;
+
+  margin-top: 10px;
+
+  border: none;
+  border-radius: 40px;
+
+  background:
+    linear-gradient(
+      100deg,
+      #2361d1,
+      #447ce0 45%,
+      #f06446
+    );
+
+  color: #ffffff;
+
+  font-size: 25px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 12px 24px rgba(50, 98, 190, 0.25),
+    0 6px 20px rgba(237, 91, 65, 0.18);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    filter 0.3s ease;
+}
+
+.list-book-btn:hover {
+  transform: translateY(-5px) scale(1.025);
+
+  filter: brightness(1.06);
+
+  box-shadow:
+    0 18px 32px rgba(50, 98, 190, 0.3),
+    0 10px 25px rgba(237, 91, 65, 0.25);
+}
+
+.list-book-btn:active {
+  transform: scale(0.96);
+}
+
+.rocket-icon {
+  display: inline-block;
+  margin-left: 8px;
+
+  animation: rocketFloat 1.7s ease-in-out infinite;
+}
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+.sell-message {
+  position: relative;
+  z-index: 5;
+
+  width: min(90%, 800px);
+
+  margin: 22px auto 0;
+  padding: 13px 18px;
+
+  border-radius: 8px;
+
+  text-align: center;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  animation: messageAppear 0.5s ease;
+}
+
+.success-message {
+  background: rgba(55, 145, 83, 0.12);
+  border: 1px solid rgba(55, 145, 83, 0.35);
+  color: #24733c;
+}
+
+.error-message {
+  background: rgba(208, 67, 67, 0.1);
+  border: 1px solid rgba(208, 67, 67, 0.35);
+  color: #a52f2f;
+}
+
+/* =========================================
+   DECORATIONS
+========================================= */
+
+.sell-decoration {
+  position: absolute;
+  z-index: 1;
+
+  user-select: none;
+  pointer-events: none;
+
+  opacity: 0.2;
+
+  filter: grayscale(20%);
+}
+
+/* Left book stack */
+
+.decoration-book-left {
+  left: 8%;
+  top: 310px;
+
+  font-size: 75px;
+
+  animation: decorationFloat 4s ease-in-out infinite;
+}
+
+/* Right book */
+
+.decoration-book-right {
+  right: 9%;
+  top: 80px;
+
+  font-size: 72px;
+
+  animation: decorationFloat 4.5s ease-in-out infinite reverse;
+}
+
+/* Feather */
+
+.decoration-feather {
+  right: 11%;
+  top: 150px;
+
+  font-size: 60px;
+
+  color: #17356f;
+
+  transform: rotate(-20deg);
+
+  opacity: 0.3;
+
+  animation: featherFloat 4s ease-in-out infinite;
+}
+
+/* Compass */
+
+.decoration-compass {
+  left: 8%;
+  bottom: 90px;
+
+  font-size: 62px;
+
+  animation: decorationRotate 10s linear infinite;
+}
+
+/* =========================================
+   EXTRA FLOATING EFFECTS
+========================================= */
+
+.sell-page::before {
+  content: "📖";
+
+  position: absolute;
+
+  right: 3%;
+  bottom: 15%;
+
+  font-size: 50px;
+
+  opacity: 0.08;
+
+  animation: decorationFloat 5s ease-in-out infinite;
+}
+
+.sell-page::after {
+  content: "✎";
+
+  position: absolute;
+
+  left: 3%;
+  top: 15%;
+
+  font-size: 50px;
+
+  color: #17356f;
+
+  opacity: 0.08;
+
+  animation: featherFloat 5s ease-in-out infinite;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes sellHeader {
+  from {
+    opacity: 0;
+    transform: translateY(-35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes formAppear {
+  from {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rocketFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-6px) rotate(-7deg);
+  }
+}
+
+@keyframes decorationFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-15px) rotate(4deg);
+  }
+}
+
+@keyframes featherFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-20deg);
+  }
+
+  50% {
+    transform: translateY(-12px) rotate(-10deg);
+  }
+}
+
+@keyframes decorationRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
   .sell-page {
-    padding: 30px 15px;
+    padding-top: 50px;
   }
 
-  .sell-page h1 {
-    font-size: 34px;
+  .sell-header h1 {
+    font-size: 55px;
   }
 
-  .sell-form {
-    width: 100%;
+  .sell-header p {
+    font-size: 18px;
+  }
+
+  .decoration-book-left {
+    left: 2%;
+  }
+
+  .decoration-book-right {
+    right: 2%;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 650px) {
+  .sell-page {
+    min-height: calc(100vh - 60px);
+    padding: 38px 16px 55px;
+  }
+
+  .sell-header {
+    margin-bottom: 27px;
+  }
+
+  .sell-header h1 {
+    font-size: 42px;
+    line-height: 1.1;
+  }
+
+  .sell-header p {
+    margin-top: 12px;
+
+    font-size: 16px;
+    line-height: 1.5;
   }
 
   .form-row {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .sell-form {
+    gap: 14px;
+  }
+
+  .sell-form input,
+  .sell-form select {
+    height: 58px;
+    font-size: 16px;
+  }
+
+  .description-field textarea {
+    min-height: 170px;
+    font-size: 16px;
+  }
+
+  .list-book-btn {
+    width: 100%;
+    min-width: 0;
+    height: 64px;
+
+    font-size: 21px;
+  }
+
+  .decoration-book-left {
+    left: -10px;
+    top: 260px;
+    font-size: 45px;
+  }
+
+  .decoration-book-right {
+    right: -10px;
+    top: 100px;
+    font-size: 45px;
+  }
+
+  .decoration-feather {
+    right: 5px;
+    top: 170px;
+    font-size: 38px;
+  }
+
+  .decoration-compass {
+    left: 5px;
+    bottom: 45px;
+    font-size: 40px;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

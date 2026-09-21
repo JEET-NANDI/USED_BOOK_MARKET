@@ -3,6 +3,8 @@ import { useState } from "react";
 import "./Register.css";
 
 function Register() {
+  const [lampOn, setLampOn] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -17,6 +19,10 @@ function Register() {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleLampToggle = () => {
+    setLampOn((prev) => !prev);
   };
 
   const handleSubmit = async (e) => {
@@ -48,7 +54,7 @@ function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        setMessage(data.message);
+        setMessage(data.message || "Registration failed");
         return;
       }
 
@@ -61,76 +67,219 @@ function Register() {
         confirmPassword: "",
       });
     } catch (error) {
+      console.error("Registration error:", error);
       setMessage("Unable to connect to server");
     }
   };
 
   return (
-    <div className="register-page">
-      <h1>Create Account</h1>
+    <main className="register-scene">
 
-      <p>
-        Register to buy and sell used books.
-      </p>
+      {/* Background decoration */}
+      <div className="register-glow glow-one"></div>
+      <div className="register-glow glow-two"></div>
 
-      <form
-        className="register-form"
-        onSubmit={handleSubmit}
-      >
-        <input
-          type="text"
-          name="name"
-          placeholder="Full name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-        />
+      {/* Page title */}
+      <div className="register-title">
+        <p>📚 USED BOOK MARKET</p>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+        <h1>
+          Create Your <span>Account</span>
+        </h1>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+        <span>
+          Turn on the lamp to start your journey.
+        </span>
+      </div>
 
-        <input
-          type="password"
-          name="confirmPassword"
-          placeholder="Confirm password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
+      {/* Main container */}
+      <div className="register-container">
 
-        <button type="submit">
-          Register
-        </button>
-      </form>
+        {/* ================= LAMP ================= */}
 
-      {message && (
-        <p className="register-message">
-          {message}
-        </p>
-      )}
+        <div className="lamp-section">
 
-      <p className="login-link">
-        Already have an account?{" "}
-        <Link to="/login">
-          Login
-        </Link>
-      </p>
-    </div>
+          <div
+            className={`lamp-area ${
+              lampOn ? "lamp-on" : ""
+            }`}
+            onClick={handleLampToggle}
+          >
+
+            <div className="lamp">
+
+              <div className="shade">
+
+                <div className="eye left-eye"></div>
+                <div className="eye right-eye"></div>
+
+                <div className="mouth"></div>
+
+              </div>
+
+              <div className="light"></div>
+
+              <div className="stand"></div>
+
+              <div className="base"></div>
+
+            </div>
+
+          </div>
+
+          {/* Toggle button */}
+
+          <button
+            type="button"
+            className="lamp-toggle"
+            onClick={handleLampToggle}
+          >
+            {lampOn
+              ? "🌙 Turn OFF"
+              : "💡 Turn ON"}
+          </button>
+
+          <p className="lamp-status">
+            {lampOn
+              ? "Light is ON — Create your account"
+              : "Turn ON the lamp to register"}
+          </p>
+
+        </div>
+
+
+        {/* ================= REGISTER CARD ================= */}
+
+        <section
+          className={`register-card ${
+            lampOn ? "register-card-show" : ""
+          }`}
+        >
+
+          <div className="register-icon">
+            📚
+          </div>
+
+          <h2>
+            Create Account
+          </h2>
+
+          <p className="register-description">
+            Register to buy and sell used books.
+          </p>
+
+          <form
+            className="register-form"
+            onSubmit={handleSubmit}
+          >
+
+            {/* Name */}
+
+            <div className="register-input-group">
+              <span>👤</span>
+
+              <input
+                type="text"
+                name="name"
+                placeholder="Full name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+
+            {/* Email */}
+
+            <div className="register-input-group">
+              <span>📧</span>
+
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+
+            {/* Password */}
+
+            <div className="register-input-group">
+              <span>🔒</span>
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+
+            {/* Confirm Password */}
+
+            <div className="register-input-group">
+              <span>🔐</span>
+
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+
+            {/* Register button */}
+
+            <button
+              type="submit"
+              className="register-button"
+            >
+              Create Account
+              <span>→</span>
+            </button>
+
+          </form>
+
+
+          {/* Message */}
+
+          {message && (
+            <p
+              className={`register-message ${
+                message.includes("successful")
+                  ? "register-success"
+                  : "register-error"
+              }`}
+            >
+              {message}
+            </p>
+          )}
+
+
+          {/* Login */}
+
+          <p className="login-link">
+            Already have an account?{" "}
+
+            <Link to="/login">
+              Login
+            </Link>
+          </p>
+
+        </section>
+
+      </div>
+
+    </main>
   );
 }
 
