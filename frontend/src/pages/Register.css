@@ -90,6 +90,21 @@
 }
 
 
+.register-existing-account {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.register-existing-account a {
+  color: #f59e0b;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.register-existing-account a:hover {
+  text-decoration: underline;
+}
+
 /* =========================================================
    BACKGROUND GLOW
    ========================================================= */

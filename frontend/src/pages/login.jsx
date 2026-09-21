@@ -1,105 +1,24 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import "./login.css";
 
 function Login() {
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [loginType, setLoginType] = useState("user");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [message, setMessage] = useState("");
+  const [accountNotFound, setAccountNotFound] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [animation, setAnimation] = useState({
-    playerRunning: false,
-    ballKicked: false,
-    explosion: false,
-    showLogin: false,
-    hideBall: false,
-    hideExplosion: false,
-  });
-
-  /* =========================================
-     FOOTBALL ANIMATION
-  ========================================= */
-
-  useEffect(() => {
-    const timers = [];
-
-    // STEP 1 — Player starts running
-    timers.push(
-      setTimeout(() => {
-        setAnimation((prev) => ({
-          ...prev,
-          playerRunning: true,
-        }));
-      }, 500)
-    );
-
-    // STEP 2 — Player reaches football and kicks
-    timers.push(
-      setTimeout(() => {
-        setAnimation((prev) => ({
-          ...prev,
-          playerRunning: false,
-          ballKicked: true,
-        }));
-      }, 2000)
-    );
-
-    // STEP 3 — Explosion
-    timers.push(
-      setTimeout(() => {
-        setAnimation((prev) => ({
-          ...prev,
-          explosion: true,
-        }));
-      }, 2800)
-    );
-
-    // STEP 4 — Hide football and explosion
-    timers.push(
-      setTimeout(() => {
-        setAnimation((prev) => ({
-          ...prev,
-          hideBall: true,
-          hideExplosion: true,
-        }));
-      }, 3500)
-    );
-
-    // STEP 5 — Open login form
-    timers.push(
-      setTimeout(() => {
-        setAnimation((prev) => ({
-          ...prev,
-          showLogin: true,
-        }));
-      }, 3600)
-    );
-
-    return () => {
-      timers.forEach((timer) => clearTimeout(timer));
-    };
-  }, []);
-
-  /* =========================================
-     FORM HANDLING
-  ========================================= */
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     setMessage("");
+    setAccountNotFound(false);
+    setLoading(true);
 
     try {
       const response = await fetch(
@@ -109,221 +28,353 @@ function Login() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify({
+            email,
+            password,
+          }),
         }
       );
 
       const data = await response.json();
 
       if (!response.ok) {
-        setMessage(data.message || "Login failed");
+
+         if (loginType === "admin") {
+        setMessage(
+          "Account is restricted. Only admin accounts can access this section."
+        );
+        
+        setLoading(false);
         return;
       }
 
-      localStorage.setItem("token", data.token);
+        setMessage(data.message || "Invalid email or password");
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify(data.user)
-      );
+        if (
+          response.status === 404 &&
+          data.message === "Account not found. Please register first."
+        ) {
+          setAccountNotFound(true);
+        }
 
-      setMessage("Login successful!");
+        setLoading(false);
+        return;
+      }
 
-      navigate("/profile");
+      const user = data.user;
+
+      if (!user) {
+        setMessage("Invalid server response.");
+        setLoading(false);
+        return;
+      }
+      // ADMIN LOGIN
+      if (loginType === "admin") {
+        if (user?.role !== "admin") {
+          setMessage(
+            "Access denied. This account does not have admin permission."
+          );
+          setLoading(false);
+          return;
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        window.location.href =   
+        `http://localhost:5174/?token=${encodeURIComponent(data.token)}`;
+        return;
+      }
+
+      // USER LOGIN
+      if (loginType === "user") {
+        if (user?.role === "admin") {
+          setMessage(
+            "Please select ADMIN login for this account."
+          );
+          setLoading(false);
+          return;
+        }
+
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        navigate("/profile");
+      }
     } catch (error) {
-      console.error("Login error:", error);
-      setMessage("Unable to connect to server");
+      console.error(error);
+      setMessage(
+        "Unable to connect to server. Please start the backend."
+      );
     }
+
+    setLoading(false);
   };
 
   return (
-    <main className="login-scene">
+    <div className="login-page">
 
-      {/* =====================================
-          TITLE
-      ===================================== */}
-
-      <div
-        className={`login-title ${
-          animation.showLogin ? "title-hidden" : ""
-        }`}
-      >
-        <h1>USED BOOK MARKET</h1>
-
-        <p>
-          Your next book is waiting for you
-        </p>
+      {/* Animated Background */}
+      <div className="login-background">
+        <span className="floating-book book-1">📕</span>
+        <span className="floating-book book-2">📗</span>
+        <span className="floating-book book-3">📘</span>
+        <span className="floating-book book-4">📙</span>
+        <span className="floating-book book-5">📚</span>
       </div>
 
-      {/* =====================================
-          GROUND
-      ===================================== */}
+      {/* Main Login Container */}
+      <div className="login-container">
 
-      <div className="football-ground"></div>
+        {/* Left Side */}
+        <div className="login-info">
 
-      {/* =====================================
-          FOOTBALL PLAYER
-      ===================================== */}
-
-      <div
-        className={`football-player ${
-          animation.playerRunning ? "player-running" : ""
-        }`}
-      >
-
-        {/* Head */}
-        <div className="player-head">
-          <div className="player-hair"></div>
-
-          <div className="player-ear player-ear-left"></div>
-          <div className="player-ear player-ear-right"></div>
-
-          <div className="player-eye player-eye-left"></div>
-          <div className="player-eye player-eye-right"></div>
-
-          <div className="player-nose"></div>
-          <div className="player-mouth"></div>
-        </div>
-
-        {/* Neck */}
-        <div className="player-neck"></div>
-
-        {/* Shirt */}
-        <div className="player-body">
-          <div className="player-collar"></div>
-        </div>
-
-        {/* Arms */}
-        <div className="player-arm player-arm-left">
-          <div className="player-hand"></div>
-        </div>
-
-        <div className="player-arm player-arm-right">
-          <div className="player-hand"></div>
-        </div>
-
-        {/* Shorts */}
-        <div className="player-pant player-pant-left"></div>
-        <div className="player-pant player-pant-right"></div>
-
-        {/* Legs */}
-        <div className="player-leg player-leg-left">
-          <div className="player-shoe"></div>
-        </div>
-
-        <div className="player-leg player-leg-right">
-          <div className="player-shoe"></div>
-        </div>
-      </div>
-
-      {/* =====================================
-          FOOTBALL
-      ===================================== */}
-
-      {!animation.hideBall && (
-        <div
-          className={`login-football ${
-            animation.ballKicked ? "football-kick" : ""
-          }`}
-        >
-          ⚽
-        </div>
-      )}
-
-      {/* =====================================
-          EXPLOSION
-      ===================================== */}
-
-      {!animation.hideExplosion && (
-        <div
-          className={`football-explosion ${
-            animation.explosion ? "explosion-show" : ""
-          }`}
-        >
-          💥
-        </div>
-      )}
-
-      {/* =====================================
-          LOGIN BOX
-      ===================================== */}
-
-      <section
-        className={`login-box ${
-          animation.showLogin ? "login-box-show" : ""
-        }`}
-      >
-        <div className="login-book-icon">
-          📚
-        </div>
-
-        <h2>
-          Welcome Back
-        </h2>
-
-        <p>
-          Login to your account
-        </p>
-
-        <form
-          className="login-form"
-          onSubmit={handleSubmit}
-        >
-          <div className="login-input-group">
-            <span>📧</span>
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
+          <div className="login-logo">
+            📚
           </div>
 
-          <div className="login-input-group">
-            <span>🔒</span>
+          <h1>USED BOOK MARKET</h1>
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="login-button"
-          >
-            Login
-            <span>→</span>
-          </button>
-        </form>
-
-        {message && (
-          <p
-            className={`login-message ${
-              message.includes("successful")
-                ? "login-success"
-                : "login-error"
-            }`}
-          >
-            {message}
+          <p>
+            Buy, Sell and Reuse Your Study Materials
           </p>
-        )}
 
-        <p className="register-link">
-          Don't have an account?{" "}
-          <Link to="/register">
-            Register
-          </Link>
-        </p>
-      </section>
-    </main>
+          <div className="login-flow">
+
+            <div className="flow-box">
+              <span className="flow-icon">👤</span>
+              <strong>USER</strong>
+              <small>Normal Login</small>
+            </div>
+
+            <div className="flow-arrow">→</div>
+
+            <div className="flow-box">
+              <span className="flow-icon">👑</span>
+              <strong>ADMIN</strong>
+              <small>Restricted Login</small>
+            </div>
+
+          </div>
+
+          <div className="login-info-footer">
+            <span>📖</span>
+            <span>Learn</span>
+
+            <span>•</span>
+
+            <span>💰</span>
+            <span>Sell</span>
+
+            <span>•</span>
+
+            <span>♻️</span>
+            <span>Reuse</span>
+          </div>
+
+        </div>
+
+        {/* Right Side */}
+        <div className="login-card">
+
+          {/* Login Type */}
+          <div className="login-type-selector">
+
+            <button
+              type="button"
+              className={`login-type-button ${
+                loginType === "user" ? "active-user" : ""
+              }`}
+              onClick={() => {
+                setLoginType("user");
+                setMessage("");
+              }}
+            >
+              <span>👤</span>
+              <span>USER</span>
+            </button>
+
+            <button
+              type="button"
+              className={`login-type-button ${
+                loginType === "admin" ? "active-admin" : ""
+              }`}
+              onClick={() => {
+                setLoginType("admin");
+                setMessage("");
+              }}
+            >
+              <span>👑</span>
+              <span>ADMIN</span>
+            </button>
+
+          </div>
+
+          {/* Heading */}
+          <div className="login-card-header">
+
+            <div className="login-card-icon">
+              {loginType === "admin" ? "👑" : "👤"}
+            </div>
+
+            <h2>
+              {loginType === "admin"
+                ? "ADMIN LOGIN"
+                : "USER LOGIN"}
+            </h2>
+
+            <p>
+              {loginType === "admin"
+                ? "Restricted administrator access"
+                : "Login to your marketplace account"}
+            </p>
+
+          </div>
+
+          {/* Admin Notice */}
+          {loginType === "admin" && (
+            <div className="admin-notice">
+              <span>🔐</span>
+
+              <div>
+                <strong>Restricted Access</strong>
+                <small>
+                  Only authorized administrators can enter.
+                </small>
+              </div>
+            </div>
+          )}
+
+          {/* Error / Message */}
+          {message && (
+            <div className="login-message">
+              ⚠️ {message}
+            </div>
+          )}
+
+          {accountNotFound && loginType === "user" && (
+            <div className="account-not-found">
+              <Link to="/register">
+                Register Now →
+              </Link>
+            </div>
+          )}
+
+          {/* Login Form */}
+          <form
+            className="login-form"
+            onSubmit={handleLogin}
+          >
+
+            <div className="form-group">
+
+              <label>Email Address</label>
+
+              <div className="input-wrapper">
+                <span>📧</span>
+
+                <input
+                  type="email"
+                  placeholder={
+                    loginType === "admin"
+                      ? "Admin email"
+                      : "Enter your email"
+                  }
+                  value={email}
+                  onChange={(e) =>
+                    setEmail(e.target.value)
+                  }
+                  required
+                />
+              </div>
+
+            </div>
+
+            <div className="form-group">
+
+              <label>Password</label>
+
+              <div className="input-wrapper">
+                <span>🔒</span>
+
+                <input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) =>
+                    setPassword(e.target.value)
+                  }
+                  required
+                />
+              </div>
+
+            </div>
+
+            <button
+              type="submit"
+              className={`login-submit ${
+                loginType === "admin"
+                  ? "admin-submit"
+                  : ""
+              }`}
+              disabled={loading}
+            >
+
+              {loading ? (
+                <>
+                  <span className="login-spinner"></span>
+                  Checking...
+                </>
+              ) : (
+                <>
+                  <span>
+                    {loginType === "admin"
+                      ? "👑"
+                      : "🚀"}
+                  </span>
+
+                  {loginType === "admin"
+                    ? "ADMIN LOGIN"
+                    : "LOGIN"}
+                </>
+              )}
+
+            </button>
+
+          </form>
+
+          {/* User Register */}
+          {loginType === "user" && (
+            <div className="register-section">
+
+              <span>Don't have an account?</span>
+
+              <Link to="/register">
+                Create Account
+              </Link>
+
+            </div>
+          )}
+
+          {/* Admin Footer */}
+          {loginType === "admin" && (
+            <div className="admin-footer">
+              🔐 Authorized administrators only
+            </div>
+          )}
+
+          {/* Back */}
+          <button
+            type="button"
+            className="back-home"
+            onClick={() => navigate("/")}
+          >
+            ← Back to Marketplace
+          </button>
+
+        </div>
+      </div>
+    </div>
   );
 }
 

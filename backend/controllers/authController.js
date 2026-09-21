@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
 
     if (existingUser.rows.length > 0) {
       return res.status(409).json({
-        message: "Email already registered",
+        message: "Account already exists. Please login instead.",
       });
     }
 
@@ -63,8 +63,8 @@ const loginUser = async (req, res) => {
     );
 
     if (result.rows.length === 0) {
-      return res.status(401).json({
-        message: "Invalid email or password",
+      return res.status(404).json({
+        message: "Account not found. Please register first.",
       });
     }
 

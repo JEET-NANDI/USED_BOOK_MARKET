@@ -13,6 +13,7 @@ function Register() {
   });
 
   const [message, setMessage] = useState("");
+  const [accountExists, setAccountExists] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -29,6 +30,7 @@ function Register() {
     e.preventDefault();
 
     setMessage("");
+    setAccountExists(false);
 
     if (formData.password !== formData.confirmPassword) {
       setMessage("Passwords do not match");
@@ -55,10 +57,14 @@ function Register() {
 
       if (!response.ok) {
         setMessage(data.message || "Registration failed");
+        if (response.status === 409) {
+          setAccountExists(true);
+        }
         return;
       }
 
-      setMessage("Registration successful!");
+      setMessage("Registration successful! Please login.");
+      setAccountExists(false);
 
       setFormData({
         name: "",
@@ -263,7 +269,13 @@ function Register() {
               {message}
             </p>
           )}
-
+          {accountExists && (
+            <p className="register-existing-account">
+              <Link to="/login">
+                  Login Now →
+              </Link>
+            </p>
+          )}
 
           {/* Login */}
 

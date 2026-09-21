@@ -17,6 +17,7 @@ import Wishlist from "./pages/Wishlist";
 import Reviews from "./pages/Reviews";
 import SellAgain from "./pages/SellAgain";
 import ProductImages from "./pages/ProductImages";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 function App() {
@@ -73,81 +74,99 @@ function App() {
         <Route
           path="/checkout/:productId"
           element={
+            <ProtectedRoute>
             <MainLayout>
               <Checkout />
             </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/profile"
           element={
-            <MainLayout>
-              <Profile />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <Profile />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/dashboard"
           element={
-            <MainLayout>
-              <Dashboard />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/orders"
           element={
-            <MainLayout>
-              <Orders />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <Orders />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/listings"
           element={
-            <MainLayout>
-              <Listings />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <Listings />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/wishlist"
           element={
-            <MainLayout>
-              <Wishlist />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <Wishlist />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/reviews"
           element={
-            <MainLayout>
-              <Reviews />
-            </MainLayout>
+            <ProtectedRoute>
+              <MainLayout>
+                <Reviews />
+              </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/sell-again/:productId"
           element={
+            <ProtectedRoute>
             <MainLayout>
               <SellAgain />
             </MainLayout>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/products/:productId/images"
           element={
+            <ProtectedRoute>
             <MainLayout>
               <ProductImages />
             </MainLayout>
+            </ProtectedRoute>
           }
         />
 

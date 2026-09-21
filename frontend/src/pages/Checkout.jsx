@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import "./Checkout.css";
 
 function Checkout() {
-  const location = useLocation();
+  const { productId } = useParams();
   const navigate = useNavigate();
-
-  const productId = location.state?.productId;
 
   const [address, setAddress] = useState("");
   const [paymentMethod, setPaymentMethod] =
@@ -28,16 +26,12 @@ function Checkout() {
     }
 
     if (!productId) {
-      setMessage(
-        "No product selected for checkout."
-      );
+      setMessage("No product selected for checkout.");
       return;
     }
 
     if (!address.trim()) {
-      setMessage(
-        "Delivery address is required."
-      );
+      setMessage("Delivery address is required.");
       return;
     }
 
@@ -53,11 +47,9 @@ function Checkout() {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            product_id: productId,
-            delivery_address:
-              address.trim(),
-            payment_method:
-              paymentMethod,
+            product_id: Number(productId),
+            delivery_address: address.trim(),
+            payment_method: paymentMethod,
           }),
         }
       );
@@ -66,24 +58,18 @@ function Checkout() {
 
       if (!response.ok) {
         setMessage(
-          data.message ||
-            "Unable to place order."
+          data.message || "Unable to place order."
         );
         return;
       }
 
       setOrder(data.order || null);
 
-      setMessage(
-        "Order placed successfully."
-      );
+      setMessage("Order placed successfully.");
 
       setAddress("");
     } catch (error) {
-      console.error(
-        "Checkout error:",
-        error
-      );
+      console.error("Checkout error:", error);
 
       setMessage(
         "Unable to connect to server."
@@ -93,174 +79,471 @@ function Checkout() {
     }
   };
 
+  /* ==============================
+     NO PRODUCT
+  ============================== */
+
   if (!productId) {
     return (
-      <div className="checkout">
-        <h1>Checkout</h1>
+      <main className="checkout-page">
+        <div className="checkout-error-card">
+          <div className="checkout-error-icon">
+            📕
+          </div>
 
-        <p>
-          No book was selected for checkout.
-        </p>
+          <h1>Checkout</h1>
 
-        <Link to="/books">
-          <button type="button">
-            Browse Books
-          </button>
-        </Link>
-      </div>
+          <p>
+            No book was selected for checkout.
+          </p>
+
+          <Link to="/books">
+            <button
+              type="button"
+              className="checkout-primary-button"
+            >
+              📚 Browse Books
+            </button>
+          </Link>
+        </div>
+      </main>
     );
   }
+
+  /* ==============================
+     ORDER SUCCESS
+  ============================== */
 
   if (order) {
     return (
-      <div className="checkout">
-        <h1>Order Confirmed</h1>
+      <main className="checkout-page">
 
-        <p>
-          Your order has been placed
-          successfully.
-        </p>
+        <div className="checkout-success-card">
 
-        <hr />
+          <div className="success-animation">
+            <div className="success-circle">
+              ✓
+            </div>
+          </div>
 
-        <p>
-          Order ID:{" "}
-          <strong>
-            #{order.id}
-          </strong>
-        </p>
+          <p className="checkout-label">
+            ORDER COMPLETED
+          </p>
 
-        <p>
-          Seller Price:{" "}
-          <strong>
-            ₹{order.seller_price}
-          </strong>
-        </p>
+          <h1>
+            Order <span>Confirmed!</span>
+          </h1>
 
-        <p>
-          Platform Fee:{" "}
-          <strong>
-            ₹{order.platform_fee}
-          </strong>
-        </p>
+          <p className="success-text">
+            Your book order has been placed
+            successfully.
+          </p>
 
-        <p>
-          Buyer Price:{" "}
-          <strong>
-            ₹{order.buyer_price}
-          </strong>
-        </p>
+          <div className="success-divider"></div>
 
-        <p>
-          Order Status:{" "}
-          <strong>
-            {order.status}
-          </strong>
-        </p>
+          <div className="order-details-box">
 
-        <p>
-          Payment Method:{" "}
-          <strong>
-            {paymentMethod}
-          </strong>
-        </p>
+            <div className="order-detail-row">
+              <span>Order ID</span>
+              <strong>
+                #{order.id}
+              </strong>
+            </div>
 
-        <br />
+            <div className="order-detail-row">
+              <span>Seller Price</span>
+              <strong>
+                ₹{order.seller_price}
+              </strong>
+            </div>
 
-        <Link to="/orders">
-          <button type="button">
-            View My Orders
-          </button>
-        </Link>
+            <div className="order-detail-row">
+              <span>Platform Fee</span>
+              <strong className="fee-text">
+                ₹{order.platform_fee}
+              </strong>
+            </div>
 
-        {" "}
+            <div className="order-detail-row total-row">
+              <span>Buyer Price</span>
+              <strong>
+                ₹{order.buyer_price}
+              </strong>
+            </div>
 
-        <Link to="/books">
-          <button type="button">
-            Continue Shopping
-          </button>
-        </Link>
-      </div>
+            <div className="order-detail-row">
+              <span>Order Status</span>
+              <strong className="status-text">
+                {order.status}
+              </strong>
+            </div>
+
+            <div className="order-detail-row">
+              <span>Payment Method</span>
+              <strong>
+                {paymentMethod}
+              </strong>
+            </div>
+
+          </div>
+
+          <div className="success-actions">
+
+            <Link to="/orders">
+              <button
+                type="button"
+                className="checkout-primary-button"
+              >
+                📦 View My Orders
+              </button>
+            </Link>
+
+            <Link to="/books">
+              <button
+                type="button"
+                className="checkout-secondary-button"
+              >
+                📚 Continue Shopping
+              </button>
+            </Link>
+
+          </div>
+
+        </div>
+
+      </main>
     );
   }
 
+  /* ==============================
+     CHECKOUT PAGE
+  ============================== */
+
   return (
-    <div className="checkout">
-      <h1>Checkout</h1>
+    <main className="checkout-page">
 
-      <p>
-        Complete your order for the
-        selected book.
-      </p>
+      <div className="checkout-bg-circle checkout-circle-one"></div>
+      <div className="checkout-bg-circle checkout-circle-two"></div>
 
-      {message && (
-        <p>
-          {message}
+      <div className="checkout-floating-book checkout-book-one">
+        📘
+      </div>
+
+      <div className="checkout-floating-book checkout-book-two">
+        📚
+      </div>
+
+      <div className="checkout-floating-book checkout-book-three">
+        📖
+      </div>
+
+      {/* HEADER */}
+
+      <section className="checkout-header">
+
+        <p className="checkout-label">
+          STUDENT BOOK MARKETPLACE
         </p>
-      )}
 
-      <form onSubmit={handleSubmit}>
-        <h2>
-          Delivery Address
-        </h2>
+        <h1>
+          Secure <span>Checkout</span>
+        </h1>
 
-        <textarea
-          rows="5"
-          placeholder="Enter your complete delivery address..."
-          value={address}
-          onChange={(e) =>
-            setAddress(e.target.value)
-          }
-          required
-        />
+        <p>
+          Complete your delivery and payment
+          details to place your order.
+        </p>
 
-        <br />
-        <br />
+        <div className="checkout-header-line"></div>
 
-        <h2>
-          Payment Method
-        </h2>
+      </section>
 
-        <select
-          value={paymentMethod}
-          onChange={(e) =>
-            setPaymentMethod(
-              e.target.value
-            )
-          }
-        >
-          <option value="Cash on Delivery">
-            Cash on Delivery
-          </option>
+      {/* STEPS */}
 
-          <option value="UPI">
-            UPI
-          </option>
+      <div className="checkout-steps">
 
-          <option value="Card">
-            Card
-          </option>
-        </select>
+        <div className="checkout-step active">
+          <span>1</span>
+          <p>Checkout</p>
+        </div>
 
-        <br />
-        <br />
+        <div className="step-line"></div>
 
-        <button
-          type="submit"
-          disabled={loading}
-        >
-          {loading
-            ? "Placing Order..."
-            : "Place Order"}
-        </button>
-      </form>
+        <div className="checkout-step">
+          <span>2</span>
+          <p>Payment</p>
+        </div>
 
-      <br />
+        <div className="step-line"></div>
 
-      <Link to="/books">
-        Back to Books
-      </Link>
-    </div>
+        <div className="checkout-step">
+          <span>3</span>
+          <p>Confirmation</p>
+        </div>
+
+      </div>
+
+      {/* MAIN */}
+
+      <section className="checkout-container">
+
+        {/* LEFT */}
+
+        <div className="checkout-form-card">
+
+          <div className="card-heading">
+            <div className="heading-icon">
+              📦
+            </div>
+
+            <div>
+              <h2>Delivery Details</h2>
+
+              <p>
+                Where should we deliver your book?
+              </p>
+            </div>
+          </div>
+
+          {message && (
+            <div className="checkout-message">
+              ⚠️ {message}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+
+            <label htmlFor="address">
+              Delivery Address
+            </label>
+
+            <textarea
+              id="address"
+              rows="6"
+              placeholder="Enter your complete delivery address..."
+              value={address}
+              onChange={(e) =>
+                setAddress(e.target.value)
+              }
+              required
+            />
+
+            <div className="address-hint">
+              📍 Please provide a complete address
+              including city and PIN code.
+            </div>
+
+            <label htmlFor="payment">
+              Payment Method
+            </label>
+
+            <div className="payment-options">
+
+              <label
+                className={
+                  paymentMethod === "Cash on Delivery"
+                    ? "payment-option selected"
+                    : "payment-option"
+                }
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  value="Cash on Delivery"
+                  checked={
+                    paymentMethod ===
+                    "Cash on Delivery"
+                  }
+                  onChange={(e) =>
+                    setPaymentMethod(
+                      e.target.value
+                    )
+                  }
+                />
+
+                <span className="payment-icon">
+                  💵
+                </span>
+
+                <span>
+                  <strong>
+                    Cash on Delivery
+                  </strong>
+
+                  <small>
+                    Pay when your book arrives
+                  </small>
+                </span>
+              </label>
+
+              <label
+                className={
+                  paymentMethod === "UPI"
+                    ? "payment-option selected"
+                    : "payment-option"
+                }
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  value="UPI"
+                  checked={
+                    paymentMethod === "UPI"
+                  }
+                  onChange={(e) =>
+                    setPaymentMethod(
+                      e.target.value
+                    )
+                  }
+                />
+
+                <span className="payment-icon">
+                  📱
+                </span>
+
+                <span>
+                  <strong>UPI</strong>
+
+                  <small>
+                    Pay using UPI
+                  </small>
+                </span>
+              </label>
+
+              <label
+                className={
+                  paymentMethod === "Card"
+                    ? "payment-option selected"
+                    : "payment-option"
+                }
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  value="Card"
+                  checked={
+                    paymentMethod === "Card"
+                  }
+                  onChange={(e) =>
+                    setPaymentMethod(
+                      e.target.value
+                    )
+                  }
+                />
+
+                <span className="payment-icon">
+                  💳
+                </span>
+
+                <span>
+                  <strong>Card</strong>
+
+                  <small>
+                    Pay using debit or credit card
+                  </small>
+                </span>
+              </label>
+
+            </div>
+
+            <button
+              type="submit"
+              className="place-order-button"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="button-spinner"></span>
+                  Placing Order...
+                </>
+              ) : (
+                <>
+                  🛒 Place Order
+                  <span>→</span>
+                </>
+              )}
+            </button>
+
+          </form>
+
+          <Link
+            to={`/books/${productId}`}
+            className="back-product-link"
+          >
+            ← Back to Book
+          </Link>
+
+        </div>
+
+        {/* RIGHT */}
+
+        <aside className="checkout-summary-card">
+
+          <div className="summary-top">
+            <span>📚</span>
+
+            <div>
+              <small>ORDER SUMMARY</small>
+              <h2>Your Book</h2>
+            </div>
+          </div>
+
+          <div className="summary-book">
+
+            <div className="summary-book-icon">
+              📖
+            </div>
+
+            <div>
+              <strong>
+                Selected Book
+              </strong>
+
+              <p>
+                Product ID #{productId}
+              </p>
+            </div>
+
+          </div>
+
+          <div className="summary-divider"></div>
+
+          <div className="summary-info">
+
+            <div>
+              <span>Product</span>
+              <strong>
+                Book #{productId}
+              </strong>
+            </div>
+
+            <div>
+              <span>Payment</span>
+              <strong>
+                {paymentMethod}
+              </strong>
+            </div>
+
+          </div>
+
+          <div className="secure-box">
+            <span>🔒</span>
+
+            <div>
+              <strong>Secure Checkout</strong>
+
+              <p>
+                Your order information is
+                securely sent to our server.
+              </p>
+            </div>
+          </div>
+
+        </aside>
+
+      </section>
+
+    </main>
   );
 }
 
