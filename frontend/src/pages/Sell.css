@@ -1,424 +1,375 @@
-/* =========================================
-   SELL PAGE
-========================================= */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
 
 .sell-page {
   position: relative;
-  min-height: calc(100vh - 70px);
-  padding: 65px 20px 80px;
+  isolation: isolate;
+  min-height: 100vh;
   overflow: hidden;
-
+  display: grid;
+  place-items: center;
+  padding: 58px 20px;
+  color: #eef5f5;
   background:
-    radial-gradient(circle at 15% 30%, rgba(226, 215, 180, 0.3), transparent 25%),
-    radial-gradient(circle at 85% 70%, rgba(226, 215, 180, 0.25), transparent 25%),
-    linear-gradient(135deg, #fffdf6, #f7f3e8 55%, #f0eadb);
-
-  color: #111b38;
+    radial-gradient(circle at 12% 20%, rgba(31, 170, 148, 0.14), transparent 30%),
+    radial-gradient(circle at 90% 80%, rgba(255, 145, 58, 0.11), transparent 28%),
+    #06252d;
+  font-family: "DM Sans", sans-serif;
 }
 
-/* =========================================
-   HEADER
-========================================= */
+.sell-content {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 760px);
+}
+
+.sell-glow {
+  position: absolute;
+  z-index: -1;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  filter: blur(85px);
+  opacity: 0.18;
+  pointer-events: none;
+  animation: sellGlow 8s ease-in-out infinite alternate;
+}
+
+.sell-glow-one {
+  top: 6%;
+  left: -130px;
+  background: #13c6a8;
+}
+
+.sell-glow-two {
+  right: -130px;
+  bottom: 2%;
+  background: #fb923c;
+  animation-delay: 1.5s;
+}
 
 .sell-header {
-  position: relative;
-  z-index: 2;
-
+  margin-bottom: 28px;
   text-align: center;
-  margin-bottom: 38px;
+  animation: sellFadeUp 0.6s ease both;
+}
 
-  animation: sellHeader 0.9s ease both;
+.sell-kicker {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #43ddc1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
 .sell-header h1 {
   margin: 0;
-
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(48px, 6vw, 76px);
+  color: #f4f7f8;
+  font-size: clamp(36px, 7vw, 58px);
   font-weight: 800;
+  letter-spacing: -0.05em;
+}
 
-  color: #17356f;
-
-  text-shadow:
-    2px 3px 0 rgba(190, 161, 91, 0.35),
-    0 8px 15px rgba(24, 43, 81, 0.15);
+.sell-header h1 span {
+  color: #ff963f;
 }
 
 .sell-header p {
-  margin: 10px auto 0;
-
-  max-width: 760px;
-
-  font-size: 21px;
-  color: #1d2435;
+  margin: 12px 0 0;
+  color: #a3bbc0;
+  font-size: 16px;
+  line-height: 1.6;
 }
-
-/* =========================================
-   FORM
-========================================= */
 
 .sell-form {
-  position: relative;
-  z-index: 3;
-
-  width: min(100%, 1015px);
-  margin: 0 auto;
-
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  animation: formAppear 1s ease 0.15s both;
+  padding: clamp(22px, 5vw, 38px);
+  border: 1px solid rgba(94, 207, 189, 0.2);
+  border-radius: 24px;
+  background: rgba(7, 37, 45, 0.9);
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(14px);
+  animation: sellFadeUp 0.75s ease both;
 }
 
-/* =========================================
-   FORM ROW
-========================================= */
+.sell-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 26px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(140, 186, 189, 0.14);
+}
+
+.sell-form-heading h2 {
+  margin: 0;
+  color: #edf5f5;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.sell-form-heading p {
+  margin: 6px 0 0;
+  color: #8eaaaf;
+  font-size: 13px;
+}
+
+.sell-form-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(66, 221, 193, 0.2);
+  border-radius: 15px;
+  background: rgba(42, 178, 153, 0.11);
+  font-size: 22px;
+  animation: sellFloat 3s ease-in-out infinite;
+}
 
 .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
-
-/* =========================================
-   INPUTS
-========================================= */
 
 .form-field {
-  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 19px;
 }
 
-.sell-form input,
-.sell-form select,
-.sell-form textarea {
+.form-field label {
+  color: #c3d5d7;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.optional-label {
+  margin-left: 5px;
+  color: #78969c;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
   width: 100%;
-  box-sizing: border-box;
-
-  border: 1.5px solid #d9d7d0;
-  border-radius: 8px;
-
-  background: rgba(255, 255, 255, 0.64);
-
-  color: #1b2437;
-
-  font-size: 19px;
-  font-family: inherit;
-
+  min-height: 50px;
+  padding: 13px 15px;
+  border: 1px solid rgba(137, 181, 187, 0.22);
+  border-radius: 12px;
   outline: none;
-
-  box-shadow:
-    inset 0 1px 2px rgba(0, 0, 0, 0.04),
-    0 3px 12px rgba(70, 67, 58, 0.06);
-
+  color: #edf4f5;
+  background: #102f37;
+  font: inherit;
+  font-size: 14px;
   transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease,
-    background 0.3s ease,
-    transform 0.3s ease;
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
-.sell-form input {
-  height: 65px;
-  padding: 0 17px;
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: #78969c;
 }
 
-.sell-form input::placeholder,
-.sell-form textarea::placeholder {
-  color: #697181;
+.form-field input:hover,
+.form-field select:hover,
+.form-field textarea:hover {
+  border-color: rgba(84, 203, 186, 0.48);
 }
 
-.sell-form input:focus,
-.sell-form select:focus,
-.sell-form textarea:focus {
-  border-color: #76a9ed;
-
-  background: rgba(255, 255, 255, 0.88);
-
-  box-shadow:
-    0 0 0 3px rgba(82, 145, 229, 0.16),
-    0 6px 20px rgba(70, 125, 205, 0.12);
-
-  transform: translateY(-1px);
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: #37d1b7;
+  background: #123740;
+  box-shadow: 0 0 0 4px rgba(55, 209, 183, 0.12);
 }
 
-.full-field input {
-  height: 62px;
-}
-
-/* =========================================
-   SELECT
-========================================= */
-
-.select-wrapper {
-  position: relative;
-}
-
-.sell-form select {
-  height: 62px;
-
-  padding: 0 55px 0 18px;
-
-  appearance: none;
-  -webkit-appearance: none;
-
+.form-field select {
   cursor: pointer;
 }
 
-.select-wrapper::after {
-  content: "⌄";
-
-  position: absolute;
-  right: 18px;
-  top: 50%;
-
-  transform: translateY(-52%);
-
-  font-size: 24px;
-  color: #333d50;
-
-  pointer-events: none;
+.form-field select option {
+  color: #edf4f5;
+  background: #102f37;
 }
 
-.select-icon {
-  position: absolute;
-
-  right: 53px;
-  top: 50%;
-
-  transform: translateY(-50%);
-
-  font-size: 22px;
-
-  pointer-events: none;
-
-  transition: transform 0.3s ease;
-}
-
-.select-wrapper:hover .select-icon {
-  transform: translateY(-50%) scale(1.15);
-}
-
-/* =========================================
-   DESCRIPTION
-========================================= */
-
-.description-field textarea {
-  min-height: 195px;
-
-  padding: 17px;
-
+.form-field textarea {
+  min-height: 132px;
   resize: vertical;
-
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* =========================================
-   LIST BOOK BUTTON
-========================================= */
+.price-input-wrap {
+  position: relative;
+}
+
+.price-input-wrap > span {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  z-index: 1;
+  color: #56dfc7;
+  font-weight: 700;
+  transform: translateY(-50%);
+}
+
+.price-input-wrap input {
+  padding-left: 34px;
+}
 
 .list-book-btn {
-  align-self: center;
-
-  min-width: 310px;
-  height: 72px;
-
-  margin-top: 10px;
-
-  border: none;
-  border-radius: 40px;
-
-  background:
-    linear-gradient(
-      100deg,
-      #2361d1,
-      #447ce0 45%,
-      #f06446
-    );
-
-  color: #ffffff;
-
-  font-size: 25px;
-  font-weight: 700;
-
+  display: flex;
+  width: 100%;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  margin-top: 5px;
+  border: 0;
+  border-radius: 13px;
+  color: #092b2e;
+  background: linear-gradient(100deg, #45e0c2, #a0e76c);
+  box-shadow: 0 10px 26px rgba(46, 206, 168, 0.17);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
   cursor: pointer;
-
-  box-shadow:
-    0 12px 24px rgba(50, 98, 190, 0.25),
-    0 6px 20px rgba(237, 91, 65, 0.18);
-
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    filter 0.3s ease;
+    transform 0.2s ease,
+    filter 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
-.list-book-btn:hover {
-  transform: translateY(-5px) scale(1.025);
-
-  filter: brightness(1.06);
-
-  box-shadow:
-    0 18px 32px rgba(50, 98, 190, 0.3),
-    0 10px 25px rgba(237, 91, 65, 0.25);
+.list-book-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: saturate(1.15) brightness(1.04);
+  box-shadow: 0 14px 32px rgba(46, 206, 168, 0.27);
 }
 
-.list-book-btn:active {
-  transform: scale(0.96);
+.list-book-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.list-book-btn:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 .rocket-icon {
   display: inline-block;
-  margin-left: 8px;
-
-  animation: rocketFloat 1.7s ease-in-out infinite;
+  font-size: 18px;
+  transition: transform 0.2s ease;
 }
 
-/* =========================================
-   MESSAGE
-========================================= */
+.list-book-btn:hover .rocket-icon {
+  transform: translate(3px, -3px) rotate(8deg);
+}
+
+.sell-footnote {
+  margin: 14px 0 0;
+  color: #78969c;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
 
 .sell-message {
-  position: relative;
-  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 14px 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  animation: sellFadeUp 0.3s ease both;
+}
 
-  width: min(90%, 800px);
-
-  margin: 22px auto 0;
-  padding: 13px 18px;
-
-  border-radius: 8px;
-
-  text-align: center;
-
-  font-size: 16px;
-  font-weight: 600;
-
-  animation: messageAppear 0.5s ease;
+.sell-message > span {
+  display: grid;
+  width: 21px;
+  height: 21px;
+  flex: 0 0 21px;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 800;
 }
 
 .success-message {
-  background: rgba(55, 145, 83, 0.12);
-  border: 1px solid rgba(55, 145, 83, 0.35);
-  color: #24733c;
+  border-color: rgba(75, 211, 174, 0.28);
+  color: #a4f0d4;
+  background: rgba(20, 105, 77, 0.2);
+}
+
+.success-message > span {
+  color: #05352e;
+  background: #6ee7b7;
 }
 
 .error-message {
-  background: rgba(208, 67, 67, 0.1);
-  border: 1px solid rgba(208, 67, 67, 0.35);
-  color: #a52f2f;
+  border-color: rgba(255, 121, 139, 0.3);
+  color: #ffb0b9;
+  background: rgba(122, 36, 54, 0.2);
 }
 
-/* =========================================
-   DECORATIONS
-========================================= */
+.error-message > span {
+  color: #42131d;
+  background: #ff98a6;
+}
 
 .sell-decoration {
   position: absolute;
-  z-index: 1;
-
-  user-select: none;
+  z-index: 0;
+  opacity: 0.45;
   pointer-events: none;
-
-  opacity: 0.2;
-
-  filter: grayscale(20%);
+  animation: sellFloat 4s ease-in-out infinite;
 }
-
-/* Left book stack */
 
 .decoration-book-left {
+  top: 18%;
   left: 8%;
-  top: 310px;
-
-  font-size: 75px;
-
-  animation: decorationFloat 4s ease-in-out infinite;
+  font-size: clamp(28px, 4vw, 48px);
+  transform: rotate(-12deg);
 }
-
-/* Right book */
 
 .decoration-book-right {
+  top: 28%;
   right: 9%;
-  top: 80px;
-
-  font-size: 72px;
-
-  animation: decorationFloat 4.5s ease-in-out infinite reverse;
+  font-size: clamp(25px, 3.5vw, 42px);
+  animation-delay: 0.8s;
 }
-
-/* Feather */
 
 .decoration-feather {
-  right: 11%;
-  top: 150px;
-
-  font-size: 60px;
-
-  color: #17356f;
-
-  transform: rotate(-20deg);
-
-  opacity: 0.3;
-
-  animation: featherFloat 4s ease-in-out infinite;
+  right: 12%;
+  bottom: 16%;
+  font-size: clamp(25px, 3vw, 38px);
+  animation-delay: 1.3s;
 }
-
-/* Compass */
 
 .decoration-compass {
-  left: 8%;
-  bottom: 90px;
-
-  font-size: 62px;
-
-  animation: decorationRotate 10s linear infinite;
+  bottom: 12%;
+  left: 9%;
+  font-size: clamp(25px, 3vw, 38px);
+  animation-delay: 0.4s;
 }
 
-/* =========================================
-   EXTRA FLOATING EFFECTS
-========================================= */
-
-.sell-page::before {
-  content: "📖";
-
-  position: absolute;
-
-  right: 3%;
-  bottom: 15%;
-
-  font-size: 50px;
-
-  opacity: 0.08;
-
-  animation: decorationFloat 5s ease-in-out infinite;
-}
-
-.sell-page::after {
-  content: "✎";
-
-  position: absolute;
-
-  left: 3%;
-  top: 15%;
-
-  font-size: 50px;
-
-  color: #17356f;
-
-  opacity: 0.08;
-
-  animation: featherFloat 5s ease-in-out infinite;
-}
-
-/* =========================================
-   ANIMATIONS
-========================================= */
-
-@keyframes sellHeader {
+@keyframes sellFadeUp {
   from {
     opacity: 0;
-    transform: translateY(-35px);
+    transform: translateY(16px);
   }
 
   to {
@@ -427,188 +378,73 @@
   }
 }
 
-@keyframes formAppear {
-  from {
-    opacity: 0;
-    transform: translateY(35px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes messageAppear {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes rocketFloat {
+@keyframes sellFloat {
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
+    translate: 0 0;
   }
 
   50% {
-    transform: translateY(-6px) rotate(-7deg);
+    translate: 0 -9px;
   }
 }
 
-@keyframes decorationFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-
-  50% {
-    transform: translateY(-15px) rotate(4deg);
-  }
-}
-
-@keyframes featherFloat {
-  0%,
-  100% {
-    transform: translateY(0) rotate(-20deg);
-  }
-
-  50% {
-    transform: translateY(-12px) rotate(-10deg);
-  }
-}
-
-@keyframes decorationRotate {
+@keyframes sellGlow {
   from {
-    transform: rotate(0deg);
+    transform: scale(0.92);
+    opacity: 0.13;
   }
 
   to {
-    transform: rotate(360deg);
+    transform: scale(1.08);
+    opacity: 0.23;
   }
 }
 
-/* =========================================
-   TABLET
-========================================= */
-
-@media (max-width: 900px) {
+@media (max-width: 620px) {
   .sell-page {
-    padding-top: 50px;
-  }
-
-  .sell-header h1 {
-    font-size: 55px;
-  }
-
-  .sell-header p {
-    font-size: 18px;
-  }
-
-  .decoration-book-left {
-    left: 2%;
-  }
-
-  .decoration-book-right {
-    right: 2%;
-  }
-}
-
-/* =========================================
-   MOBILE
-========================================= */
-
-@media (max-width: 650px) {
-  .sell-page {
-    min-height: calc(100vh - 60px);
-    padding: 38px 16px 55px;
+    padding: 38px 15px;
   }
 
   .sell-header {
-    margin-bottom: 27px;
-  }
-
-  .sell-header h1 {
-    font-size: 42px;
-    line-height: 1.1;
+    margin-bottom: 22px;
   }
 
   .sell-header p {
-    margin-top: 12px;
-
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 14px;
   }
 
   .form-row {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 0;
   }
 
   .sell-form {
-    gap: 14px;
+    border-radius: 19px;
   }
 
-  .sell-form input,
-  .sell-form select {
-    height: 58px;
-    font-size: 16px;
-  }
-
-  .description-field textarea {
-    min-height: 170px;
-    font-size: 16px;
-  }
-
-  .list-book-btn {
-    width: 100%;
-    min-width: 0;
-    height: 64px;
-
-    font-size: 21px;
+  .sell-decoration {
+    opacity: 0.23;
   }
 
   .decoration-book-left {
-    left: -10px;
-    top: 260px;
-    font-size: 45px;
+    top: 8%;
+    left: 3%;
   }
 
   .decoration-book-right {
-    right: -10px;
-    top: 100px;
-    font-size: 45px;
-  }
-
-  .decoration-feather {
-    right: 5px;
-    top: 170px;
-    font-size: 38px;
-  }
-
-  .decoration-compass {
-    left: 5px;
-    bottom: 45px;
-    font-size: 40px;
+    top: 12%;
+    right: 3%;
   }
 }
 
-/* =========================================
-   REDUCED MOTION
-========================================= */
-
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  .sell-page *,
+  .sell-page *::before,
+  .sell-page *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
   }
 }
