@@ -1,9 +1,7 @@
-body {
-  cursor: none;
-}
-
-a,
-button {
+/* Hide the regular pointer only after the custom arrow appears. */
+.holi-cursor-active,
+.holi-cursor-active a,
+.holi-cursor-active button {
   cursor: none;
 }
 
@@ -14,8 +12,14 @@ button {
   top: 0;
   width: 46px;
   height: 46px;
+  opacity: 0;
   pointer-events: none;
   transform: translate(-50%, -50%);
+  transition: opacity 0.12s ease, scale 0.2s ease;
+}
+
+.holi-cursor.is-visible {
+  opacity: 1;
 }
 
 .holi-cursor svg {
@@ -50,12 +54,6 @@ button {
 }
 
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
-  body,
-  a,
-  button {
-    cursor: auto;
-  }
-
   .holi-cursor,
   .holi-splash {
     display: none;
