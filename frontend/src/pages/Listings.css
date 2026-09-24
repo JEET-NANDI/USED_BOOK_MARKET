@@ -1,829 +1,1356 @@
-/* =========================================================
-   MY LISTINGS PAGE
+/* =========================================
    USED BOOK MARKET
-========================================================= */
+   MY LISTINGS
+========================================= */
 
 .listings-page {
-  min-height: calc(100vh - 70px);
-  padding: 55px 6% 70px;
-
   position: relative;
+
+  min-height: 100vh;
+
+  padding: 65px 6% 70px;
+
   overflow: hidden;
+
+  color: #f3fafa;
 
   background:
     radial-gradient(
-      circle at 8% 12%,
-      rgba(20, 184, 166, 0.13),
-      transparent 28%
+      circle at 12% 18%,
+      rgba(0, 215, 195, 0.15),
+      transparent 30%
     ),
     radial-gradient(
-      circle at 92% 18%,
-      rgba(249, 115, 22, 0.12),
+      circle at 88% 30%,
+      rgba(255, 165, 0, 0.10),
       transparent 28%
     ),
     linear-gradient(
       135deg,
-      #f8fafc 0%,
-      #effcf9 50%,
-      #fff7ed 100%
+      #031313 0%,
+      #061d1d 50%,
+      #071313 100%
     );
-
-  color: #172033;
 }
 
 
-/* =========================================================
-   BACKGROUND DECORATION
-========================================================= */
+/* =========================================
+   BACKGROUND GLOW
+========================================= */
 
-.listings-page::before,
-.listings-page::after {
-  content: "";
+.listings-glow {
   position: absolute;
 
   border-radius: 50%;
+
   pointer-events: none;
 
-  z-index: 0;
+  filter: blur(12px);
+
+  opacity: 0.4;
+
+  animation: listingsGlow 7s ease-in-out infinite alternate;
 }
 
-.listings-page::before {
+.listings-glow-one {
   width: 300px;
   height: 300px;
 
+  top: 100px;
   left: -150px;
-  top: 170px;
 
-  background: rgba(20, 184, 166, 0.09);
-
-  filter: blur(8px);
-
-  animation: listingOrbOne 8s ease-in-out infinite;
+  background: rgba(0, 220, 200, 0.12);
 }
 
-.listings-page::after {
-  width: 340px;
-  height: 340px;
+.listings-glow-two {
+  width: 280px;
+  height: 280px;
 
-  right: -170px;
-  bottom: 100px;
+  bottom: 120px;
+  right: -130px;
 
-  background: rgba(249, 115, 22, 0.08);
+  background: rgba(255, 165, 0, 0.10);
 
-  filter: blur(10px);
-
-  animation: listingOrbTwo 9s ease-in-out infinite;
+  animation-delay: 2s;
 }
 
-@keyframes listingOrbOne {
-  0%,
-  100% {
+@keyframes listingsGlow {
+  0% {
     transform: translate(0, 0) scale(1);
   }
 
-  50% {
-    transform: translate(35px, -25px) scale(1.1);
+  100% {
+    transform: translate(35px, -25px) scale(1.12);
   }
 }
 
-@keyframes listingOrbTwo {
+
+/* =========================================
+   FLOATING BOOKS
+========================================= */
+
+.floating-listing-book {
+  position: absolute;
+
+  font-size: 40px;
+
+  opacity: 0.11;
+
+  pointer-events: none;
+
+  filter:
+    drop-shadow(
+      0 0 12px rgba(0, 220, 200, 0.7)
+    );
+
+  animation:
+    floatingListingBook 6s ease-in-out infinite;
+}
+
+.floating-book-one {
+  top: 25%;
+  left: 3%;
+}
+
+.floating-book-two {
+  right: 4%;
+  bottom: 28%;
+
+  animation-delay: 2.5s;
+}
+
+@keyframes floatingListingBook {
   0%,
   100% {
-    transform: translate(0, 0) scale(1);
+    transform:
+      translateY(0)
+      rotate(-5deg);
   }
 
   50% {
-    transform: translate(-35px, 25px) scale(1.08);
+    transform:
+      translateY(-22px)
+      rotate(7deg);
   }
 }
 
 
-/* =========================================================
-   PAGE HEADER
-========================================================= */
+/* =========================================
+   HEADER
+========================================= */
 
-.listings-page > h1 {
+.listings-header {
   position: relative;
-  z-index: 1;
 
-  max-width: 1100px;
-  margin: 0 auto;
+  z-index: 2;
+
+  max-width: 850px;
+
+  margin: 0 auto 55px;
 
   text-align: center;
 
-  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  animation:
+    listingsHeaderAppear 0.8s ease both;
+}
+
+@keyframes listingsHeaderAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* Header icon */
+
+.listings-icon {
+  width: 75px;
+  height: 75px;
+
+  margin: 0 auto 18px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 23px;
+
+  font-size: 36px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(0, 220, 200, 0.25),
+      rgba(0, 120, 115, 0.10)
+    );
+
+  border:
+    1px solid
+    rgba(0, 235, 215, 0.35);
+
+  box-shadow:
+    0 0 25px
+    rgba(0, 235, 215, 0.18),
+
+    inset 0 0 25px
+    rgba(0, 235, 215, 0.07);
+
+  animation:
+    listingIconPulse 3s ease-in-out infinite;
+}
+
+@keyframes listingIconPulse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform:
+      translateY(-7px);
+  }
+}
+
+
+/* Label */
+
+.listings-label {
+  margin: 0 0 7px;
+
+  color: #00d7c4;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 5px;
+
+  animation:
+    labelListingGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes labelListingGlow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 5px
+      rgba(0, 215, 196, 0.25);
+  }
+
+  50% {
+    text-shadow:
+      0 0 14px
+      rgba(0, 215, 196, 0.7);
+  }
+}
+
+
+/* Heading */
+
+.listings-header h1 {
+  margin: 0;
+
+  font-size:
+    clamp(48px, 7vw, 78px);
+
+  line-height: 1;
+
   font-weight: 900;
 
-  letter-spacing: -2px;
+  letter-spacing: -3px;
 
-  background: linear-gradient(
-    135deg,
-    #0f766e,
-    #14b8a6 45%,
-    #f97316
-  );
+  color: #f4f8f7;
+
+  text-shadow:
+    0 5px 20px
+    rgba(0, 0, 0, 0.45);
+}
+
+.listings-header h1 span {
+  background:
+    linear-gradient(
+      90deg,
+      #ffad00,
+      #ff7a00,
+      #ffd15a,
+      #ff9200
+    );
+
+  background-size: 250% 100%;
 
   -webkit-background-clip: text;
   background-clip: text;
 
   color: transparent;
 
-  animation: listingsTitleIn 0.8s ease both;
+  animation:
+    listingsTitleGradient 4s linear infinite;
 }
 
-@keyframes listingsTitleIn {
-  from {
-    opacity: 0;
-    transform: translateY(-35px);
+@keyframes listingsTitleGradient {
+  0% {
+    background-position: 0% 50%;
   }
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.listings-page > h1::after {
-  content: "📚";
-
-  display: inline-block;
-
-  margin-left: 12px;
-
-  font-size: 0.65em;
-
-  -webkit-text-fill-color: initial;
-
-  animation: listingBookFloat 2.5s ease-in-out infinite;
-}
-
-@keyframes listingBookFloat {
-  0%,
   100% {
-    transform: translateY(0) rotate(-8deg);
-  }
-
-  50% {
-    transform: translateY(-9px) rotate(8deg);
+    background-position: 250% 50%;
   }
 }
 
-.listings-page > p {
-  position: relative;
-  z-index: 1;
 
-  max-width: 650px;
+/* Subtitle */
 
-  margin: 14px auto 28px;
+.listings-subtitle {
+  margin: 18px auto 0;
 
-  text-align: center;
+  color: #809794;
 
-  color: #64748b;
+  font-size: 15px;
 
-  font-size: 1.02rem;
   line-height: 1.7;
-
-  animation: listingSubtitleIn 0.8s ease 0.15s both;
-}
-
-@keyframes listingSubtitleIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 
-/* =========================================================
-   ADD NEW BOOK BUTTON
-========================================================= */
+/* =========================================
+   TOOLBAR
+========================================= */
 
-.add-listing {
+.listings-toolbar {
   position: relative;
+
   z-index: 2;
 
-  width: fit-content;
+  max-width: 1200px;
+
+  margin: 0 auto 25px;
+
+  padding: 22px 25px;
 
   display: flex;
+
   align-items: center;
-  justify-content: center;
 
-  margin: 0 auto 30px;
+  justify-content: space-between;
 
-  padding: 13px 25px;
+  gap: 20px;
 
-  border-radius: 14px;
+  border-radius: 19px;
 
-  background: linear-gradient(
-    135deg,
-    #f97316,
-    #ea580c
-  );
+  background:
+    rgba(10, 29, 29, 0.75);
 
-  color: white;
+  border:
+    1px solid
+    rgba(82, 130, 125, 0.16);
+
+  box-shadow:
+    0 12px 35px
+    rgba(0, 0, 0, 0.18);
+
+  animation:
+    toolbarAppear 0.7s ease 0.2s both;
+}
+
+@keyframes toolbarAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+.toolbar-label {
+  margin: 0 0 5px;
+
+  color: #ffa500;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+}
+
+.listings-toolbar h2 {
+  margin: 0;
+
+  font-size: 23px;
+
+  color: #edf5f4;
+}
+
+
+/* =========================================
+   ADD BOOK BUTTON
+========================================= */
+
+.add-listing {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 13px 20px;
+
+  border-radius: 12px;
 
   text-decoration: none;
 
+  color: #041313;
+
+  font-size: 13px;
+
   font-weight: 800;
-  font-size: 0.96rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00d9c3,
+      #00a99b
+    );
 
   box-shadow:
-    0 10px 24px rgba(249, 115, 22, 0.25);
+    0 8px 25px
+    rgba(0, 215, 195, 0.16);
 
   transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.add-listing span {
+  font-size: 19px;
+
+  transition:
+    transform 0.3s ease;
 }
 
 .add-listing:hover {
-  transform: translateY(-4px) scale(1.02);
+  transform:
+    translateY(-4px);
 
   box-shadow:
-    0 16px 30px rgba(249, 115, 22, 0.32);
+    0 13px 30px
+    rgba(0, 215, 195, 0.3);
 }
 
-.add-listing:active {
-  transform: scale(0.97);
+.add-listing:hover span {
+  transform:
+    rotate(90deg);
 }
 
 
-/* =========================================================
+/* =========================================
    MESSAGE
-========================================================= */
+========================================= */
 
-.listings-page > p:not(:first-of-type) {
+.listings-message {
   position: relative;
+
   z-index: 2;
+
+  max-width: 1200px;
+
+  margin: 0 auto 25px;
+
+  padding: 16px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  border-radius: 14px;
+
+  background:
+    rgba(255, 70, 90, 0.08);
+
+  border:
+    1px solid
+    rgba(255, 90, 110, 0.2);
+
+  color: #ff9ca8;
+
+  animation:
+    messageAppear 0.5s ease both;
+}
+
+.listings-message p {
+  margin: 0;
+
+  font-size: 14px;
+}
+
+@keyframes messageAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
 }
 
 
-/* Error/login message:
-   This selector also keeps the existing JSX untouched. */
-
-.listings-page > p {
-  line-height: 1.6;
-}
-
-
-/* =========================================================
-   LIST CONTAINER
-========================================================= */
+/* =========================================
+   LISTINGS GRID
+========================================= */
 
 .listings-list {
-  max-width: 1100px;
+  position: relative;
 
-  margin: 0 auto 35px;
+  z-index: 2;
+
+  max-width: 1200px;
+
+  margin: 0 auto;
 
   display: grid;
 
   grid-template-columns:
-    repeat(3, minmax(0, 1fr));
+    repeat(2, minmax(0, 1fr));
 
-  gap: 22px;
-
-  position: relative;
-  z-index: 1;
+  gap: 18px;
 }
 
 
-/* =========================================================
+/* =========================================
    LISTING CARD
-========================================================= */
+========================================= */
 
 .listing-card {
   position: relative;
 
-  padding: 23px;
+  min-height: 330px;
 
-  min-height: 280px;
+  padding: 25px;
 
   overflow: hidden;
 
   border-radius: 21px;
 
-  background: rgba(255, 255, 255, 0.93);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(17, 36, 36, 0.96),
+      rgba(7, 22, 22, 0.98)
+    );
 
-  border: 1px solid #e2e8f0;
+  border:
+    1px solid
+    rgba(81, 130, 126, 0.16);
 
   box-shadow:
-    0 12px 35px rgba(15, 23, 42, 0.07);
-
-  opacity: 0;
+    0 15px 40px
+    rgba(0, 0, 0, 0.22);
 
   animation:
-    listingCardEnter
-    0.65s
-    ease
-    forwards;
+    listingCardAppear
+    0.7s ease
+    var(--listing-delay)
+    both;
 
   transition:
     transform 0.35s ease,
-    box-shadow 0.35s ease,
-    border-color 0.35s ease;
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
-
-/* Animated top line */
-
-.listing-card::before {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 5px;
-
-  background: linear-gradient(
-    90deg,
-    #0f766e,
-    #14b8a6,
-    #f97316
-  );
-
-  transform: scaleX(0);
-
-  transform-origin: left;
-
-  transition: transform 0.4s ease;
-}
-
-.listing-card:hover::before {
-  transform: scaleX(1);
-}
-
-
-/* Light sweep */
-
-.listing-card::after {
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: -120%;
-
-  width: 70%;
-  height: 100%;
-
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.45),
-    transparent
-  );
-
-  transform: skewX(-20deg);
-
-  pointer-events: none;
-}
-
-.listing-card:hover::after {
-  animation: listingCardShine 0.8s ease;
-}
-
-@keyframes listingCardShine {
-  from {
-    left: -120%;
-  }
-
-  to {
-    left: 150%;
-  }
-}
-
-@keyframes listingCardEnter {
+@keyframes listingCardAppear {
   from {
     opacity: 0;
+
     transform:
-      translateY(45px)
-      scale(0.94);
+      translateY(30px)
+      scale(0.97);
   }
 
   to {
     opacity: 1;
+
     transform:
       translateY(0)
       scale(1);
   }
 }
 
-.listing-card:hover {
-  transform: translateY(-9px);
 
-  border-color:
-    rgba(20, 184, 166, 0.35);
+/* Card shine */
 
-  box-shadow:
-    0 23px 50px rgba(15, 23, 42, 0.13),
-    0 8px 20px rgba(20, 184, 166, 0.08);
-}
+.listing-card::before {
+  content: "";
 
+  position: absolute;
 
-/* =========================================================
-   LISTING TITLE
-========================================================= */
+  top: -100%;
 
-.listing-card h2 {
-  position: relative;
-  z-index: 2;
+  left: -80%;
 
-  margin: 0 0 20px;
+  width: 50%;
 
-  padding-bottom: 13px;
+  height: 300%;
 
-  border-bottom: 1px solid #e2e8f0;
+  transform:
+    rotate(25deg);
 
-  color: #172033;
-
-  font-size: 1.3rem;
-
-  line-height: 1.35;
-
-  transition: color 0.25s ease;
-}
-
-.listing-card:hover h2 {
-  color: #0f766e;
-}
-
-
-/* =========================================================
-   LISTING INFORMATION
-========================================================= */
-
-.listing-card p {
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  gap: 15px;
-
-  margin: 0;
-
-  padding: 9px 0;
-
-  border-bottom: 1px dashed #e2e8f0;
-
-  color: #475569;
-
-  font-size: 0.9rem;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.055),
+      transparent
+    );
 
   transition:
-    padding-left 0.25s ease,
-    background 0.25s ease;
+    left 0.7s ease;
+
+  pointer-events: none;
 }
 
-.listing-card p:last-child {
-  border-bottom: none;
+.listing-card:hover::before {
+  left: 135%;
 }
 
-.listing-card p strong {
-  color: #64748b;
+
+/* Hover */
+
+.listing-card:hover {
+  transform:
+    translateY(-8px)
+    scale(1.012);
+
+  border-color:
+    rgba(0, 220, 200, 0.38);
+
+  box-shadow:
+    0 23px 55px
+    rgba(0, 0, 0, 0.34),
+
+    0 0 30px
+    rgba(0, 215, 195, 0.06);
+}
+
+
+/* =========================================
+   CARD TOP
+========================================= */
+
+.listing-card-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+.listing-book-icon {
+  width: 57px;
+  height: 57px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 16px;
+
+  font-size: 27px;
+
+  background:
+    rgba(0, 215, 195, 0.09);
+
+  border:
+    1px solid
+    rgba(0, 215, 195, 0.12);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.listing-card:hover .listing-book-icon {
+  transform:
+    rotate(-6deg)
+    scale(1.1);
+
+  box-shadow:
+    0 0 20px
+    rgba(0, 215, 195, 0.14);
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.listing-status {
+  padding: 7px 12px;
+
+  border-radius: 30px;
+
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  text-transform: uppercase;
+
+  color: #ffbd4d;
+
+  background:
+    rgba(255, 165, 0, 0.09);
+
+  border:
+    1px solid
+    rgba(255, 165, 0, 0.17);
+}
+
+
+/* Approved */
+
+.listing-status.approved {
+  color: #44e6c4;
+
+  background:
+    rgba(0, 220, 180, 0.08);
+
+  border-color:
+    rgba(0, 220, 180, 0.18);
+}
+
+
+/* Rejected */
+
+.listing-status.rejected {
+  color: #ff7484;
+
+  background:
+    rgba(255, 70, 90, 0.08);
+
+  border-color:
+    rgba(255, 70, 90, 0.18);
+}
+
+
+/* =========================================
+   CONTENT
+========================================= */
+
+.listing-card-content {
+  margin-top: 21px;
+}
+
+.listing-card-content h2 {
+  margin: 0;
+
+  color: #f1f7f6;
+
+  font-size: 21px;
+
+  font-weight: 800;
+
+  transition:
+    color 0.3s ease;
+}
+
+.listing-card:hover
+.listing-card-content h2 {
+  color: #ffffff;
+}
+
+.listing-category {
+  display: inline-block;
+
+  margin-top: 8px;
+
+  color: #00cbb9;
+
+  font-size: 12px;
 
   font-weight: 700;
 }
 
-.listing-card:hover p {
-  padding-left: 4px;
+
+/* =========================================
+   DETAILS
+========================================= */
+
+.listing-details {
+  margin-top: 22px;
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 10px;
 }
 
+.listing-detail {
+  min-width: 0;
 
-/* =========================================================
-   PRICE
-========================================================= */
+  padding: 13px 10px;
 
-.listing-card p:nth-of-type(3) {
-  margin-top: 3px;
-}
+  display: flex;
 
-.listing-card p:nth-of-type(3)::after {
-  content: "";
-}
-
-
-/* =========================================================
-   STATUS
-========================================================= */
-
-.listing-status {
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
 
-  min-width: 82px;
+  gap: 9px;
 
-  padding: 5px 11px;
+  border-radius: 13px;
 
-  border-radius: 999px;
+  background:
+    rgba(255, 255, 255, 0.025);
 
-  background: #ccfbf1;
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.035);
 
-  color: #0f766e;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
 
-  font-size: 0.78rem;
+.listing-detail:hover {
+  transform:
+    translateY(-3px);
+
+  background:
+    rgba(0, 215, 195, 0.06);
+}
+
+.detail-icon {
+  font-size: 18px;
+
+  flex-shrink: 0;
+}
+
+.listing-detail div {
+  min-width: 0;
+}
+
+.listing-detail small {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #5f7875;
+
+  font-size: 8px;
 
   font-weight: 800;
 
-  text-transform: capitalize;
-
-  border: 1px solid #99f6e4;
-
-  animation: statusPulse 2.5s ease-in-out infinite;
+  letter-spacing: 1px;
 }
 
-@keyframes statusPulse {
-  0%,
-  100% {
-    box-shadow:
-      0 0 0 0 rgba(20, 184, 166, 0.18);
-  }
+.listing-detail strong {
+  display: block;
 
-  50% {
-    box-shadow:
-      0 0 0 6px rgba(20, 184, 166, 0);
-  }
+  overflow: hidden;
+
+  color: #c8d8d6;
+
+  font-size: 11px;
+
+  white-space: nowrap;
+
+  text-overflow: ellipsis;
+}
+
+.listing-detail strong.price {
+  color: #ffb01c;
+
+  font-size: 14px;
 }
 
 
-/* =========================================================
-   SCROLLING LIST ANIMATION
-========================================================= */
+/* =========================================
+   CARD BOTTOM
+========================================= */
 
-/*
-   This creates a gentle vertical movement for the
-   listing cards while the user scrolls the page.
-*/
+.listing-card-bottom {
+  margin-top: 20px;
 
-.listings-list {
+  padding-top: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.055);
+
+  color: #526967;
+
+  font-size: 10px;
+}
+
+.listing-arrow {
+  color: #00cbb9;
+
+  font-size: 20px;
+
+  transition:
+    transform 0.3s ease;
+}
+
+.listing-card:hover .listing-arrow {
+  transform:
+    translateX(6px);
+}
+
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty-listings {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 600px;
+
+  margin: 30px auto;
+
+  padding: 55px 30px;
+
+  text-align: center;
+
+  border-radius: 22px;
+
+  background:
+    rgba(10, 29, 29, 0.8);
+
+  border:
+    1px solid
+    rgba(0, 215, 195, 0.13);
+
   animation:
-    listingsListReveal
-    0.9s
-    ease
-    0.2s
-    both;
+    emptyAppear 0.7s ease both;
 }
 
-@keyframes listingsListReveal {
+@keyframes emptyAppear {
   from {
     opacity: 0;
-    transform: translateY(35px);
+
+    transform:
+      scale(0.95);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+
+    transform:
+      scale(1);
   }
 }
 
+.empty-icon {
+  font-size: 55px;
 
-/*
-   Continuous floating movement.
-
-   Each card gets a slightly different movement using
-   nth-child so the list feels alive instead of moving
-   as one block.
-*/
-
-.listing-card:nth-child(3n + 1) {
   animation:
-    listingCardEnter 0.65s ease forwards,
-    listingFloatOne 5s ease-in-out 1s infinite;
+    emptyBook 3s ease-in-out infinite;
 }
 
-.listing-card:nth-child(3n + 2) {
-  animation:
-    listingCardEnter 0.65s ease forwards,
-    listingFloatTwo 5.5s ease-in-out 1.2s infinite;
-}
-
-.listing-card:nth-child(3n + 3) {
-  animation:
-    listingCardEnter 0.65s ease forwards,
-    listingFloatThree 6s ease-in-out 1.4s infinite;
-}
-
-@keyframes listingFloatOne {
+@keyframes emptyBook {
   0%,
   100% {
-    transform: translateY(0);
+    transform:
+      translateY(0)
+      rotate(-5deg);
   }
 
   50% {
-    transform: translateY(-5px);
+    transform:
+      translateY(-10px)
+      rotate(5deg);
   }
 }
 
-@keyframes listingFloatTwo {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
+.empty-listings h2 {
+  margin: 17px 0 7px;
 
-  50% {
-    transform: translateY(5px);
-  }
+  color: #f1f7f6;
+
+  font-size: 25px;
 }
 
-@keyframes listingFloatThree {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
+.empty-listings p {
+  margin: 0 0 22px;
 
-  50% {
-    transform: translateY(-4px);
-  }
+  color: #718783;
+
+  font-size: 14px;
 }
 
+.empty-add-button {
+  display: inline-block;
 
-/* =========================================================
-   EMPTY LIST
-========================================================= */
+  padding: 13px 20px;
 
-.listings-list:empty {
-  display: none;
-}
-
-
-/* =========================================================
-   BACK DASHBOARD
-========================================================= */
-
-.back-dashboard {
-  position: relative;
-  z-index: 2;
-
-  width: fit-content;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  margin: 35px auto 0;
-
-  padding: 12px 22px;
-
-  border: 2px solid #14b8a6;
-
-  border-radius: 13px;
-
-  background: rgba(255, 255, 255, 0.8);
-
-  color: #0f766e;
+  border-radius: 11px;
 
   text-decoration: none;
 
-  font-size: 0.92rem;
+  color: #041313;
+
+  background:
+    linear-gradient(
+      135deg,
+      #00d9c3,
+      #00a99b
+    );
+
+  font-size: 12px;
+
   font-weight: 800;
 
   transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.empty-add-button:hover {
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 10px 25px
+    rgba(0, 215, 195, 0.25);
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.listings-footer {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 1200px;
+
+  margin: 35px auto 0;
+
+  padding: 25px 30px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      100deg,
+      rgba(0, 183, 168, 0.09),
+      rgba(255, 159, 0, 0.06)
+    );
+
+  border:
+    1px solid
+    rgba(0, 215, 195, 0.13);
+
+  animation:
+    toolbarAppear 0.8s ease 0.7s both;
+}
+
+.footer-icon {
+  width: 58px;
+  height: 58px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;
+
+  border-radius: 16px;
+
+  background:
+    rgba(0, 215, 195, 0.08);
+
+  animation:
+    footerBookFloat 3s ease-in-out infinite;
+}
+
+@keyframes footerBookFloat {
+  0%,
+  100% {
+    transform:
+      rotate(-5deg);
+  }
+
+  50% {
+    transform:
+      rotate(5deg)
+      translateY(-4px);
+  }
+}
+
+.listings-footer > div:nth-child(2) {
+  flex: 1;
+}
+
+.listings-footer p {
+  margin: 0 0 5px;
+
+  color: #00d4c1;
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 3px;
+}
+
+.listings-footer h2 {
+  margin: 0;
+
+  color: #edf5f4;
+
+  font-size: 20px;
+}
+
+.footer-sell-button {
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 13px 19px;
+
+  border-radius: 11px;
+
+  text-decoration: none;
+
+  color: #041313;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffa500,
+      #ff8700
+    );
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 8px 22px
+    rgba(255, 165, 0, 0.13);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.footer-sell-button:hover {
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 12px 28px
+    rgba(255, 165, 0, 0.25);
+}
+
+.footer-sell-button span {
+  transition:
+    transform 0.3s ease;
+}
+
+.footer-sell-button:hover span {
+  transform:
+    translateX(5px);
+}
+
+
+/* =========================================
+   BACK DASHBOARD
+========================================= */
+
+.back-dashboard-wrapper {
+  position: relative;
+
+  z-index: 2;
+
+  max-width: 1200px;
+
+  margin: 28px auto 0;
+
+  text-align: center;
+}
+
+.back-dashboard {
+  display: inline-block;
+
+  color: #718985;
+
+  text-decoration: none;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
 }
 
 .back-dashboard:hover {
-  background: #0f766e;
+  color: #00d4c1;
 
-  color: white;
-
-  transform: translateY(-3px);
-
-  box-shadow:
-    0 10px 24px rgba(15, 118, 110, 0.22);
+  transform:
+    translateX(-4px);
 }
 
 
-/* =========================================================
-   TABLET
-========================================================= */
+/* =========================================
+   RESPONSIVE
+========================================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
+
   .listings-page {
-    padding-left: 4%;
-    padding-right: 4%;
-  }
-
-  .listings-list {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-  }
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 650px) {
-  .listings-page {
-    padding: 38px 18px 55px;
-  }
-
-  .listings-page > h1 {
-    font-size: 2.6rem;
-    letter-spacing: -1.5px;
-  }
-
-  .listings-page > p {
-    font-size: 0.92rem;
-  }
-
-  .add-listing {
-    width: 100%;
-    max-width: 320px;
+    padding: 50px 5% 60px;
   }
 
   .listings-list {
     grid-template-columns: 1fr;
-
-    gap: 18px;
   }
 
-  .listing-card {
-    min-height: auto;
-
-    padding: 20px;
+  .listings-footer {
+    flex-wrap: wrap;
   }
 
-  .listing-card h2 {
-    font-size: 1.18rem;
-  }
-
-  .listing-card p {
-    font-size: 0.85rem;
-  }
-
-  .back-dashboard {
+  .footer-sell-button {
     width: 100%;
-    max-width: 320px;
+
+    justify-content: center;
   }
 }
 
 
-/* =========================================================
-   SMALL MOBILE
-========================================================= */
+@media (max-width: 650px) {
 
-@media (max-width: 400px) {
   .listings-page {
-    padding-left: 13px;
-    padding-right: 13px;
+    padding: 40px 18px 50px;
   }
 
-  .listings-page > h1 {
-    font-size: 2.2rem;
+  .listings-header {
+    margin-bottom: 40px;
   }
 
-  .listing-card {
-    padding: 17px;
+  .listings-icon {
+    width: 64px;
+    height: 64px;
+
+    font-size: 30px;
   }
 
-  .listing-card p {
-    gap: 8px;
+  .listings-label {
+    font-size: 9px;
 
-    font-size: 0.81rem;
-  }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .listings-page::before,
-  .listings-page::after,
-  .listings-page > h1,
-  .listing-card,
-  .listing-status,
-  .listings-list {
-    animation: none;
+    letter-spacing: 3px;
   }
 
-  .listing-card {
-    opacity: 1;
+  .listings-header h1 {
+    font-size: 48px;
+
+    letter-spacing: -2px;
   }
 
-  .listing-card::after {
+  .listings-subtitle {
+    font-size: 13px;
+  }
+
+  .listings-toolbar {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .add-listing {
+    width: 100%;
+
+    justify-content: center;
+  }
+
+  .listing-details {
+    grid-template-columns: 1fr;
+  }
+
+  .listing-detail {
+    padding: 11px;
+  }
+
+  .listings-footer {
+    padding: 22px;
+
+    align-items: flex-start;
+  }
+
+  .floating-listing-book {
     display: none;
   }
+}
 
-  .listing-card,
-  .add-listing,
-  .back-dashboard {
-    transition: none;
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
   }
 }
