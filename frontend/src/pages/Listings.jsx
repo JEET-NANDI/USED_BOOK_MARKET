@@ -35,6 +35,7 @@ function Listings() {
 
         setListings(data.products);
       } catch (error) {
+        console.error("Fetch listings error:", error);
         setMessage("Unable to connect to server");
       }
     };
@@ -46,9 +47,7 @@ function Listings() {
     <div className="listings-page">
       <h1>My Listings</h1>
 
-      <p>
-        Manage the books you are selling.
-      </p>
+      <p>Manage the books you are selling.</p>
 
       <Link className="add-listing" to="/sell">
         + Add New Book
@@ -59,10 +58,21 @@ function Listings() {
       {listings.length > 0 ? (
         <div className="listings-list">
           {listings.map((listing) => (
-            <div
-              className="listing-card"
-              key={listing.id}
-            >
+            <div className="listing-card" key={listing.id}>
+
+              {/* BOOK IMAGE */}
+              {listing.image_url ? (
+                <img
+                  src={`http://localhost:5000${listing.image_url}`}
+                  alt={listing.title}
+                  className="listing-image"
+                />
+              ) : (
+                <div className="listing-image-placeholder">
+                  No Image
+                </div>
+              )}
+
               <h2>{listing.title}</h2>
 
               <p>
@@ -76,8 +86,8 @@ function Listings() {
               </p>
 
               <p>
-                <strong>Seller Price:</strong> ₹
-                {listing.seller_price}
+                <strong>Seller Price:</strong>{" "}
+                ₹{Number(listing.seller_price).toFixed(2)}
               </p>
 
               <p>
@@ -91,15 +101,12 @@ function Listings() {
                   {listing.status}
                 </span>
               </p>
+
             </div>
           ))}
         </div>
       ) : (
-        !message && (
-          <p>
-            You have no listings yet.
-          </p>
-        )
+        !message && <p>You have no listings yet.</p>
       )}
 
       <Link

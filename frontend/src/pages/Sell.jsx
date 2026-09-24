@@ -11,253 +11,470 @@ const initialFormData = {
 };
 
 function Sell() {
-  const [formData, setFormData] = useState(initialFormData);
-  const [message, setMessage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] =
+    useState(initialFormData);
 
-  function handleChange(event) {
-    const { name, value } = event.target;
+  const [bookImage, setBookImage] =
+    useState(null);
 
-    setFormData((previousData) => ({
-      ...previousData,
-      [name]: value,
-    }));
-  }
+  const [imageError, setImageError] =
+    useState("");
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  const [message, setMessage] =
+    useState("");
+
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
+
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    setImageError("");
     setMessage("");
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setMessage("Please log in first.");
+    if (!file) {
+      setBookImage(null);
       return;
     }
 
+    // Maximum image size = 5 MB
+    const maxSize = 5 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+      setBookImage(null);
+
+      setImageError(
+        "Image size must be 5 MB or less."
+      );
+
+      // Clear selected file
+      e.target.value = "";
+
+      return;
+    }
+
+    setBookImage(file);
+  };
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setMessage("");
+
+    const token =
+      localStorage.getItem("token");
+
+    if (!token) {
+      setMessage("Please login first");
+      return;
+    }
+
+    // Check image
+    if (!bookImage) {
+      setImageError(
+        "Please upload a picture of the book."
+      );
+      return;
+    }
+
+    setImageError("");
+    setIsSubmitting(true);
+
     try {
-      setIsSubmitting(true);
+      const formDataToSend =
+        new FormData();
 
-      const response = await fetch("http://localhost:5000/api/products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...formData,
-          seller_price: Number(formData.seller_price),
-        }),
-      });
+      formDataToSend.append(
+        "title",
+        formData.title
+      );
 
-      const data = await response.json();
+      formDataToSend.append(
+        "seller_price",
+        Number(formData.seller_price)
+      );
+
+      formDataToSend.append(
+        "category",
+        formData.category
+      );
+
+      formDataToSend.append(
+        "condition",
+        formData.condition
+      );
+
+      formDataToSend.append(
+        "description",
+        formData.description
+      );
+
+      formDataToSend.append(
+        "location",
+        formData.location
+      );
+
+      formDataToSend.append(
+        "bookImage",
+        bookImage
+      );
+
+
+      const response = await fetch(
+        "http://localhost:5000/api/products",
+        {
+          method: "POST",
+
+          headers: {
+            Authorization:
+              `Bearer ${token}`,
+          },
+
+          body: formDataToSend,
+        }
+      );
+
+
+      const data =
+        await response.json();
+
 
       if (!response.ok) {
-        setMessage(data.message || "Unable to list your book.");
+        setMessage(
+          data.message ||
+            "Unable to create listing"
+        );
+
         return;
       }
 
+
       setMessage(
-        "Book submitted successfully and is waiting for admin approval."
+        "Book listing submitted successfully."
       );
+
+      // Reset form
       setFormData(initialFormData);
+
+      setBookImage(null);
+
+      setImageError("");
+
+
+      // Clear file input
+      const fileInput =
+        document.getElementById(
+          "book-image"
+        );
+
+      if (fileInput) {
+        fileInput.value = "";
+      }
+
     } catch (error) {
-      console.error("Sell book error:", error);
-      setMessage("Unable to connect to the server. Please try again.");
+      console.error(
+        "Sell book error:",
+        error
+      );
+
+      setMessage(
+        "Unable to connect to server"
+      );
     } finally {
       setIsSubmitting(false);
     }
-  }
+  };
 
-  const isSuccess = message.includes("successfully");
 
   return (
-    <main className="sell-page">
-      <div className="sell-glow sell-glow-one" aria-hidden="true" />
-      <div className="sell-glow sell-glow-two" aria-hidden="true" />
+    <div className="sell-page">
 
-      <span
-        className="sell-decoration decoration-book-left"
-        aria-hidden="true"
-      >
-        📚
-      </span>
+      <div className="sell-glow sell-glow-one"></div>
 
-      <span
-        className="sell-decoration decoration-book-right"
-        aria-hidden="true"
-      >
-        📖
-      </span>
+      <div className="sell-glow sell-glow-two"></div>
 
-      <span
-        className="sell-decoration decoration-feather"
-        aria-hidden="true"
-      >
-        🪶
-      </span>
 
-      <span
-        className="sell-decoration decoration-compass"
-        aria-hidden="true"
-      >
-        🧭
-      </span>
+      <div className="sell-content">
 
-      <section className="sell-content">
-        <header className="sell-header">
-          <span className="sell-kicker">Give your books a new chapter</span>
+        <div className="sell-header">
+
+          <span className="sell-kicker">
+            LIST YOUR BOOK
+          </span>
 
           <h1>
             Sell Your <span>Book</span>
           </h1>
 
           <p>
-            List your used books, notes, or study materials for other students.
+            Give your old book a second life.
           </p>
-        </header>
 
-        <form className="sell-form" onSubmit={handleSubmit}>
-          <div className="sell-form-heading">
-            <div>
-              <h2>Book details</h2>
-              <p>Fill in the details to create your listing.</p>
-            </div>
+        </div>
 
-            <span className="sell-form-icon" aria-hidden="true">
-              ✨
-            </span>
-          </div>
+
+        <form
+          className="sell-form"
+          onSubmit={handleSubmit}
+        >
+
+          {/* BOOK TITLE + PRICE */}
 
           <div className="form-row">
+
             <div className="form-field">
-              <label htmlFor="book-title">Book title</label>
+
+              <label htmlFor="title">
+                Book Title
+              </label>
+
               <input
-                id="book-title"
+                id="title"
                 type="text"
                 name="title"
-                placeholder="e.g. Introduction to Algorithms"
+                placeholder="Enter book title"
                 value={formData.title}
                 onChange={handleChange}
                 required
               />
+
             </div>
+
 
             <div className="form-field">
-              <label htmlFor="seller-price">Your price</label>
 
-              <div className="price-input-wrap">
-                <span aria-hidden="true">₹</span>
-                <input
-                  id="seller-price"
-                  type="number"
-                  name="seller_price"
-                  placeholder="Enter amount"
-                  min="0"
-                  step="0.01"
-                  value={formData.seller_price}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <label htmlFor="seller_price">
+                Seller Price
+              </label>
+
+              <input
+                id="seller_price"
+                type="number"
+                name="seller_price"
+                placeholder="Enter price"
+                min="1"
+                value={
+                  formData.seller_price
+                }
+                onChange={handleChange}
+                required
+              />
+
             </div>
+
           </div>
 
+
+          {/* CATEGORY + CONDITION */}
+
           <div className="form-row">
+
             <div className="form-field">
-              <label htmlFor="book-category">Category</label>
+
+              <label htmlFor="category">
+                Category
+              </label>
+
               <select
-                id="book-category"
+                id="category"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
                 required
               >
-                <option value="" disabled>
-                  Choose a category
+
+                <option value="">
+                  Select category
                 </option>
-                <option value="Programming">Programming</option>
-                <option value="Database">Database</option>
-                <option value="Networking">Networking</option>
-                <option value="Other">Other</option>
+
+                <option value="Programming">
+                  Programming
+                </option>
+
+                <option value="Database">
+                  Database
+                </option>
+
+                <option value="Networking">
+                  Networking
+                </option>
+
+                <option value="Operating System">
+                  Operating System
+                </option>
+
+                <option value="Computer Science">
+                  Computer Science
+                </option>
+
+                <option value="Mathematics">
+                  Mathematics
+                </option>
+
+                <option value="Other">
+                  Other
+                </option>
+
               </select>
+
             </div>
 
+
             <div className="form-field">
-              <label htmlFor="book-condition">Condition</label>
+
+              <label htmlFor="condition">
+                Condition
+              </label>
+
               <select
-                id="book-condition"
+                id="condition"
                 name="condition"
                 value={formData.condition}
                 onChange={handleChange}
                 required
               >
-                <option value="" disabled>
-                  Choose condition
+
+                <option value="">
+                  Select condition
                 </option>
-                <option value="Like New">Like New</option>
-                <option value="Good">Good</option>
-                <option value="Used">Used</option>
+
+                <option value="Like New">
+                  Like New
+                </option>
+
+                <option value="Good">
+                  Good
+                </option>
+
+                <option value="Fair">
+                  Fair
+                </option>
+
+                <option value="Used">
+                  Used
+                </option>
+
               </select>
+
             </div>
+
           </div>
 
-          <div className="form-field">
-            <label htmlFor="book-location">Location</label>
+
+          {/* BOOK PICTURE */}
+
+          <div className="form-field image-upload-field">
+
+            <label htmlFor="book-image">
+              Book Picture
+            </label>
+
             <input
-              id="book-location"
+              id="book-image"
+              type="file"
+              name="bookImage"
+              accept="image/*"
+              onChange={handleImageChange}
+              required
+            />
+
+
+            {bookImage && (
+              <p className="selected-image-name">
+                Selected: {bookImage.name}
+              </p>
+            )}
+
+
+            {imageError && (
+              <p
+                className="image-error"
+                role="alert"
+              >
+                {imageError}
+              </p>
+            )}
+
+          </div>
+
+
+          {/* LOCATION */}
+
+          <div className="form-field">
+
+            <label htmlFor="location">
+              Location
+            </label>
+
+            <input
+              id="location"
               type="text"
               name="location"
-              placeholder="City, campus, or area"
+              placeholder="Enter your location"
               value={formData.location}
               onChange={handleChange}
               required
             />
+
           </div>
 
+
+          {/* DESCRIPTION */}
+
           <div className="form-field">
-            <label htmlFor="book-description">
-              Description <span className="optional-label">Optional</span>
+
+            <label htmlFor="description">
+              Description
             </label>
+
             <textarea
-              id="book-description"
+              id="description"
               name="description"
-              placeholder="Share details about the book, edition, or any notes..."
-              rows={5}
+              placeholder="Describe your book..."
+              rows="5"
               value={formData.description}
               onChange={handleChange}
             />
+
           </div>
+
+
+          {/* MESSAGE */}
+
+          {message && (
+            <p className="sell-message">
+              {message}
+            </p>
+          )}
+
+
+          {/* SUBMIT BUTTON */}
 
           <button
             type="submit"
             className="list-book-btn"
             disabled={isSubmitting}
           >
-            <span>{isSubmitting ? "Submitting..." : "List my book"}</span>
-            <span className="rocket-icon" aria-hidden="true">
-              {isSubmitting ? "⏳" : "🚀"}
-            </span>
+            {isSubmitting
+              ? "Submitting..."
+              : "Submit Listing"}
           </button>
 
-          <p className="sell-footnote">
-            Your listing will be reviewed before it appears to other students.
-          </p>
         </form>
 
-        {message && (
-          <p
-            className={`sell-message ${
-              isSuccess ? "success-message" : "error-message"
-            }`}
-            role="status"
-          >
-            <span aria-hidden="true">{isSuccess ? "✓" : "!"}</span>
-            {message}
-          </p>
-        )}
-      </section>
-    </main>
+      </div>
+
+    </div>
   );
 }
 

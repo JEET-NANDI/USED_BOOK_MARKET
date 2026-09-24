@@ -1,6 +1,5 @@
 const pool = require("../db");
 
-
 // Calculate platform fee and buyer price
 const calculatePricing = async (sellerPrice) => {
   const pricingResult = await pool.query(
@@ -28,8 +27,7 @@ const calculatePricing = async (sellerPrice) => {
 
   return {
     platformFee,
-    buyerPrice:
-      sellerPrice + platformFee,
+    buyerPrice: sellerPrice + platformFee,
   };
 };
 
@@ -46,6 +44,7 @@ const createProduct = async (req, res) => {
       location,
     } = req.body;
 
+    // Check required fields
     if (
       !title ||
       !category ||
@@ -59,8 +58,15 @@ const createProduct = async (req, res) => {
       });
     }
 
-    const sellerPrice =
-      Number(seller_price);
+    // Check image
+    if (!req.file) {
+      return res.status(400).json({
+        message:
+          "Book picture is required",
+      });
+    }
+
+    const sellerPrice = Number(seller_price);
 
     if (
       Number.isNaN(sellerPrice) ||
@@ -72,6 +78,7 @@ const createProduct = async (req, res) => {
       });
     }
 
+    // Create product
     const result = await pool.query(
       `INSERT INTO products
        (
@@ -102,11 +109,32 @@ const createProduct = async (req, res) => {
       ]
     );
 
+    const product = result.rows[0];
+
+    // Save image information
+    const imageUrl =
+      `/uploads/${req.file.filename}`;
+
+    await pool.query(
+      `INSERT INTO product_images
+       (
+         product_id,
+         image_url
+       )
+       VALUES
+       ($1, $2)`,
+      [
+        product.id,
+        imageUrl,
+      ]
+    );
+
     res.status(201).json({
       message:
         "Book listing submitted successfully",
-      product: result.rows[0],
+      product,
     });
+
   } catch (error) {
     console.error(
       "Create product error:",
@@ -154,6 +182,7 @@ const getMyProducts = async (req, res) => {
     res.json({
       products: result.rows,
     });
+
   } catch (error) {
     console.error(
       "Get my products error:",
@@ -235,6 +264,7 @@ const getApprovedProducts = async (
     res.json({
       products,
     });
+
   } catch (error) {
     console.error(
       "Get approved products error:",
@@ -323,6 +353,7 @@ const getProductById = async (
           imagesResult.rows,
       },
     });
+
   } catch (error) {
     console.error(
       "Get product error:",

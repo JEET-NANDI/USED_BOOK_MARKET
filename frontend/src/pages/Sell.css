@@ -1,584 +1,1255 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap");
+@import url("https\://fonts.googleapis.com/css2?family=DM+Sans:wght\@400;500;600;700;800&display=swap");
+
+
+/* =========================================
+   SELL PAGE
+========================================= */
 
 .sell-page {
+
   position: relative;
+
   isolation: isolate;
+
   min-height: 100vh;
+
   overflow: hidden;
+
   display: grid;
+
   place-items: center;
+
   padding: 58px 20px;
+
   color: #eef5f5;
+
   background:
     radial-gradient(circle at 12% 20%, rgba(31, 170, 148, 0.14), transparent 30%),
+
     radial-gradient(circle at 90% 80%, rgba(255, 145, 58, 0.11), transparent 28%),
+
     #06252d;
+
   font-family: "DM Sans", sans-serif;
+
 }
+
+
+/* =========================================
+   CONTENT
+========================================= */
 
 .sell-content {
+
   position: relative;
+
   z-index: 1;
+
   width: min(100%, 760px);
+
 }
+
+
+/* =========================================
+   GLOW
+========================================= */
 
 .sell-glow {
+
   position: absolute;
+
   z-index: -1;
+
   width: 360px;
+
   height: 360px;
+
   border-radius: 50%;
+
   filter: blur(85px);
+
   opacity: 0.18;
+
   pointer-events: none;
+
   animation: sellGlow 8s ease-in-out infinite alternate;
+
 }
+
 
 .sell-glow-one {
+
   top: 6%;
+
   left: -130px;
+
   background: #13c6a8;
+
 }
+
 
 .sell-glow-two {
+
   right: -130px;
+
   bottom: 2%;
+
   background: #fb923c;
+
 }
+
+
+/* =========================================
+   HEADER
+========================================= */
 
 .sell-header {
+
   margin-bottom: 28px;
+
   text-align: center;
+
 }
+
 
 .sell-kicker {
+
   display: inline-block;
+
   margin-bottom: 12px;
+
   color: #43ddc1;
+
   font-size: 12px;
+
   font-weight: 800;
+
   letter-spacing: 0.2em;
+
   text-transform: uppercase;
+
   opacity: 0;
+
   animation: sellKickerEnter 0.6s ease-out 0.15s forwards;
+
 }
+
 
 .sell-header h1 {
+
   margin: 0;
+
   color: #f4f7f8;
+
   font-size: clamp(36px, 7vw, 58px);
+
   font-weight: 800;
+
   letter-spacing: -0.05em;
+
   opacity: 0;
+
   animation: sellHeadingEnter 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+
 }
+
 
 .sell-header h1 span {
+
   display: inline-block;
+
   color: #ff963f;
+
   animation: sellAccentEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+
 }
+
 
 .sell-header > p {
+
   margin: 12px 0 0;
+
   color: #a3bbc0;
+
   font-size: 16px;
+
   line-height: 1.6;
+
   opacity: 0;
+
   animation: sellSubtitleEnter 0.7s ease-out 0.65s forwards;
+
 }
+
+
+/* =========================================
+   FORM
+========================================= */
 
 .sell-form {
+
   width: 100%;
+
   padding: clamp(22px, 5vw, 38px);
+
   border: 1px solid rgba(94, 207, 189, 0.2);
+
   border-radius: 24px;
+
   background: rgba(7, 37, 45, 0.9);
+
   box-shadow:
+
     0 25px 70px rgba(0, 0, 0, 0.24),
+
     inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
   backdrop-filter: blur(14px);
+
   animation: sellFadeUp 0.75s ease 0.25s both;
+
 }
+
 
 /* Ensure inputs and padding stay inside their columns */
+
 .sell-form,
+
 .sell-form * {
+
   box-sizing: border-box;
+
 }
+
+
+/* =========================================
+   FORM HEADING
+========================================= */
 
 .sell-form-heading {
+
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
   gap: 16px;
+
   margin-bottom: 26px;
+
   padding-bottom: 20px;
+
   border-bottom: 1px solid rgba(140, 186, 189, 0.14);
+
 }
+
 
 .sell-form-heading h2 {
+
   margin: 0;
+
   color: #edf5f5;
+
   font-size: 21px;
+
   font-weight: 700;
+
 }
+
 
 .sell-form-heading p {
+
   margin: 6px 0 0;
+
   color: #8eaaaf;
+
   font-size: 13px;
+
 }
+
 
 .sell-form-icon {
+
   display: grid;
+
   width: 48px;
+
   height: 48px;
+
   flex: 0 0 48px;
+
   place-items: center;
+
   border: 1px solid rgba(66, 221, 193, 0.2);
+
   border-radius: 15px;
+
   background: rgba(42, 178, 153, 0.11);
+
   font-size: 22px;
+
   animation: sellFloat 3s ease-in-out infinite;
+
 }
+
+
+/* =========================================
+   FORM ROW
+========================================= */
 
 .form-row {
+
   display: grid;
+
   grid-template-columns: repeat(2, minmax(0, 1fr));
+
   gap: 16px;
+
 }
+
+
+/* =========================================
+   FORM FIELD
+========================================= */
 
 .form-field {
+
   display: flex;
+
   width: 100%;
+
   min-width: 0;
+
   flex-direction: column;
+
   gap: 8px;
+
   margin-bottom: 19px;
+
 }
+
 
 .form-field label {
+
   color: #c3d5d7;
+
   font-size: 13px;
+
   font-weight: 700;
+
 }
+
 
 .optional-label {
+
   margin-left: 5px;
+
   color: #78969c;
+
   font-size: 11px;
+
   font-weight: 500;
+
 }
+
+
+/* =========================================
+   INPUTS
+========================================= */
 
 .form-field input,
+
 .form-field select,
+
 .form-field textarea {
+
   display: block;
+
   width: 100%;
+
   min-width: 0;
+
   min-height: 50px;
+
   padding: 13px 15px;
+
   border: 1px solid rgba(137, 181, 187, 0.22);
+
   border-radius: 12px;
+
   outline: none;
+
   color: #edf4f5;
+
   background: #102f37;
+
   font: inherit;
+
   font-size: 14px;
+
   transition:
+
     border-color 0.2s ease,
+
     box-shadow 0.2s ease,
+
     background 0.2s ease,
+
     transform 0.2s ease;
+
 }
+
 
 .form-field input::placeholder,
+
 .form-field textarea::placeholder {
+
   color: #78969c;
+
 }
+
 
 .form-field input:hover,
+
 .form-field select:hover,
+
 .form-field textarea:hover {
+
   transform: translateY(-2px);
+
   border-color: rgba(84, 203, 186, 0.48);
+
   box-shadow: 0 7px 20px rgba(55, 209, 183, 0.1);
+
 }
+
 
 .form-field input:focus,
+
 .form-field select:focus,
+
 .form-field textarea:focus {
+
   transform: translateY(-2px);
+
   border-color: #37d1b7;
+
   background: #123740;
+
   box-shadow: 0 0 0 4px rgba(55, 209, 183, 0.12);
+
 }
+
+
+/* =========================================
+   SELECT
+========================================= */
 
 .form-field select {
+
   cursor: pointer;
+
 }
+
 
 .form-field select option {
+
   color: #edf4f5;
+
   background: #102f37;
+
 }
+
+
+/* =========================================
+   TEXTAREA
+========================================= */
 
 .form-field textarea {
+
   min-height: 132px;
+
   resize: vertical;
+
   line-height: 1.6;
+
 }
+
+
+/* =========================================
+   PRICE INPUT
+========================================= */
 
 .price-input-wrap {
+
   position: relative;
+
   width: 100%;
+
   min-width: 0;
+
 }
+
 
 .price-input-wrap > span {
+
   position: absolute;
+
   top: 50%;
+
   left: 15px;
+
   z-index: 1;
+
   color: #56dfc7;
+
   font-weight: 700;
+
   transform: translateY(-50%);
+
   pointer-events: none;
+
 }
+
 
 .price-input-wrap input {
+
   width: 100%;
+
   min-width: 0;
+
   padding-left: 34px;
+
 }
+
+
+/* =========================================
+   LIST BOOK BUTTON
+========================================= */
 
 .list-book-btn {
+
   position: relative;
+
   display: flex;
+
   width: 100%;
+
   min-height: 54px;
+
   align-items: center;
+
   justify-content: center;
+
   gap: 11px;
+
   overflow: hidden;
+
   margin-top: 5px;
+
   border: 0;
+
   border-radius: 13px;
+
   color: #092b2e;
+
   background: linear-gradient(100deg, #45e0c2, #a0e76c);
+
   box-shadow: 0 10px 26px rgba(46, 206, 168, 0.17);
+
   font: inherit;
+
   font-size: 15px;
+
   font-weight: 800;
+
   cursor: pointer;
+
   transition:
+
     transform 0.2s ease,
+
     filter 0.2s ease,
+
     box-shadow 0.2s ease;
+
 }
+
 
 .list-book-btn::before {
+
   position: absolute;
+
   inset: 0;
+
   background: linear-gradient(
+
     110deg,
+
     transparent 25%,
+
     rgba(255, 255, 255, 0.45) 50%,
+
     transparent 75%
+
   );
+
   content: "";
+
   transform: translateX(-120%);
+
   transition: transform 0.65s ease;
+
   pointer-events: none;
+
 }
+
 
 .list-book-btn:hover:not(:disabled) {
+
   transform: translateY(-3px);
+
   filter: saturate(1.15) brightness(1.06);
+
   box-shadow: 0 14px 32px rgba(46, 206, 168, 0.32);
+
 }
+
 
 .list-book-btn:hover:not(:disabled)::before {
+
   transform: translateX(120%);
+
 }
+
 
 .list-book-btn:active:not(:disabled) {
+
   transform: translateY(0) scale(0.99);
+
 }
+
 
 .list-book-btn:disabled {
+
   cursor: wait;
+
   opacity: 0.72;
+
 }
+
 
 .rocket-icon {
+
   display: inline-block;
+
   font-size: 18px;
+
   transition: transform 0.2s ease;
+
 }
+
 
 .list-book-btn:hover .rocket-icon {
+
   transform: translate(4px, -4px) rotate(10deg);
+
 }
+
+
+/* =========================================
+   FOOTNOTE
+========================================= */
 
 .sell-footnote {
+
   margin: 14px 0 0;
+
   color: #78969c;
+
   font-size: 12px;
+
   line-height: 1.5;
+
   text-align: center;
+
 }
+
+
+/* =========================================
+   MESSAGE
+========================================= */
 
 .sell-message {
+
   display: flex;
+
   align-items: flex-start;
+
   gap: 10px;
+
   margin: 18px 0 0;
+
   padding: 14px 16px;
+
   border: 1px solid transparent;
+
   border-radius: 12px;
+
   font-size: 14px;
+
   line-height: 1.5;
+
   animation: sellFadeUp 0.3s ease both;
+
 }
+
 
 .sell-message > span {
+
   display: grid;
+
   width: 21px;
+
   height: 21px;
+
   flex: 0 0 21px;
+
   place-items: center;
+
   border-radius: 50%;
+
   font-size: 12px;
+
   font-weight: 800;
+
 }
+
 
 .success-message {
+
   border-color: rgba(75, 211, 174, 0.28);
+
   color: #a4f0d4;
+
   background: rgba(20, 105, 77, 0.2);
+
 }
+
 
 .success-message > span {
+
   color: #05352e;
+
   background: #6ee7b7;
+
 }
+
 
 .error-message {
+
   border-color: rgba(255, 121, 139, 0.3);
+
   color: #ffb0b9;
+
   background: rgba(122, 36, 54, 0.2);
+
 }
+
 
 .error-message > span {
+
   color: #42131d;
+
   background: #ff98a6;
+
 }
+
+
+/* =========================================
+   DECORATIONS
+========================================= */
 
 .sell-decoration {
+
   position: absolute;
+
   z-index: 0;
+
   opacity: 0.45;
+
   pointer-events: none;
+
   animation: sellFloat 4s ease-in-out infinite;
+
   transition:
+
     opacity 0.25s ease,
+
     filter 0.25s ease;
+
 }
+
 
 .sell-decoration:hover {
+
   opacity: 0.9;
+
   filter: drop-shadow(0 0 12px rgba(74, 224, 194, 0.55));
+
   animation-duration: 1.2s;
+
 }
+
 
 .decoration-book-left {
+
   top: 18%;
+
   left: 8%;
+
   font-size: clamp(28px, 4vw, 48px);
+
   transform: rotate(-12deg);
+
 }
+
 
 .decoration-book-right {
+
   top: 28%;
+
   right: 9%;
+
   font-size: clamp(25px, 3.5vw, 42px);
+
   animation-delay: 0.8s;
+
 }
+
 
 .decoration-feather {
+
   right: 12%;
+
   bottom: 16%;
+
   font-size: clamp(25px, 3vw, 38px);
+
   animation-delay: 1.3s;
+
 }
+
 
 .decoration-compass {
+
   bottom: 12%;
+
   left: 9%;
+
   font-size: clamp(25px, 3vw, 38px);
+
   animation-delay: 0.4s;
+
 }
 
-/* Entry animations */
+
+/* =========================================
+   ENTRY ANIMATIONS
+========================================= */
+
 @keyframes sellFadeUp {
+
   from {
+
     opacity: 0;
+
     transform: translateY(16px);
+
   }
+
 
   to {
+
     opacity: 1;
+
     transform: translateY(0);
+
   }
+
 }
+
 
 @keyframes sellKickerEnter {
+
   from {
+
     opacity: 0;
+
     transform: translateY(-18px);
+
     letter-spacing: 0.38em;
+
   }
 
+
   to {
+
     opacity: 1;
+
     transform: translateY(0);
+
     letter-spacing: 0.2em;
+
   }
+
 }
+
 
 @keyframes sellHeadingEnter {
+
   0% {
+
     opacity: 0;
+
     transform: translateY(55px) scale(0.88);
+
     filter: blur(10px);
+
   }
+
 
   65% {
+
     opacity: 1;
+
     transform: translateY(-8px) scale(1.025);
+
     filter: blur(0);
+
   }
+
 
   82% {
+
     transform: translateY(3px) scale(0.99);
+
   }
 
+
   100% {
+
     opacity: 1;
+
     transform: translateY(0) scale(1);
+
     filter: blur(0);
+
     text-shadow: 0 0 28px rgba(74, 224, 194, 0.16);
+
   }
+
 }
+
 
 @keyframes sellAccentEnter {
+
   from {
+
     opacity: 0;
+
     transform: translateY(14px) scale(0.75) rotate(-5deg);
+
     filter: blur(5px);
+
   }
 
+
   to {
+
     opacity: 1;
+
     transform: translateY(0) scale(1) rotate(0);
+
     filter: blur(0);
+
   }
+
 }
+
 
 @keyframes sellSubtitleEnter {
+
   from {
+
     opacity: 0;
+
     transform: translateY(16px);
+
   }
 
+
   to {
+
     opacity: 1;
+
     transform: translateY(0);
+
   }
+
 }
+
 
 @keyframes sellFloat {
+
   0%,
   100% {
+
     translate: 0 0;
+
   }
+
 
   50% {
+
     translate: 0 -9px;
+
   }
+
 }
+
 
 @keyframes sellGlow {
+
   from {
+
     transform: scale(0.92);
+
     opacity: 0.13;
+
   }
+
 
   to {
+
     transform: scale(1.08);
+
     opacity: 0.23;
+
   }
+
 }
+
+
+/* =========================================
+   MOBILE
+========================================= */
 
 @media (max-width: 620px) {
+
   .sell-page {
+
     padding: 38px 15px;
+
   }
+
 
   .sell-header {
+
     margin-bottom: 22px;
+
   }
+
 
   .sell-header > p {
+
     font-size: 14px;
+
   }
+
 
   .form-row {
+
     grid-template-columns: 1fr;
+
     gap: 0;
+
   }
+
 
   .sell-form {
+
     border-radius: 19px;
+
   }
+
 
   .sell-decoration {
+
     opacity: 0.23;
+
   }
+
 
   .decoration-book-left {
+
     top: 8%;
+
     left: 3%;
+
   }
+
 
   .decoration-book-right {
+
     top: 12%;
+
     right: 3%;
+
   }
+
 }
 
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
 @media (prefers-reduced-motion: reduce) {
+
   .sell-page *,
+
   .sell-page *::before,
+
   .sell-page *::after {
+
     animation-duration: 0.01ms !important;
+
     animation-iteration-count: 1 !important;
+
     scroll-behavior: auto !important;
+
     transition-duration: 0.01ms !important;
+
   }
+
 
   .form-field input:hover,
+
   .form-field select:hover,
+
   .form-field textarea:hover,
+
   .form-field input:focus,
+
   .form-field select:focus,
+
   .form-field textarea:focus {
+
     transform: none;
+
   }
 
+
   .list-book-btn::before {
+
     display: none;
+
   }
+
+}
+
+
+/* =========================================
+   BOOK IMAGE UPLOAD
+========================================= */
+
+.image-upload-field {
+
+  margin-top: 2px;
+
+}
+
+
+.image-upload-field input[type="file"] {
+
+  padding: 10px 12px;
+
+  cursor: pointer;
+
+}
+
+
+.image-upload-field input[type="file"]::file-selector-button {
+
+  margin-right: 12px;
+
+  padding: 9px 14px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  color: #092b2e;
+
+  background: #45e0c2;
+
+  font-family: inherit;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+
+    background 0.2s ease,
+
+    transform 0.2s ease;
+
+}
+
+
+.image-upload-field input[type="file"]::file-selector-button:hover {
+
+  background: #5de5ca;
+
+  transform: translateY(-1px);
+
+}
+
+
+.selected-image-name {
+
+  margin: 0;
+
+  color: #7fded0;
+
+  font-size: 12px;
+
+  line-height: 1.4;
+
+  word-break: break-word;
+
+}
+
+
+/* =========================================
+   IMAGE ERROR
+========================================= */
+
+.image-error {
+
+  margin: 6px 0 0;
+
+  color: #ff4d4d;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  line-height: 1.4;
+
 }

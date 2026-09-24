@@ -1,6 +1,7 @@
 const express = require("express");
 
 const authMiddleware = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 const {
   createProduct,
@@ -21,23 +22,19 @@ const {
 
 const router = express.Router();
 
-
-// Get all approved books
 router.get(
   "/",
   getApprovedProducts
 );
 
-
-// Create a new book listing
 router.post(
   "/",
   authMiddleware,
+  upload.single("bookImage"),
   createProduct
 );
 
 
-// Get logged-in seller's products
 router.get(
   "/my",
   authMiddleware,
@@ -45,7 +42,6 @@ router.get(
 );
 
 
-// Sell a previously purchased book again
 router.post(
   "/sell-again/:productId",
   authMiddleware,
@@ -53,14 +49,12 @@ router.post(
 );
 
 
-// Get product images
 router.get(
   "/:productId/images",
   getProductImages
 );
 
 
-// Add product image
 router.post(
   "/:productId/images",
   authMiddleware,
@@ -68,7 +62,6 @@ router.post(
 );
 
 
-// Delete product image
 router.delete(
   "/:productId/images/:imageId",
   authMiddleware,
@@ -76,7 +69,6 @@ router.delete(
 );
 
 
-// Get one approved product
 router.get(
   "/:id",
   getProductById

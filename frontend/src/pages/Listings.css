@@ -1,26 +1,34 @@
 /* =========================================================
    MY LISTINGS PAGE
+
    USED BOOK MARKET
 ========================================================= */
 
+
 .listings-page {
+
   min-height: calc(100vh - 70px);
+
   padding: 55px 6% 70px;
 
   position: relative;
+
   overflow: hidden;
 
   background:
+
     radial-gradient(
       circle at 8% 12%,
       rgba(20, 184, 166, 0.13),
       transparent 28%
     ),
+
     radial-gradient(
       circle at 92% 18%,
       rgba(249, 115, 22, 0.12),
       transparent 28%
     ),
+
     linear-gradient(
       135deg,
       #f8fafc 0%,
@@ -36,22 +44,30 @@
    BACKGROUND DECORATION
 ========================================================= */
 
+
 .listings-page::before,
 .listings-page::after {
+
   content: "";
+
   position: absolute;
 
   border-radius: 50%;
+
   pointer-events: none;
 
   z-index: 0;
 }
 
+
 .listings-page::before {
+
   width: 300px;
+
   height: 300px;
 
   left: -150px;
+
   top: 170px;
 
   background: rgba(20, 184, 166, 0.09);
@@ -61,11 +77,15 @@
   animation: listingOrbOne 8s ease-in-out infinite;
 }
 
+
 .listings-page::after {
+
   width: 340px;
+
   height: 340px;
 
   right: -170px;
+
   bottom: 100px;
 
   background: rgba(249, 115, 22, 0.08);
@@ -75,26 +95,42 @@
   animation: listingOrbTwo 9s ease-in-out infinite;
 }
 
+
 @keyframes listingOrbOne {
+
   0%,
   100% {
+
     transform: translate(0, 0) scale(1);
+
   }
 
+
   50% {
+
     transform: translate(35px, -25px) scale(1.1);
+
   }
+
 }
 
+
 @keyframes listingOrbTwo {
+
   0%,
   100% {
+
     transform: translate(0, 0) scale(1);
+
   }
 
+
   50% {
+
     transform: translate(-35px, 25px) scale(1.08);
+
   }
+
 }
 
 
@@ -102,16 +138,21 @@
    PAGE HEADER
 ========================================================= */
 
+
 .listings-page > h1 {
+
   position: relative;
+
   z-index: 1;
 
   max-width: 1100px;
+
   margin: 0 auto;
 
   text-align: center;
 
   font-size: clamp(2.5rem, 5vw, 4.2rem);
+
   font-weight: 900;
 
   letter-spacing: -2px;
@@ -124,6 +165,7 @@
   );
 
   -webkit-background-clip: text;
+
   background-clip: text;
 
   color: transparent;
@@ -131,19 +173,31 @@
   animation: listingsTitleIn 0.8s ease both;
 }
 
+
 @keyframes listingsTitleIn {
+
   from {
+
     opacity: 0;
+
     transform: translateY(-35px);
+
   }
+
 
   to {
+
     opacity: 1;
+
     transform: translateY(0);
+
   }
+
 }
 
+
 .listings-page > h1::after {
+
   content: "📚";
 
   display: inline-block;
@@ -157,19 +211,30 @@
   animation: listingBookFloat 2.5s ease-in-out infinite;
 }
 
+
 @keyframes listingBookFloat {
+
   0%,
   100% {
+
     transform: translateY(0) rotate(-8deg);
+
   }
+
 
   50% {
+
     transform: translateY(-9px) rotate(8deg);
+
   }
+
 }
 
+
 .listings-page > p {
+
   position: relative;
+
   z-index: 1;
 
   max-width: 650px;
@@ -181,21 +246,32 @@
   color: #64748b;
 
   font-size: 1.02rem;
+
   line-height: 1.7;
 
   animation: listingSubtitleIn 0.8s ease 0.15s both;
 }
 
+
 @keyframes listingSubtitleIn {
+
   from {
+
     opacity: 0;
+
     transform: translateY(15px);
+
   }
 
+
   to {
+
     opacity: 1;
+
     transform: translateY(0);
+
   }
+
 }
 
 
@@ -203,14 +279,19 @@
    ADD NEW BOOK BUTTON
 ========================================================= */
 
+
 .add-listing {
+
   position: relative;
+
   z-index: 2;
 
   width: fit-content;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   margin: 0 auto 30px;
@@ -230,6 +311,7 @@
   text-decoration: none;
 
   font-weight: 800;
+
   font-size: 0.96rem;
 
   box-shadow:
@@ -240,15 +322,20 @@
     box-shadow 0.25s ease;
 }
 
+
 .add-listing:hover {
+
   transform: translateY(-4px) scale(1.02);
 
   box-shadow:
     0 16px 30px rgba(249, 115, 22, 0.32);
 }
 
+
 .add-listing:active {
+
   transform: scale(0.97);
+
 }
 
 
@@ -256,17 +343,25 @@
    MESSAGE
 ========================================================= */
 
+
 .listings-page > p:not(:first-of-type) {
+
   position: relative;
+
   z-index: 2;
 }
 
 
-/* Error/login message:
-   This selector also keeps the existing JSX untouched. */
+/*
+   Error/login message:
+   This selector also keeps the existing JSX untouched.
+*/
+
 
 .listings-page > p {
+
   line-height: 1.6;
+
 }
 
 
@@ -274,7 +369,9 @@
    LIST CONTAINER
 ========================================================= */
 
+
 .listings-list {
+
   max-width: 1100px;
 
   margin: 0 auto 35px;
@@ -287,6 +384,7 @@
   gap: 22px;
 
   position: relative;
+
   z-index: 1;
 }
 
@@ -295,7 +393,9 @@
    LISTING CARD
 ========================================================= */
 
+
 .listing-card {
+
   position: relative;
 
   padding: 23px;
@@ -330,15 +430,19 @@
 
 /* Animated top line */
 
+
 .listing-card::before {
+
   content: "";
 
   position: absolute;
 
   top: 0;
+
   left: 0;
 
   width: 100%;
+
   height: 5px;
 
   background: linear-gradient(
@@ -353,24 +457,32 @@
   transform-origin: left;
 
   transition: transform 0.4s ease;
+
 }
 
+
 .listing-card:hover::before {
+
   transform: scaleX(1);
+
 }
 
 
 /* Light sweep */
 
+
 .listing-card::after {
+
   content: "";
 
   position: absolute;
 
   top: 0;
+
   left: -120%;
 
   width: 70%;
+
   height: 100%;
 
   background: linear-gradient(
@@ -383,39 +495,63 @@
   transform: skewX(-20deg);
 
   pointer-events: none;
+
 }
+
 
 .listing-card:hover::after {
+
   animation: listingCardShine 0.8s ease;
+
 }
+
 
 @keyframes listingCardShine {
+
   from {
+
     left: -120%;
+
   }
+
 
   to {
+
     left: 150%;
+
   }
+
 }
 
+
 @keyframes listingCardEnter {
+
   from {
+
     opacity: 0;
+
     transform:
       translateY(45px)
       scale(0.94);
+
   }
 
+
   to {
+
     opacity: 1;
+
     transform:
       translateY(0)
       scale(1);
+
   }
+
 }
 
+
 .listing-card:hover {
+
   transform: translateY(-9px);
 
   border-color:
@@ -424,6 +560,90 @@
   box-shadow:
     0 23px 50px rgba(15, 23, 42, 0.13),
     0 8px 20px rgba(20, 184, 166, 0.08);
+
+}
+
+
+/* =========================================================
+   BOOK IMAGE
+========================================================= */
+
+.listing-image {
+
+  position: relative;
+
+  z-index: 2;
+
+  display: block;
+
+  width: 100%;
+
+  height: 190px;
+
+  margin: 0 0 20px;
+
+  padding: 8px;
+
+  border-radius: 14px;
+
+  object-fit: contain;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  box-shadow:
+    0 6px 18px rgba(15, 23, 42, 0.06);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+
+}
+
+
+.listing-card:hover .listing-image {
+
+  transform: scale(1.02);
+
+  box-shadow:
+    0 10px 24px rgba(20, 184, 166, 0.12);
+
+}
+
+
+/* Placeholder when no image exists */
+
+.listing-image-placeholder {
+
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  width: 100%;
+
+  height: 190px;
+
+  align-items: center;
+
+  justify-content: center;
+
+  margin: 0 0 20px;
+
+  border-radius: 14px;
+
+  border: 1px dashed #cbd5e1;
+
+  color: #64748b;
+
+  background: #f8fafc;
+
+  font-size: 0.9rem;
+
+  font-weight: 700;
+
 }
 
 
@@ -431,8 +651,11 @@
    LISTING TITLE
 ========================================================= */
 
+
 .listing-card h2 {
+
   position: relative;
+
   z-index: 2;
 
   margin: 0 0 20px;
@@ -448,10 +671,14 @@
   line-height: 1.35;
 
   transition: color 0.25s ease;
+
 }
 
+
 .listing-card:hover h2 {
+
   color: #0f766e;
+
 }
 
 
@@ -459,12 +686,17 @@
    LISTING INFORMATION
 ========================================================= */
 
+
 .listing-card p {
+
   position: relative;
+
   z-index: 2;
 
   display: flex;
+
   justify-content: space-between;
+
   align-items: center;
 
   gap: 15px;
@@ -482,20 +714,30 @@
   transition:
     padding-left 0.25s ease,
     background 0.25s ease;
+
 }
+
 
 .listing-card p:last-child {
+
   border-bottom: none;
+
 }
 
+
 .listing-card p strong {
+
   color: #64748b;
 
   font-weight: 700;
+
 }
 
+
 .listing-card:hover p {
+
   padding-left: 4px;
+
 }
 
 
@@ -503,12 +745,18 @@
    PRICE
 ========================================================= */
 
+
 .listing-card p:nth-of-type(3) {
+
   margin-top: 3px;
+
 }
 
+
 .listing-card p:nth-of-type(3)::after {
+
   content: "";
+
 }
 
 
@@ -516,9 +764,13 @@
    STATUS
 ========================================================= */
 
+
 .listing-status {
+
   display: inline-flex;
+
   align-items: center;
+
   justify-content: center;
 
   min-width: 82px;
@@ -540,19 +792,28 @@
   border: 1px solid #99f6e4;
 
   animation: statusPulse 2.5s ease-in-out infinite;
+
 }
 
+
 @keyframes statusPulse {
+
   0%,
   100% {
+
     box-shadow:
       0 0 0 0 rgba(20, 184, 166, 0.18);
+
   }
 
+
   50% {
+
     box-shadow:
       0 0 0 6px rgba(20, 184, 166, 0);
+
   }
+
 }
 
 
@@ -560,30 +821,44 @@
    SCROLLING LIST ANIMATION
 ========================================================= */
 
+
 /*
    This creates a gentle vertical movement for the
    listing cards while the user scrolls the page.
 */
 
+
 .listings-list {
+
   animation:
     listingsListReveal
     0.9s
     ease
     0.2s
     both;
+
 }
 
+
 @keyframes listingsListReveal {
+
   from {
+
     opacity: 0;
+
     transform: translateY(35px);
+
   }
 
+
   to {
+
     opacity: 1;
+
     transform: translateY(0);
+
   }
+
 }
 
 
@@ -595,55 +870,88 @@
    as one block.
 */
 
+
 .listing-card:nth-child(3n + 1) {
+
   animation:
     listingCardEnter 0.65s ease forwards,
     listingFloatOne 5s ease-in-out 1s infinite;
+
 }
 
+
 .listing-card:nth-child(3n + 2) {
+
   animation:
     listingCardEnter 0.65s ease forwards,
     listingFloatTwo 5.5s ease-in-out 1.2s infinite;
+
 }
 
+
 .listing-card:nth-child(3n + 3) {
+
   animation:
     listingCardEnter 0.65s ease forwards,
     listingFloatThree 6s ease-in-out 1.4s infinite;
+
 }
+
 
 @keyframes listingFloatOne {
+
   0%,
   100% {
+
     transform: translateY(0);
+
   }
 
+
   50% {
+
     transform: translateY(-5px);
+
   }
+
 }
+
 
 @keyframes listingFloatTwo {
+
   0%,
   100% {
+
     transform: translateY(0);
+
   }
 
+
   50% {
+
     transform: translateY(5px);
+
   }
+
 }
 
+
 @keyframes listingFloatThree {
+
   0%,
   100% {
+
     transform: translateY(0);
+
   }
 
+
   50% {
+
     transform: translateY(-4px);
+
   }
+
 }
 
 
@@ -651,8 +959,11 @@
    EMPTY LIST
 ========================================================= */
 
+
 .listings-list:empty {
+
   display: none;
+
 }
 
 
@@ -660,14 +971,19 @@
    BACK DASHBOARD
 ========================================================= */
 
+
 .back-dashboard {
+
   position: relative;
+
   z-index: 2;
 
   width: fit-content;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 
   margin: 35px auto 0;
@@ -685,6 +1001,7 @@
   text-decoration: none;
 
   font-size: 0.92rem;
+
   font-weight: 800;
 
   transition:
@@ -692,9 +1009,12 @@
     color 0.25s ease,
     transform 0.25s ease,
     box-shadow 0.25s ease;
+
 }
 
+
 .back-dashboard:hover {
+
   background: #0f766e;
 
   color: white;
@@ -703,6 +1023,7 @@
 
   box-shadow:
     0 10px 24px rgba(15, 118, 110, 0.22);
+
 }
 
 
@@ -710,16 +1031,25 @@
    TABLET
 ========================================================= */
 
+
 @media (max-width: 1000px) {
+
   .listings-page {
+
     padding-left: 4%;
+
     padding-right: 4%;
+
   }
 
+
   .listings-list {
+
     grid-template-columns:
       repeat(2, minmax(0, 1fr));
+
   }
+
 }
 
 
@@ -727,49 +1057,95 @@
    MOBILE
 ========================================================= */
 
+
 @media (max-width: 650px) {
+
   .listings-page {
+
     padding: 38px 18px 55px;
+
   }
+
 
   .listings-page > h1 {
+
     font-size: 2.6rem;
+
     letter-spacing: -1.5px;
+
   }
+
 
   .listings-page > p {
+
     font-size: 0.92rem;
+
   }
+
 
   .add-listing {
+
     width: 100%;
+
     max-width: 320px;
+
   }
 
+
   .listings-list {
+
     grid-template-columns: 1fr;
 
     gap: 18px;
+
   }
 
+
   .listing-card {
+
     min-height: auto;
 
     padding: 20px;
+
   }
+
+
+  .listing-image {
+
+    height: 210px;
+
+  }
+
+
+  .listing-image-placeholder {
+
+    height: 210px;
+
+  }
+
 
   .listing-card h2 {
+
     font-size: 1.18rem;
+
   }
+
 
   .listing-card p {
+
     font-size: 0.85rem;
+
   }
 
+
   .back-dashboard {
+
     width: 100%;
+
     max-width: 320px;
+
   }
+
 }
 
 
@@ -777,25 +1153,54 @@
    SMALL MOBILE
 ========================================================= */
 
+
 @media (max-width: 400px) {
+
   .listings-page {
+
     padding-left: 13px;
+
     padding-right: 13px;
+
   }
+
 
   .listings-page > h1 {
+
     font-size: 2.2rem;
+
   }
+
 
   .listing-card {
+
     padding: 17px;
+
   }
 
+
+  .listing-image {
+
+    height: 190px;
+
+  }
+
+
+  .listing-image-placeholder {
+
+    height: 190px;
+
+  }
+
+
   .listing-card p {
+
     gap: 8px;
 
     font-size: 0.81rem;
+
   }
+
 }
 
 
@@ -803,27 +1208,50 @@
    REDUCED MOTION
 ========================================================= */
 
+
 @media (prefers-reduced-motion: reduce) {
+
   .listings-page::before,
+
   .listings-page::after,
+
   .listings-page > h1,
+
   .listing-card,
+
   .listing-status,
+
   .listings-list {
+
     animation: none;
+
   }
+
 
   .listing-card {
+
     opacity: 1;
+
   }
+
 
   .listing-card::after {
+
     display: none;
+
   }
 
+
   .listing-card,
+
   .add-listing,
-  .back-dashboard {
+
+  .back-dashboard,
+
+  .listing-image {
+
     transition: none;
+
   }
+
 }
