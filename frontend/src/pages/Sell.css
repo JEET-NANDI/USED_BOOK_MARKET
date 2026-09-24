@@ -44,13 +44,11 @@
   right: -130px;
   bottom: 2%;
   background: #fb923c;
-  animation-delay: 1.5s;
 }
 
 .sell-header {
   margin-bottom: 28px;
   text-align: center;
-  animation: sellFadeUp 0.6s ease both;
 }
 
 .sell-kicker {
@@ -61,6 +59,8 @@
   font-weight: 800;
   letter-spacing: 0.2em;
   text-transform: uppercase;
+  opacity: 0;
+  animation: sellKickerEnter 0.6s ease-out 0.15s forwards;
 }
 
 .sell-header h1 {
@@ -69,20 +69,27 @@
   font-size: clamp(36px, 7vw, 58px);
   font-weight: 800;
   letter-spacing: -0.05em;
+  opacity: 0;
+  animation: sellHeadingEnter 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
 }
 
 .sell-header h1 span {
+  display: inline-block;
   color: #ff963f;
+  animation: sellAccentEnter 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
 }
 
-.sell-header p {
+.sell-header > p {
   margin: 12px 0 0;
   color: #a3bbc0;
   font-size: 16px;
   line-height: 1.6;
+  opacity: 0;
+  animation: sellSubtitleEnter 0.7s ease-out 0.65s forwards;
 }
 
 .sell-form {
+  width: 100%;
   padding: clamp(22px, 5vw, 38px);
   border: 1px solid rgba(94, 207, 189, 0.2);
   border-radius: 24px;
@@ -91,7 +98,13 @@
     0 25px 70px rgba(0, 0, 0, 0.24),
     inset 0 1px 0 rgba(255, 255, 255, 0.035);
   backdrop-filter: blur(14px);
-  animation: sellFadeUp 0.75s ease both;
+  animation: sellFadeUp 0.75s ease 0.25s both;
+}
+
+/* Ensure inputs and padding stay inside their columns */
+.sell-form,
+.sell-form * {
+  box-sizing: border-box;
 }
 
 .sell-form-heading {
@@ -121,6 +134,7 @@
   display: grid;
   width: 48px;
   height: 48px;
+  flex: 0 0 48px;
   place-items: center;
   border: 1px solid rgba(66, 221, 193, 0.2);
   border-radius: 15px;
@@ -137,6 +151,7 @@
 
 .form-field {
   display: flex;
+  width: 100%;
   min-width: 0;
   flex-direction: column;
   gap: 8px;
@@ -159,7 +174,9 @@
 .form-field input,
 .form-field select,
 .form-field textarea {
+  display: block;
   width: 100%;
+  min-width: 0;
   min-height: 50px;
   padding: 13px 15px;
   border: 1px solid rgba(137, 181, 187, 0.22);
@@ -184,12 +201,15 @@
 .form-field input:hover,
 .form-field select:hover,
 .form-field textarea:hover {
+  transform: translateY(-2px);
   border-color: rgba(84, 203, 186, 0.48);
+  box-shadow: 0 7px 20px rgba(55, 209, 183, 0.1);
 }
 
 .form-field input:focus,
 .form-field select:focus,
 .form-field textarea:focus {
+  transform: translateY(-2px);
   border-color: #37d1b7;
   background: #123740;
   box-shadow: 0 0 0 4px rgba(55, 209, 183, 0.12);
@@ -212,6 +232,8 @@
 
 .price-input-wrap {
   position: relative;
+  width: 100%;
+  min-width: 0;
 }
 
 .price-input-wrap > span {
@@ -222,19 +244,24 @@
   color: #56dfc7;
   font-weight: 700;
   transform: translateY(-50%);
+  pointer-events: none;
 }
 
 .price-input-wrap input {
+  width: 100%;
+  min-width: 0;
   padding-left: 34px;
 }
 
 .list-book-btn {
+  position: relative;
   display: flex;
   width: 100%;
   min-height: 54px;
   align-items: center;
   justify-content: center;
   gap: 11px;
+  overflow: hidden;
   margin-top: 5px;
   border: 0;
   border-radius: 13px;
@@ -251,14 +278,33 @@
     box-shadow 0.2s ease;
 }
 
+.list-book-btn::before {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 75%
+  );
+  content: "";
+  transform: translateX(-120%);
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+
 .list-book-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
-  filter: saturate(1.15) brightness(1.04);
-  box-shadow: 0 14px 32px rgba(46, 206, 168, 0.27);
+  transform: translateY(-3px);
+  filter: saturate(1.15) brightness(1.06);
+  box-shadow: 0 14px 32px rgba(46, 206, 168, 0.32);
+}
+
+.list-book-btn:hover:not(:disabled)::before {
+  transform: translateX(120%);
 }
 
 .list-book-btn:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.99);
 }
 
 .list-book-btn:disabled {
@@ -273,7 +319,7 @@
 }
 
 .list-book-btn:hover .rocket-icon {
-  transform: translate(3px, -3px) rotate(8deg);
+  transform: translate(4px, -4px) rotate(10deg);
 }
 
 .sell-footnote {
@@ -336,6 +382,15 @@
   opacity: 0.45;
   pointer-events: none;
   animation: sellFloat 4s ease-in-out infinite;
+  transition:
+    opacity 0.25s ease,
+    filter 0.25s ease;
+}
+
+.sell-decoration:hover {
+  opacity: 0.9;
+  filter: drop-shadow(0 0 12px rgba(74, 224, 194, 0.55));
+  animation-duration: 1.2s;
 }
 
 .decoration-book-left {
@@ -366,7 +421,73 @@
   animation-delay: 0.4s;
 }
 
+/* Entry animations */
 @keyframes sellFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes sellKickerEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+    letter-spacing: 0.38em;
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    letter-spacing: 0.2em;
+  }
+}
+
+@keyframes sellHeadingEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(55px) scale(0.88);
+    filter: blur(10px);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(-8px) scale(1.025);
+    filter: blur(0);
+  }
+
+  82% {
+    transform: translateY(3px) scale(0.99);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    text-shadow: 0 0 28px rgba(74, 224, 194, 0.16);
+  }
+}
+
+@keyframes sellAccentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.75) rotate(-5deg);
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes sellSubtitleEnter {
   from {
     opacity: 0;
     transform: translateY(16px);
@@ -410,7 +531,7 @@
     margin-bottom: 22px;
   }
 
-  .sell-header p {
+  .sell-header > p {
     font-size: 14px;
   }
 
@@ -446,5 +567,18 @@
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .form-field input:hover,
+  .form-field select:hover,
+  .form-field textarea:hover,
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    transform: none;
+  }
+
+  .list-book-btn::before {
+    display: none;
   }
 }

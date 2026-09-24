@@ -18,13 +18,14 @@ import Reviews from "./pages/Reviews";
 import SellAgain from "./pages/SellAgain";
 import ProductImages from "./pages/ProductImages";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import HoliCursor from "./HoliCursor";
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
+      <HoliCursor />
 
+      <Routes>
         <Route
           path="/"
           element={
@@ -61,23 +62,16 @@ function App() {
           }
         />
 
-        <Route
-          path="/login"
-          element={<Login />}
-        />
-
-        <Route
-          path="/register"
-          element={<Register />}
-        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         <Route
           path="/checkout/:productId"
           element={
             <ProtectedRoute>
-            <MainLayout>
-              <Checkout />
-            </MainLayout>
+              <MainLayout>
+                <Checkout />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -152,9 +146,9 @@ function App() {
           path="/sell-again/:productId"
           element={
             <ProtectedRoute>
-            <MainLayout>
-              <SellAgain />
-            </MainLayout>
+              <MainLayout>
+                <SellAgain />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
@@ -163,13 +157,12 @@ function App() {
           path="/products/:productId/images"
           element={
             <ProtectedRoute>
-            <MainLayout>
-              <ProductImages />
-            </MainLayout>
+              <MainLayout>
+                <ProductImages />
+              </MainLayout>
             </ProtectedRoute>
           }
         />
-
       </Routes>
     </BrowserRouter>
   );

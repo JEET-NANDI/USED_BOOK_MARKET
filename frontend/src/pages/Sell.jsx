@@ -76,25 +76,42 @@ function Sell() {
       <div className="sell-glow sell-glow-one" aria-hidden="true" />
       <div className="sell-glow sell-glow-two" aria-hidden="true" />
 
-      <span className="sell-decoration decoration-book-left" aria-hidden="true">
+      <span
+        className="sell-decoration decoration-book-left"
+        aria-hidden="true"
+      >
         📚
       </span>
-      <span className="sell-decoration decoration-book-right" aria-hidden="true">
+
+      <span
+        className="sell-decoration decoration-book-right"
+        aria-hidden="true"
+      >
         📖
       </span>
-      <span className="sell-decoration decoration-feather" aria-hidden="true">
+
+      <span
+        className="sell-decoration decoration-feather"
+        aria-hidden="true"
+      >
         🪶
       </span>
-      <span className="sell-decoration decoration-compass" aria-hidden="true">
+
+      <span
+        className="sell-decoration decoration-compass"
+        aria-hidden="true"
+      >
         🧭
       </span>
 
       <section className="sell-content">
         <header className="sell-header">
           <span className="sell-kicker">Give your books a new chapter</span>
+
           <h1>
             Sell Your <span>Book</span>
           </h1>
+
           <p>
             List your used books, notes, or study materials for other students.
           </p>
@@ -106,6 +123,7 @@ function Sell() {
               <h2>Book details</h2>
               <p>Fill in the details to create your listing.</p>
             </div>
+
             <span className="sell-form-icon" aria-hidden="true">
               ✨
             </span>
@@ -127,6 +145,7 @@ function Sell() {
 
             <div className="form-field">
               <label htmlFor="seller-price">Your price</label>
+
               <div className="price-input-wrap">
                 <span aria-hidden="true">₹</span>
                 <input
