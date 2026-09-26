@@ -253,6 +253,136 @@
   padding-left: 34px;
 }
 
+/* =========================================
+   BOOK IMAGE UPLOAD
+========================================= */
+
+.book-images-section {
+  width: 100%;
+  margin-bottom: 19px;
+}
+
+.book-images-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.book-images-heading label {
+  color: #c3d5d7;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.book-images-heading span {
+  color: #78969c;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.book-images-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.book-image-upload {
+  position: relative;
+  min-width: 0;
+}
+
+.book-image-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.book-image-label {
+  display: flex;
+  min-height: 125px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 7px;
+  padding: 15px 10px;
+  border: 1px dashed rgba(137, 181, 187, 0.32);
+  border-radius: 12px;
+  color: #c3d5d7;
+  background: #102f37;
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.book-image-label:hover {
+  transform: translateY(-2px);
+  border-color: rgba(84, 203, 186, 0.58);
+  background: #123740;
+  box-shadow: 0 7px 20px rgba(55, 209, 183, 0.1);
+}
+
+.book-image-icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 10px;
+  color: #56dfc7;
+  background: rgba(42, 178, 153, 0.12);
+  font-size: 16px;
+}
+
+.book-image-title {
+  color: #dcebea;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.book-image-hint {
+  width: 100%;
+  overflow: hidden;
+  color: #78969c;
+  font-size: 10px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.book-image-error {
+  margin: 6px 0 0;
+  color: #ff98a6;
+  font-size: 10px;
+  line-height: 1.4;
+}
+
+.book-images-note {
+  margin: 8px 0 0;
+  color: #78969c;
+  font-size: 11px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 620px) {
+  .book-images-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .book-image-label {
+    min-height: 95px;
+  }
+}
+
 .list-book-btn {
   position: relative;
   display: flex;
