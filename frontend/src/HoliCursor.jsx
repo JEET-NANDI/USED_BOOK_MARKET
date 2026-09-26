@@ -1,59 +1,75 @@
 import { useEffect } from "react";
 import "./HoliCursor.css";
 
-const COLORS = ["#ff3987", "#ff8a24", "#ffd735", "#3aa9ff", "#62c950", "#9a5bff"];
-
 export default function HoliCursor() {
   useEffect(() => {
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    const finePointer = window.matchMedia(
+      "(pointer: fine)"
+    ).matches;
+
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
     if (!finePointer || reducedMotion) return;
 
-    const cursor = document.querySelector(".holi-cursor");
-    if (!cursor) return;
-
     let lastX = window.innerWidth / 2;
     let lastY = window.innerHeight / 2;
-    let lastSplash = 0;
+    let lastPoint = 0;
 
-    function makeSplash(x, y) {
-      const splash = document.createElement("span");
-      const size = 7 + Math.random() * 14;
+    function makeGoldenPoint(x, y) {
+      const point = document.createElement("span");
 
-      splash.className = "holi-splash";
-      splash.style.left = `${x + (Math.random() - 0.5) * 22}px`;
-      splash.style.top = `${y + (Math.random() - 0.5) * 22}px`;
-      splash.style.width = `${size}px`;
-      splash.style.height = `${size}px`;
-      splash.style.backgroundColor =
-        COLORS[Math.floor(Math.random() * COLORS.length)];
+      const size = 3 + Math.random() * 5;
 
-      document.body.appendChild(splash);
-      window.setTimeout(() => splash.remove(), 750);
+      const offsetX =
+        (Math.random() - 0.5) * 16;
+
+      const offsetY =
+        (Math.random() - 0.5) * 16;
+
+      point.className = "gold-cursor-point";
+
+      point.style.left = `${x + offsetX}px`;
+      point.style.top = `${y + offsetY}px`;
+
+      point.style.width = `${size}px`;
+      point.style.height = `${size}px`;
+
+      point.style.setProperty(
+        "--point-x",
+        `${(Math.random() - 0.5) * 20}px`
+      );
+
+      point.style.setProperty(
+        "--point-y",
+        `${(Math.random() - 0.5) * 20}px`
+      );
+
+      document.body.appendChild(point);
+
+      window.setTimeout(() => {
+        point.remove();
+      }, 650);
     }
 
     function handlePointerMove(event) {
-      const { clientX: x, clientY: y } = event;
+      const {
+        clientX: x,
+        clientY: y,
+      } = event;
+
       const dx = x - lastX;
       const dy = y - lastY;
 
-      cursor.style.left = `${x}px`;
-      cursor.style.top = `${y}px`;
-      cursor.classList.add("is-visible");
-      document.body.classList.add("holi-cursor-active");
+      const distance = Math.hypot(dx, dy);
 
-      if (Math.hypot(dx, dy) > 1) {
-        // Rotate the arrow to point in the direction of movement.
-        const angle = Math.atan2(dy, dx) * (180 / Math.PI) + 90;
-        cursor.style.setProperty("--angle", `${angle}deg`);
-
+      if (distance > 1) {
         const now = performance.now();
-        if (now - lastSplash > 45) {
-          makeSplash(x, y);
-          lastSplash = now;
+
+        if (now - lastPoint > 28) {
+          makeGoldenPoint(x, y);
+          lastPoint = now;
         }
       }
 
@@ -62,32 +78,36 @@ export default function HoliCursor() {
     }
 
     function handlePointerLeave() {
-      cursor.classList.remove("is-visible");
-      document.body.classList.remove("holi-cursor-active");
+      lastX = window.innerWidth / 2;
+      lastY = window.innerHeight / 2;
     }
 
-    window.addEventListener("pointermove", handlePointerMove);
-    document.addEventListener("pointerleave", handlePointerLeave);
+    window.addEventListener(
+      "pointermove",
+      handlePointerMove
+    );
+
+    document.addEventListener(
+      "pointerleave",
+      handlePointerLeave
+    );
 
     return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      document.removeEventListener("pointerleave", handlePointerLeave);
-      document.body.classList.remove("holi-cursor-active");
+      window.removeEventListener(
+        "pointermove",
+        handlePointerMove
+      );
+
+      document.removeEventListener(
+        "pointerleave",
+        handlePointerLeave
+      );
+
+      document
+        .querySelectorAll(".gold-cursor-point")
+        .forEach((point) => point.remove());
     };
   }, []);
 
-  return (
-    <div className="holi-cursor" aria-hidden="true">
-      <svg viewBox="0 0 48 48">
-        <path
-          d="M8 5.5 39 24 25.8 26.4 19.2 40 8 5.5Z"
-          fill="#ff3987"
-          stroke="#fff"
-          strokeWidth="3"
-          strokeLinejoin="round"
-        />
-        <path d="m13 12 21 12-8.8 1.5-5.1 10L13 12Z" fill="#ffd735" />
-      </svg>
-    </div>
-  );
+  return null;
 }
