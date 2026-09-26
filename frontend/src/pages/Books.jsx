@@ -8,6 +8,9 @@ function Books() {
   const [category, setCategory] = useState("All");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [darkMode, setDarkMode] = useState(
+    () => document.documentElement.dataset.theme === "dark"
+  );
 
   const fetchBooks = async () => {
     try {
@@ -38,6 +41,28 @@ function Books() {
     fetchBooks();
   }, []);
 
+  /* Watch Dark Mode changes made by Navbar */
+  useEffect(() => {
+    const root = document.documentElement;
+
+    const updateTheme = () => {
+      setDarkMode(root.dataset.theme === "dark");
+    };
+
+    updateTheme();
+
+    const observer = new MutationObserver(updateTheme);
+
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   const categories = [
     "All",
     ...new Set(books.map((book) => book.category)),
@@ -59,12 +84,20 @@ function Books() {
   });
 
   return (
-    <main className="books-page">
+    <main className={`books-page ${darkMode ? "dark-mode" : ""}`}>
 
       {/* Decorative floating books */}
-      <div className="books-floating-book floating-book-one">📘</div>
-      <div className="books-floating-book floating-book-two">📕</div>
-      <div className="books-floating-book floating-book-three">📗</div>
+      <div className="books-floating-book floating-book-one">
+        📘
+      </div>
+
+      <div className="books-floating-book floating-book-two">
+        📕
+      </div>
+
+      <div className="books-floating-book floating-book-three">
+        📗
+      </div>
 
       {/* Header */}
       <section className="books-header">
@@ -161,9 +194,13 @@ function Books() {
           </div>
 
           <h2>Loading Books...</h2>
-          <p>Finding books available in the marketplace.</p>
+
+          <p>
+            Finding books available in the marketplace.
+          </p>
 
         </div>
+
       ) : filteredBooks.length === 0 ? (
 
         /* Empty */
@@ -200,6 +237,7 @@ function Books() {
           <div className="books-results-bar">
 
             <div>
+
               <span className="results-small">
                 MARKETPLACE COLLECTION
               </span>
@@ -211,6 +249,7 @@ function Books() {
                   ? "book"
                   : "books"}
               </p>
+
             </div>
 
             <div className="results-icon">
@@ -239,7 +278,7 @@ function Books() {
 
                   {book.image_url ? (
                     <img
-                      src={book.image_url}
+                      src={`http://localhost:5000${book.image_url}`}
                       alt={book.title}
                     />
                   ) : (
@@ -270,6 +309,7 @@ function Books() {
 
                     <p>
                       <span>Condition</span>
+
                       <strong>
                         {book.condition}
                       </strong>
@@ -277,6 +317,7 @@ function Books() {
 
                     <p>
                       <span>Seller</span>
+
                       <strong>
                         {book.seller_name ||
                           "Student Seller"}
@@ -285,6 +326,7 @@ function Books() {
 
                     <p>
                       <span>Location</span>
+
                       <strong>
                         {book.location ||
                           "Not provided"}
@@ -297,6 +339,7 @@ function Books() {
                   <div className="book-pricing">
 
                     <div className="seller-price-row">
+
                       <span>
                         Seller Price
                       </span>
@@ -304,9 +347,11 @@ function Books() {
                       <strong>
                         ₹{book.seller_price}
                       </strong>
+
                     </div>
 
                     <div className="fee-row">
+
                       <span>
                         Platform Fee
                       </span>
@@ -314,6 +359,7 @@ function Books() {
                       <strong>
                         ₹{book.platform_fee ?? "0.00"}
                       </strong>
+
                     </div>
 
                     <div className="buyer-price-row">
@@ -338,6 +384,7 @@ function Books() {
                     to={`/books/${book.id}`}
                   >
                     <span>View Details</span>
+
                     <span className="details-arrow">
                       ↗
                     </span>

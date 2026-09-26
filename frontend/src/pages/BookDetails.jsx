@@ -7,6 +7,7 @@ function BookDetails() {
   const navigate = useNavigate();
 
   const [book, setBook] = useState(null);
+  const [images, setImages] = useState([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -28,6 +29,22 @@ function BookDetails() {
 
         setBook(data.product);
         setMessage("");
+
+        // Fetch front image, back image and PDF
+        const imagesResponse = await fetch(
+          `http://localhost:5000/api/products/${id}/images`
+        );
+
+        const imagesData = await imagesResponse.json();
+
+        if (imagesResponse.ok) {
+          setImages(imagesData.images || []);
+        } else {
+          console.error(
+            "Unable to load book images:",
+            imagesData.message
+          );
+        }
       } catch (error) {
         console.error("Book details error:", error);
         setMessage("Unable to connect to server");
@@ -99,6 +116,17 @@ function BookDetails() {
     book.buyer_price || sellerPrice + platformFee
   );
 
+  // First image = Front of Book
+  const frontImage = images[0];
+
+  // Second image = Back of Book
+  const backImage = images[1];
+
+  // PDF file
+  const pdfFile = images.find((image) =>
+    image.image_url?.toLowerCase().endsWith(".pdf")
+  );
+
   return (
     <main className="book-details-page">
 
@@ -145,12 +173,18 @@ function BookDetails() {
             📚 BOOK #{book.id}
           </div>
 
+          {/* Front Image */}
           <div className="details-image">
 
             {book.image_url ? (
               <img
-                src={book.image_url}
+                src={`http://localhost:5000${book.image_url}`}
                 alt={book.title}
+              />
+            ) : frontImage ? (
+              <img
+                src={`http://localhost:5000${frontImage.image_url}`}
+                alt={`${book.title} front cover`}
               />
             ) : (
               <div className="details-no-image">
@@ -171,6 +205,63 @@ function BookDetails() {
               {book.category || "General"}
             </span>
           </div>
+
+          {/* Back Image */}
+          {backImage && (
+            <div
+              style={{
+                marginTop: "20px",
+                padding: "0 20px 20px",
+              }}
+            >
+              <h3
+                style={{
+                  marginBottom: "12px",
+                  textAlign: "center",
+                }}
+              >
+                Back of Book
+              </h3>
+
+              <img
+                src={`http://localhost:5000${backImage.image_url}`}
+                alt={`${book.title} back cover`}
+                style={{
+                  width: "100%",
+                  maxHeight: "400px",
+                  objectFit: "contain",
+                  borderRadius: "15px",
+                  display: "block",
+                }}
+              />
+            </div>
+          )}
+
+          {/* PDF */}
+          {pdfFile && (
+            <div
+              style={{
+                padding: "0 20px 25px",
+                textAlign: "center",
+              }}
+            >
+              <a
+                href={`http://localhost:5000${pdfFile.image_url}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-block",
+                  padding: "12px 20px",
+                  borderRadius: "10px",
+                  textDecoration: "none",
+                  fontWeight: "700",
+                }}
+              >
+                📄 Open Book PDF
+              </a>
+            </div>
+          )}
+
         </div>
 
         {/* Content Section */}
