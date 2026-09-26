@@ -54,14 +54,17 @@
   padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 11px;
-  color: #263238;
+
+  color: #000507;
   background: transparent;
+
   font: inherit;
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
+
   transition:
     color 0.2s ease,
     background-color 0.2s ease,
@@ -73,12 +76,13 @@
 .nav-link:hover,
 .nav-logout-button:hover,
 .theme-toggle:hover {
+  color: #ffffff;
   transform: translateY(-2px);
-  background: rgba(28, 91, 100, 0.08);
+  background: #36bda5;
 }
 
 .nav-link.active {
-  color: #fff;
+  color: #ffffff;
   background: #e96a50;
   box-shadow: 0 6px 16px rgba(233, 106, 80, 0.2);
 }
