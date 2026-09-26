@@ -16,9 +16,13 @@ const calculatePricing = async (sellerPrice) => {
 
   if (pricingResult.rows.length > 0) {
     const pricing = pricingResult.rows[0];
-    const feeValue = Number(pricing.fee_value);
 
-    if (pricing.fee_type === "percentage") {
+    const feeValue =
+      Number(pricing.fee_value);
+
+    if (
+      pricing.fee_type === "percentage"
+    ) {
       platformFee =
         (sellerPrice * feeValue) / 100;
     } else {
@@ -28,6 +32,7 @@ const calculatePricing = async (sellerPrice) => {
 
   return {
     platformFee,
+
     buyerPrice:
       sellerPrice + platformFee,
   };
@@ -35,8 +40,12 @@ const calculatePricing = async (sellerPrice) => {
 
 
 // Create a new book listing
-const createProduct = async (req, res) => {
+const createProduct = async (
+  req,
+  res
+) => {
   try {
+
     const {
       title,
       description,
@@ -45,6 +54,9 @@ const createProduct = async (req, res) => {
       seller_price,
       location,
     } = req.body;
+
+
+    // Check required book details
 
     if (
       !title ||
@@ -59,8 +71,28 @@ const createProduct = async (req, res) => {
       });
     }
 
+
+    // Check uploaded files
+
+    if (
+      !req.files ||
+      !req.files.bookImages ||
+      req.files.bookImages.length !== 2 ||
+      !req.files.bookPdf ||
+      req.files.bookPdf.length !== 1
+    ) {
+      return res.status(400).json({
+        message:
+          "Please upload the front image, back image and book PDF.",
+      });
+    }
+
+
+    // Validate seller price
+
     const sellerPrice =
       Number(seller_price);
+
 
     if (
       Number.isNaN(sellerPrice) ||
@@ -71,6 +103,9 @@ const createProduct = async (req, res) => {
           "Seller price must be greater than 0",
       });
     }
+
+
+    // Create product
 
     const result = await pool.query(
       `INSERT INTO products
@@ -89,25 +124,107 @@ const createProduct = async (req, res) => {
        RETURNING *`,
       [
         req.user.id,
+
         title.trim(),
+
         description
           ? description.trim()
           : null,
+
         category.trim(),
+
         condition.trim(),
+
         sellerPrice,
+
         location
           ? location.trim()
           : null,
       ]
     );
 
+
+    const product =
+      result.rows[0];
+
+
+    // Get uploaded files
+
+    const frontImage =
+      req.files.bookImages[0];
+
+    const backImage =
+      req.files.bookImages[1];
+
+    const pdfFile =
+      req.files.bookPdf[0];
+
+
+    // Save front image
+
+    await pool.query(
+      `INSERT INTO product_images
+       (
+         product_id,
+         image_url
+       )
+       VALUES
+       ($1, $2)`,
+      [
+        product.id,
+
+        `/uploads/${frontImage.filename}`,
+      ]
+    );
+
+
+    // Save back image
+
+    await pool.query(
+      `INSERT INTO product_images
+       (
+         product_id,
+         image_url
+       )
+       VALUES
+       ($1, $2)`,
+      [
+        product.id,
+
+        `/uploads/${backImage.filename}`,
+      ]
+    );
+
+
+    // Save PDF
+    // We are using the same image_url
+    // column because it stores file paths.
+
+    await pool.query(
+      `INSERT INTO product_images
+       (
+         product_id,
+         image_url
+       )
+       VALUES
+       ($1, $2)`,
+      [
+        product.id,
+
+        `/uploads/${pdfFile.filename}`,
+      ]
+    );
+
+
     res.status(201).json({
       message:
         "Book listing submitted successfully",
-      product: result.rows[0],
+
+      product,
     });
+
   } catch (error) {
+
     console.error(
       "Create product error:",
       error.message
@@ -121,8 +238,13 @@ const createProduct = async (req, res) => {
 
 
 // Get all products listed by logged-in seller
-const getMyProducts = async (req, res) => {
+
+const getMyProducts = async (
+  req,
+  res
+) => {
   try {
+
     const result = await pool.query(
       `SELECT
          p.id,
@@ -151,10 +273,13 @@ const getMyProducts = async (req, res) => {
       [req.user.id]
     );
 
+
     res.json({
       products: result.rows,
     });
+
   } catch (error) {
+
     console.error(
       "Get my products error:",
       error.message
@@ -168,11 +293,13 @@ const getMyProducts = async (req, res) => {
 
 
 // Get all approved products for buyers
+
 const getApprovedProducts = async (
   req,
   res
 ) => {
   try {
+
     const result = await pool.query(
       `SELECT
          p.id,
@@ -205,26 +332,33 @@ const getApprovedProducts = async (
        ORDER BY p.created_at DESC`
     );
 
+
     const products =
       await Promise.all(
         result.rows.map(
           async (product) => {
+
             const sellerPrice =
               Number(
                 product.seller_price
               );
+
 
             const pricing =
               await calculatePricing(
                 sellerPrice
               );
 
+
             return {
               ...product,
+
               seller_price:
                 sellerPrice,
+
               platform_fee:
                 pricing.platformFee,
+
               buyer_price:
                 pricing.buyerPrice,
             };
@@ -232,10 +366,13 @@ const getApprovedProducts = async (
         )
       );
 
+
     res.json({
       products,
     });
+
   } catch (error) {
+
     console.error(
       "Get approved products error:",
       error.message
@@ -249,12 +386,15 @@ const getApprovedProducts = async (
 
 
 // Get one approved product
+
 const getProductById = async (
   req,
   res
 ) => {
   try {
+
     const { id } = req.params;
+
 
     const result = await pool.query(
       `SELECT
@@ -282,21 +422,31 @@ const getProductById = async (
       [id]
     );
 
-    if (result.rows.length === 0) {
+
+    if (
+      result.rows.length === 0
+    ) {
       return res.status(404).json({
         message: "Book not found",
       });
     }
 
-    const product = result.rows[0];
+
+    const product =
+      result.rows[0];
+
 
     const sellerPrice =
-      Number(product.seller_price);
+      Number(
+        product.seller_price
+      );
+
 
     const pricing =
       await calculatePricing(
         sellerPrice
       );
+
 
     const imagesResult =
       await pool.query(
@@ -310,20 +460,27 @@ const getProductById = async (
         [id]
       );
 
+
     res.json({
       product: {
         ...product,
+
         seller_price:
           sellerPrice,
+
         platform_fee:
           pricing.platformFee,
+
         buyer_price:
           pricing.buyerPrice,
+
         images:
           imagesResult.rows,
       },
     });
+
   } catch (error) {
+
     console.error(
       "Get product error:",
       error.message
