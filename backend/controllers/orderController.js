@@ -273,7 +273,13 @@ const getMyOrders = async (req, res) => {
 
          u.id AS seller_id,
          u.name AS seller_name,
-         u.email AS seller_email
+         u.email AS seller_email,
+
+         s.tracking_number,
+         s.courier_name,
+         s.shipping_status,
+         s.shipped_at,
+         s.delivered_at
 
        FROM orders o
 
@@ -282,6 +288,9 @@ const getMyOrders = async (req, res) => {
 
        JOIN users u
          ON p.seller_id = u.id
+
+       LEFT JOIN shipping s
+         ON s.order_id = o.id
 
        WHERE o.buyer_id = $1
 
@@ -328,7 +337,13 @@ const getOrderById = async (req, res) => {
 
          u.id AS seller_id,
          u.name AS seller_name,
-         u.email AS seller_email
+         u.email AS seller_email,
+
+         s.tracking_number,
+         s.courier_name,
+         s.shipping_status,
+         s.shipped_at,
+         s.delivered_at
 
        FROM orders o
 
@@ -337,6 +352,9 @@ const getOrderById = async (req, res) => {
 
        JOIN users u
          ON p.seller_id = u.id
+
+       LEFT JOIN shipping s
+         ON s.order_id = o.id
 
        WHERE o.id = $1
        AND o.buyer_id = $2`,

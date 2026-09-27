@@ -747,6 +747,73 @@
   font-size: 0.7rem;
 }
 
+.order-action-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 130px;
+}
+
+.order-action-button {
+  padding: 9px 12px;
+  border: none;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.order-action-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.order-action-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.confirm-button {
+  background: rgba(20, 184, 166, 0.2);
+  color: #5eead4;
+  border: 1px solid rgba(20, 184, 166, 0.4);
+}
+
+.ship-button {
+  background: linear-gradient(135deg, #0ea5e9, #0369a1);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(14, 165, 233, 0.3);
+}
+
+.deliver-button {
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+}
+
+.cancel-button {
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.shipping-link {
+  color: #7dd3fc;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.shipping-link:hover {
+  text-decoration: underline;
+}
+
+.no-action-text {
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
 /* 
    LOADING
  */

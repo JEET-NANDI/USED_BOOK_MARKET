@@ -785,6 +785,42 @@
   word-break: break-word;
 }
 
+.order-shipping-box {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 15px;
+  padding: 15px 18px;
+  border-radius: 14px;
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.25);
+  animation: footerIn 0.5s ease both;
+}
+
+.order-shipping-box > span {
+  font-size: 1.5rem;
+}
+
+.order-shipping-box small {
+  display: block;
+  color: #2dd4bf;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  margin-bottom: 5px;
+}
+
+.order-shipping-box p {
+  margin: 0;
+  color: #e2e8f0;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.order-shipping-box strong {
+  color: #2dd4bf;
+}
+
 /* =========================
    ACTIONS
 ========================= */

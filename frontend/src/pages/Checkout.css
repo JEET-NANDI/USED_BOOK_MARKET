@@ -387,6 +387,91 @@
     0 0 0 3px rgba(20, 184, 166, 0.08);
 }
 
+.checkout-form-card input[type="text"],
+.checkout-form-card input[type="tel"] {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 15px;
+
+  border: 1px solid #263b41;
+  border-radius: 13px;
+
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.035);
+  color: #f8fafc;
+
+  font-family: inherit;
+  font-size: 0.92rem;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.checkout-form-card input::placeholder {
+  color: #475569;
+}
+
+.checkout-form-card input:focus {
+  border-color: #14b8a6;
+  background: rgba(20, 184, 166, 0.04);
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.08);
+}
+
+.delivery-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.delivery-grid .field {
+  display: flex;
+  flex-direction: column;
+}
+
+.delivery-grid .field label {
+  margin: 18px 0 9px;
+}
+
+.field-error {
+  margin-top: 6px;
+  color: #fca5a5;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.landmark-input {
+  margin-bottom: 4px;
+}
+
+.cod-note {
+  margin-top: 14px;
+  padding: 13px 15px;
+  border-radius: 12px;
+  background: rgba(20, 184, 166, 0.08);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  color: #99f6e4;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+.address-row strong {
+  text-align: right;
+  max-width: 60%;
+  line-height: 1.5;
+  font-size: 0.82rem;
+}
+
+@media (max-width: 600px) {
+  .delivery-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
 .address-hint {
   margin-top: 8px;
 

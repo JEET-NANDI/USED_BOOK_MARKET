@@ -5,7 +5,7 @@ function MainLayout({ children }) {
     <>
       <Navbar />
 
-      <main>
+      <main className="main-content">
         {children}
       </main>
     </>

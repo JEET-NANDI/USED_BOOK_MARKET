@@ -43,7 +43,9 @@ function Books() {
     ...new Set(books.map((book) => book.category)),
   ];
 
-  const filteredBooks = books.filter((book) => {
+  const filteredBooks = books
+    .filter((book) => !book.status || book.status === "approved")
+    .filter((book) => {
     const searchText = search.toLowerCase();
 
     const matchesSearch =

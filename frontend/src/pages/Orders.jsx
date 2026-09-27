@@ -340,6 +340,37 @@ function Orders() {
                     </div>
                   </div>
 
+                  {/* SHIPPING STATUS - shown after admin ships */}
+                  {(order.status === "shipped" ||
+                    order.status === "delivered" ||
+                    order.shipping_status === "shipped" ||
+                    order.shipping_status === "in_transit" ||
+                    order.shipping_status === "delivered" ||
+                    order.tracking_number ||
+                    order.courier_name) && (
+                    <div className="order-shipping-box">
+                      <span>🚚</span>
+                      <div>
+                        <small>SHIPPING UPDATE</small>
+                        <p>
+                          {order.status === "delivered" ||
+                          order.shipping_status === "delivered" ? (
+                            <>Delivered{order.delivered_at ? ` on ${new Date(order.delivered_at).toLocaleString()}` : ""}. Enjoy your book!</>
+                          ) : order.shipping_status === "in_transit" ? (
+                            <>Your book is <strong>in transit</strong>
+                            {order.courier_name ? ` via ${order.courier_name}` : ""}
+                            {order.tracking_number ? ` (Tracking: ${order.tracking_number})` : ""}. It will reach you soon.</>
+                          ) : (
+                            <>Your book is <strong>shipped</strong>
+                            {order.courier_name ? ` via ${order.courier_name}` : ""}
+                            {order.tracking_number ? ` (Tracking: ${order.tracking_number})` : ""}.
+                            {order.shipped_at ? ` Shipped on ${new Date(order.shipped_at).toLocaleString()}.` : ""}</>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
                   {/* ACTIONS */}
                   <div className="order-actions">
                     {order.product_id && (
@@ -400,13 +431,20 @@ function Orders() {
                     <div
                       className={
                         order.status === "shipped" ||
-                        order.status === "delivered"
+                        order.status === "delivered" ||
+                        order.shipping_status === "shipped" ||
+                        order.shipping_status === "in_transit" ||
+                        order.shipping_status === "delivered"
                           ? "progress-step active"
                           : "progress-step"
                       }
                     >
                       <span>2</span>
-                      <small>Shipped</small>
+                      <small>
+                        {order.shipping_status === "in_transit"
+                          ? "In Transit"
+                          : "Shipped"}
+                      </small>
                     </div>
 
                     <div

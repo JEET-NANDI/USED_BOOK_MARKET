@@ -6,20 +6,50 @@
   color-scheme: dark;
 }
 
+/* Fixed floating pill navbar - same on every page, stays on scroll */
 .navbar {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1000;
   display: flex;
-  min-height: 76px;
+  width: min(1180px, calc(100% - 24px));
+  min-height: 68px;
   align-items: center;
   justify-content: space-between;
-  gap: 24px;
-  padding: 10px clamp(18px, 5vw, 52px);
+  gap: 20px;
+  padding: 10px 12px 10px clamp(18px, 3vw, 28px);
   color: #263238;
-  background: #f5f4eb;
-  box-shadow: 0 4px 18px rgba(12, 33, 40, 0.08);
+  background: rgba(245, 244, 235, 0.62);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 999px;
+  box-shadow: 0 8px 32px rgba(12, 33, 40, 0.14);
   font-family: Arial, sans-serif;
+  animation: navDrop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.navbar.scrolled {
+  background: rgba(245, 244, 235, 0.88);
+  border-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 40px rgba(12, 33, 40, 0.2);
+}
+
+@keyframes navDrop {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 
 .navbar-logo {
@@ -29,67 +59,131 @@
   font-weight: 800;
   letter-spacing: 0.04em;
   text-decoration: none;
-  transition: color 0.2s ease;
+  animation: fadeSlideIn 0.5s 0.1s ease both;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .navbar-logo:hover {
   color: #e7644d;
+  transform: scale(1.03);
+}
+
+.navbar-logo:active {
+  transform: scale(0.97);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 6px;
   flex-wrap: wrap;
+}
+
+/* Staggered entrance for every nav item */
+.nav-links > * {
+  animation: fadeSlideIn 0.45s ease both;
+}
+
+.nav-links > *:nth-child(1) { animation-delay: 0.05s; }
+.nav-links > *:nth-child(2) { animation-delay: 0.1s; }
+.nav-links > *:nth-child(3) { animation-delay: 0.15s; }
+.nav-links > *:nth-child(4) { animation-delay: 0.2s; }
+.nav-links > *:nth-child(5) { animation-delay: 0.25s; }
+.nav-links > *:nth-child(6) { animation-delay: 0.3s; }
+.nav-links > *:nth-child(7) { animation-delay: 0.35s; }
+.nav-links > *:nth-child(8) { animation-delay: 0.4s; }
+.nav-links > *:nth-child(9) { animation-delay: 0.45s; }
+.nav-links > *:nth-child(10) { animation-delay: 0.5s; }
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .nav-link,
 .nav-logout-button,
 .theme-toggle {
+  position: relative;
   display: inline-flex;
-  min-height: 44px;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
   padding: 10px 15px;
   border: 1px solid transparent;
-  border-radius: 11px;
-
+  border-radius: 999px;
+  overflow: hidden;
   color: #000507;
   background: transparent;
-
   font: inherit;
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
-
   transition:
-    color 0.2s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease,
+    color 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
     transform 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.25s ease;
 }
 
+/* Animated underline sweep */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 7px;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 60%;
+}
+
+.nav-link.active::after {
+  width: 60%;
+  background: #fff;
+}
+
+/* Button animation: lift + fill */
 .nav-link:hover,
 .nav-logout-button:hover,
 .theme-toggle:hover {
   color: #ffffff;
   transform: translateY(-2px);
   background: #36bda5;
+  box-shadow: 0 8px 20px rgba(54, 189, 165, 0.35);
+}
+
+.nav-link:active,
+.nav-logout-button:active,
+.theme-toggle:active {
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .nav-link.active {
   color: #ffffff;
   background: #e96a50;
-  box-shadow: 0 6px 16px rgba(233, 106, 80, 0.2);
+  box-shadow: 0 6px 16px rgba(233, 106, 80, 0.3);
 }
 
 .nav-logout-button {
   border-color: #d8e0e2;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .theme-toggle {
@@ -107,6 +201,11 @@
   outline-offset: 3px;
 }
 
+/* Offset page content so fixed pill never overlaps it */
+.main-content {
+  padding-top: 108px;
+}
+
 /* Apply the dark appearance without editing the other page styles */
 html[data-theme="dark"] body {
   filter: invert(0.88) hue-rotate(180deg);
@@ -119,24 +218,36 @@ html[data-theme="dark"] video {
   filter: invert(0.88) hue-rotate(180deg);
 }
 
+html[data-theme="dark"] .navbar {
+  color: #263238;
+}
+
 @media (max-width: 900px) {
   .navbar {
     align-items: flex-start;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
     padding-top: 14px;
     padding-bottom: 14px;
+    border-radius: 28px;
   }
 
   .nav-links {
     width: 100%;
     justify-content: flex-start;
   }
+
+  .main-content {
+    padding-top: 170px;
+  }
 }
 
 @media (max-width: 600px) {
   .navbar {
-    gap: 10px;
+    top: 8px;
+    width: calc(100% - 16px);
+    gap: 8px;
+    border-radius: 24px;
   }
 
   .navbar-logo {
@@ -157,9 +268,11 @@ html[data-theme="dark"] video {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .navbar,
   .navbar *,
   .navbar *::before,
   .navbar *::after {
+    animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 

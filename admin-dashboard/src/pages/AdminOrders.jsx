@@ -7,6 +7,7 @@ function AdminOrders() {
   const [search, setSearch] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [updatingId, setUpdatingId] = useState(null);
 
   const fetchOrders = async () => {
     const token = localStorage.getItem("token");
@@ -55,6 +56,55 @@ function AdminOrders() {
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  const handleStatusUpdate = async (orderId, nextStatus) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setMessage("Admin login required");
+      return;
+    }
+
+    const confirmText =
+      nextStatus === "shipped"
+        ? `Ship order #${orderId}? User will see SHIPPED and it moves to Shipping list.`
+        : `Update order #${orderId} to ${nextStatus}?`;
+    if (!window.confirm(confirmText)) return;
+
+    try {
+      setUpdatingId(orderId);
+      const response = await fetch(
+        `http://localhost:5000/api/admin/orders/${orderId}/status`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ status: nextStatus }),
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        setMessage(data.message || "Unable to update order status");
+        return;
+      }
+      setOrders((current) =>
+        current.map((order) =>
+          order.id === orderId ? { ...order, status: nextStatus } : order
+        )
+      );
+      setMessage(
+        nextStatus === "shipped"
+          ? `Order #${orderId} shipped. User now sees SHIPPED. Handle further in Shipping list.`
+          : `Order #${orderId} updated to ${nextStatus}.`
+      );
+    } catch (error) {
+      console.error("Update order status error:", error);
+      setMessage("Unable to connect to server");
+    } finally {
+      setUpdatingId(null);
+    }
+  };
 
   const filteredOrders = orders.filter((order) => {
     const searchText = search.toLowerCase();
@@ -318,6 +368,7 @@ function AdminOrders() {
                   <th>Platform Fee</th>
                   <th>Buyer Price</th>
                   <th>Status</th>
+                  <th>Action</th>
                   <th>Created</th>
                 </tr>
               </thead>
@@ -428,6 +479,60 @@ function AdminOrders() {
 
                           {order.status}
                         </span>
+                      </td>
+
+                      <td>
+                        <div className="order-action-cell">
+                          {order.status === "pending" && (
+                            <>
+                              <button
+                                type="button"
+                                className="order-action-button confirm-button"
+                                disabled={updatingId === order.id}
+                                onClick={() => handleStatusUpdate(order.id, "confirmed")}
+                              >
+                                ✓ Confirm
+                              </button>
+                              <button
+                                type="button"
+                                className="order-action-button cancel-button"
+                                disabled={updatingId === order.id}
+                                onClick={() => handleStatusUpdate(order.id, "cancelled")}
+                              >
+                                ✕ Cancel
+                              </button>
+                            </>
+                          )}
+                          {order.status === "confirmed" && (
+                            <button
+                              type="button"
+                              className="order-action-button ship-button"
+                              disabled={updatingId === order.id}
+                              onClick={() => handleStatusUpdate(order.id, "shipped")}
+                              title="Click to shift this order to shipping"
+                            >
+                              {updatingId === order.id ? "Shipping..." : "🚚 Ship Now"}
+                            </button>
+                          )}
+                          {order.status === "shipped" && (
+                            <>
+                              <button
+                                type="button"
+                                className="order-action-button deliver-button"
+                                disabled={updatingId === order.id}
+                                onClick={() => handleStatusUpdate(order.id, "delivered")}
+                              >
+                                ✓ Deliver
+                              </button>
+                              <a href="/shipping" className="shipping-link">
+                                Go to Shipping →
+                              </a>
+                            </>
+                          )}
+                          {(order.status === "delivered" || order.status === "cancelled") && (
+                            <span className="no-action-text">No action</span>
+                          )}
+                        </div>
                       </td>
 
                       <td>

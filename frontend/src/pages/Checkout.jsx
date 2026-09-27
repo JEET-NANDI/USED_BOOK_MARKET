@@ -2,16 +2,110 @@ import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import "./Checkout.css";
 
+const PAYMENT_METHODS = [
+  {
+    value: "Cash on Delivery",
+    icon: "💵",
+    title: "Cash on Delivery",
+    desc: "Pay in cash when your book arrives",
+  },
+  {
+    value: "UPI",
+    icon: "📱",
+    title: "UPI",
+    desc: "Pay using UPI",
+  },
+  {
+    value: "Card",
+    icon: "💳",
+    title: "Card",
+    desc: "Pay using debit or credit card",
+  },
+];
+
+const INITIAL_FORM = {
+  fullName: "",
+  phone: "",
+  pincode: "",
+  locality: "",
+  address: "",
+  city: "",
+  state: "",
+  landmark: "",
+};
+
 function Checkout() {
   const { productId } = useParams();
   const navigate = useNavigate();
 
-  const [address, setAddress] = useState("");
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [errors, setErrors] = useState({});
   const [paymentMethod, setPaymentMethod] =
     useState("Cash on Delivery");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [order, setOrder] = useState(null);
+  const [placedAddress, setPlacedAddress] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((current) => ({ ...current, [name]: value }));
+    setErrors((current) => ({ ...current, [name]: "" }));
+  };
+
+  const validateForm = () => {
+    const nextErrors = {};
+
+    if (!form.fullName.trim() || form.fullName.trim().length < 3) {
+      nextErrors.fullName = "Full name is required (min 3 letters).";
+    }
+
+    const phoneDigits = form.phone.replace(/\D/g, "").slice(-10);
+    if (!form.phone.trim()) {
+      nextErrors.phone = "Phone number is required.";
+    } else if (!/^[6-9]\d{9}$/.test(phoneDigits)) {
+      nextErrors.phone = "Enter a valid 10-digit mobile number.";
+    }
+
+    if (!form.pincode.trim()) {
+      nextErrors.pincode = "Pincode is required.";
+    } else if (!/^\d{6}$/.test(form.pincode.trim())) {
+      nextErrors.pincode = "Enter a valid 6-digit pincode.";
+    }
+
+    if (!form.locality.trim()) {
+      nextErrors.locality = "Locality is required.";
+    }
+
+    if (!form.address.trim() || form.address.trim().length < 10) {
+      nextErrors.address = "Full address is required (min 10 characters).";
+    }
+
+    if (!form.city.trim()) {
+      nextErrors.city = "City is required.";
+    }
+
+    if (!form.state.trim()) {
+      nextErrors.state = "State is required.";
+    }
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const buildDeliveryAddress = () => {
+    const parts = [
+      form.fullName.trim(),
+      form.address.trim(),
+      form.locality.trim(),
+      `${form.city.trim()}, ${form.state.trim()} - ${form.pincode.trim()}`,
+      `Phone: ${form.phone.trim()}`,
+    ];
+    if (form.landmark.trim()) {
+      parts.push(`Landmark: ${form.landmark.trim()}`);
+    }
+    return parts.join(", ");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,13 +124,21 @@ function Checkout() {
       return;
     }
 
-    if (!address.trim()) {
-      setMessage("Delivery address is required.");
+    if (!validateForm()) {
+      setMessage("Please fill all required delivery details correctly.");
       return;
     }
 
+    // User confirms the order like Flipkart before placing
+    const confirmed = window.confirm(
+      `Place order with ${paymentMethod}?\n\nDeliver to: ${form.fullName}, ${form.city} - ${form.pincode}`
+    );
+    if (!confirmed) return;
+
     try {
       setLoading(true);
+
+      const deliveryAddress = buildDeliveryAddress();
 
       const response = await fetch(
         "http://localhost:5000/api/orders",
@@ -48,7 +150,7 @@ function Checkout() {
           },
           body: JSON.stringify({
             product_id: Number(productId),
-            delivery_address: address.trim(),
+            delivery_address: deliveryAddress,
             payment_method: paymentMethod,
           }),
         }
@@ -64,10 +166,12 @@ function Checkout() {
       }
 
       setOrder(data.order || null);
-
+      setPlacedAddress({
+        ...form,
+        fullText: deliveryAddress,
+        paymentMethod,
+      });
       setMessage("Order placed successfully.");
-
-      setAddress("");
     } catch (error) {
       console.error("Checkout error:", error);
 
@@ -111,10 +215,11 @@ function Checkout() {
   }
 
   /* ==============================
-     ORDER SUCCESS
+     ORDER SUCCESS - YOUR ORDER SECTION
   ============================== */
 
   if (order) {
+    const isCOD = (placedAddress?.paymentMethod || paymentMethod) === "Cash on Delivery";
     return (
       <main className="checkout-page">
 
@@ -131,12 +236,13 @@ function Checkout() {
           </p>
 
           <h1>
-            Order <span>Confirmed!</span>
+            Your Order <span>Confirmed!</span>
           </h1>
 
           <p className="success-text">
-            Your book order has been placed
-            successfully.
+            {isCOD
+              ? "Your Cash on Delivery order is placed. Keep the amount ready when your book arrives."
+              : "Your book order has been placed successfully."}
           </p>
 
           <div className="success-divider"></div>
@@ -165,7 +271,7 @@ function Checkout() {
             </div>
 
             <div className="order-detail-row total-row">
-              <span>Buyer Price</span>
+              <span>{isCOD ? "Pay on Delivery" : "Buyer Price"}</span>
               <strong>
                 ₹{order.buyer_price}
               </strong>
@@ -181,11 +287,42 @@ function Checkout() {
             <div className="order-detail-row">
               <span>Payment Method</span>
               <strong>
-                {paymentMethod}
+                {placedAddress?.paymentMethod || paymentMethod}
+                {isCOD ? " 💵" : ""}
               </strong>
             </div>
 
+            {placedAddress && (
+              <>
+                <div className="order-detail-row">
+                  <span>Deliver To</span>
+                  <strong>
+                    {placedAddress.fullName}
+                  </strong>
+                </div>
+                <div className="order-detail-row">
+                  <span>Phone</span>
+                  <strong>
+                    {placedAddress.phone}
+                  </strong>
+                </div>
+                <div className="order-detail-row address-row">
+                  <span>Address</span>
+                  <strong>
+                    {placedAddress.fullText}
+                  </strong>
+                </div>
+              </>
+            )}
+
           </div>
+
+          {isCOD && (
+            <div className="cod-note">
+              💵 <strong>Cash on Delivery:</strong> please keep
+              {" "}₹{order.buyer_price} ready. Pay only when you receive the book.
+            </div>
+          )}
 
           <div className="success-actions">
 
@@ -216,7 +353,7 @@ function Checkout() {
   }
 
   /* ==============================
-     CHECKOUT PAGE
+     CHECKOUT PAGE - FLIPKART STYLE
   ============================== */
 
   return (
@@ -250,8 +387,8 @@ function Checkout() {
         </h1>
 
         <p>
-          Complete your delivery and payment
-          details to place your order.
+          Add delivery address like Flipkart, choose payment,
+          then place your Cash on Delivery order.
         </p>
 
         <div className="checkout-header-line"></div>
@@ -264,12 +401,12 @@ function Checkout() {
 
         <div className="checkout-step active">
           <span>1</span>
-          <p>Checkout</p>
+          <p>Address</p>
         </div>
 
         <div className="step-line"></div>
 
-        <div className="checkout-step">
+        <div className="checkout-step active">
           <span>2</span>
           <p>Payment</p>
         </div>
@@ -300,7 +437,7 @@ function Checkout() {
               <h2>Delivery Details</h2>
 
               <p>
-                Where should we deliver your book?
+                All fields with * are required, like Flipkart.
               </p>
             </div>
           </div>
@@ -311,21 +448,127 @@ function Checkout() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} noValidate>
+
+            <div className="delivery-grid">
+              <div className="field">
+                <label htmlFor="fullName">Full Name *</label>
+                <input
+                  id="fullName"
+                  name="fullName"
+                  type="text"
+                  placeholder="e.g. Rahul Sharma"
+                  value={form.fullName}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.fullName && <small className="field-error">{errors.fullName}</small>}
+              </div>
+
+              <div className="field">
+                <label htmlFor="phone">Phone Number *</label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  inputMode="numeric"
+                  maxLength="13"
+                  placeholder="10-digit mobile number"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.phone && <small className="field-error">{errors.phone}</small>}
+              </div>
+
+              <div className="field">
+                <label htmlFor="pincode">Pincode *</label>
+                <input
+                  id="pincode"
+                  name="pincode"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength="6"
+                  placeholder="e.g. 700001"
+                  value={form.pincode}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.pincode && <small className="field-error">{errors.pincode}</small>}
+              </div>
+
+              <div className="field">
+                <label htmlFor="locality">Locality *</label>
+                <input
+                  id="locality"
+                  name="locality"
+                  type="text"
+                  placeholder="Area, street, sector"
+                  value={form.locality}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.locality && <small className="field-error">{errors.locality}</small>}
+              </div>
+            </div>
 
             <label htmlFor="address">
-              Delivery Address
+              Full Address (House No, Building, Street) *
             </label>
 
             <textarea
               id="address"
-              rows="6"
-              placeholder="Enter your complete delivery address..."
-              value={address}
-              onChange={(e) =>
-                setAddress(e.target.value)
-              }
+              name="address"
+              rows="4"
+              placeholder="Flat / House no, building, street..."
+              value={form.address}
+              onChange={handleChange}
               required
+            />
+            {errors.address && <small className="field-error">{errors.address}</small>}
+
+            <div className="delivery-grid">
+              <div className="field">
+                <label htmlFor="city">City *</label>
+                <input
+                  id="city"
+                  name="city"
+                  type="text"
+                  placeholder="e.g. Kolkata"
+                  value={form.city}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.city && <small className="field-error">{errors.city}</small>}
+              </div>
+
+              <div className="field">
+                <label htmlFor="state">State *</label>
+                <input
+                  id="state"
+                  name="state"
+                  type="text"
+                  placeholder="e.g. West Bengal"
+                  value={form.state}
+                  onChange={handleChange}
+                  required
+                />
+                {errors.state && <small className="field-error">{errors.state}</small>}
+              </div>
+            </div>
+
+            <label htmlFor="landmark">
+              Landmark (Optional)
+            </label>
+
+            <input
+              id="landmark"
+              name="landmark"
+              type="text"
+              placeholder="Near school, temple, shop..."
+              value={form.landmark}
+              onChange={handleChange}
+              className="landmark-input"
             />
 
             <div className="address-hint">
@@ -333,118 +576,53 @@ function Checkout() {
               including city and PIN code.
             </div>
 
-            <label htmlFor="payment">
-              Payment Method
+            <label>
+              Payment Method *
             </label>
 
             <div className="payment-options">
-
-              <label
-                className={
-                  paymentMethod === "Cash on Delivery"
-                    ? "payment-option selected"
-                    : "payment-option"
-                }
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value="Cash on Delivery"
-                  checked={
-                    paymentMethod ===
-                    "Cash on Delivery"
+              {PAYMENT_METHODS.map((option) => (
+                <label
+                  key={option.value}
+                  className={
+                    paymentMethod === option.value
+                      ? "payment-option selected"
+                      : "payment-option"
                   }
-                  onChange={(e) =>
-                    setPaymentMethod(
-                      e.target.value
-                    )
-                  }
-                />
+                >
+                  <input
+                    type="radio"
+                    name="payment"
+                    value={option.value}
+                    checked={paymentMethod === option.value}
+                    onChange={(e) =>
+                      setPaymentMethod(e.target.value)
+                    }
+                  />
 
-                <span className="payment-icon">
-                  💵
-                </span>
+                  <span className="payment-icon">
+                    {option.icon}
+                  </span>
 
-                <span>
-                  <strong>
-                    Cash on Delivery
-                  </strong>
+                  <span>
+                    <strong>
+                      {option.title}
+                    </strong>
 
-                  <small>
-                    Pay when your book arrives
-                  </small>
-                </span>
-              </label>
-
-              <label
-                className={
-                  paymentMethod === "UPI"
-                    ? "payment-option selected"
-                    : "payment-option"
-                }
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value="UPI"
-                  checked={
-                    paymentMethod === "UPI"
-                  }
-                  onChange={(e) =>
-                    setPaymentMethod(
-                      e.target.value
-                    )
-                  }
-                />
-
-                <span className="payment-icon">
-                  📱
-                </span>
-
-                <span>
-                  <strong>UPI</strong>
-
-                  <small>
-                    Pay using UPI
-                  </small>
-                </span>
-              </label>
-
-              <label
-                className={
-                  paymentMethod === "Card"
-                    ? "payment-option selected"
-                    : "payment-option"
-                }
-              >
-                <input
-                  type="radio"
-                  name="payment"
-                  value="Card"
-                  checked={
-                    paymentMethod === "Card"
-                  }
-                  onChange={(e) =>
-                    setPaymentMethod(
-                      e.target.value
-                    )
-                  }
-                />
-
-                <span className="payment-icon">
-                  💳
-                </span>
-
-                <span>
-                  <strong>Card</strong>
-
-                  <small>
-                    Pay using debit or credit card
-                  </small>
-                </span>
-              </label>
-
+                    <small>
+                      {option.desc}
+                    </small>
+                  </span>
+                </label>
+              ))}
             </div>
+
+            {paymentMethod === "Cash on Delivery" && (
+              <div className="cod-note">
+                💵 <strong>Cash on Delivery selected:</strong> pay in
+                cash when the book is delivered to your address.
+              </div>
+            )}
 
             <button
               type="submit"
@@ -518,6 +696,13 @@ function Checkout() {
             </div>
 
             <div>
+              <span>Deliver To</span>
+              <strong>
+                {form.fullName || "-"}, {form.city || "-"} {form.pincode || ""}
+              </strong>
+            </div>
+
+            <div>
               <span>Payment</span>
               <strong>
                 {paymentMethod}
@@ -533,8 +718,8 @@ function Checkout() {
               <strong>Secure Checkout</strong>
 
               <p>
-                Your order information is
-                securely sent to our server.
+                Your order goes to My Orders for you and to
+                Admin Order Management for processing.
               </p>
             </div>
           </div>

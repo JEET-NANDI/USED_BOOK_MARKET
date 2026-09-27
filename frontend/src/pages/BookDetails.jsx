@@ -9,6 +9,9 @@ function BookDetails() {
   const [book, setBook] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [inWishlist, setInWishlist] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [actionMessage, setActionMessage] = useState("");
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -39,6 +42,105 @@ function BookDetails() {
     fetchBook();
   }, [id]);
 
+  useEffect(() => {
+    const checkWishlistStatus = async () => {
+      const token = localStorage.getItem("token");
+      if (!token || !id) return;
+
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/wishlist/${id}/check`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!response.ok) return;
+        const data = await response.json();
+        setInWishlist(Boolean(data.inWishlist));
+      } catch (error) {
+        console.error("Check wishlist error:", error);
+      }
+    };
+
+    checkWishlistStatus();
+  }, [id]);
+
+  const handleGoBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/books");
+    }
+  };
+
+  const handleWishlistToggle = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    if (!book) return;
+
+    try {
+      setWishlistLoading(true);
+      setActionMessage("");
+
+      if (inWishlist) {
+        const response = await fetch(
+          `http://localhost:5000/api/wishlist/${book.id}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setActionMessage(data.message || "Unable to remove from wishlist");
+          return;
+        }
+
+        setInWishlist(false);
+        setActionMessage("Removed from wishlist");
+      } else {
+        const response = await fetch(
+          "http://localhost:5000/api/wishlist",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ product_id: book.id }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setActionMessage(data.message || "Unable to add to wishlist");
+          return;
+        }
+
+        setInWishlist(true);
+        setActionMessage("Added to wishlist ❤️");
+      }
+    } catch (error) {
+      console.error("Wishlist toggle error:", error);
+      setActionMessage("Unable to connect to server");
+    } finally {
+      setWishlistLoading(false);
+    }
+  };
+
   const handleBuyNow = () => {
     const token = localStorage.getItem("token");
 
@@ -68,15 +170,19 @@ function BookDetails() {
   }
 
   if (message || !book) {
+    const isSold =
+      /not found|not available|sold|already been ordered/i.test(message || "");
     return (
       <main className="book-details-page">
         <div className="details-error">
           <div className="error-icon">📕</div>
 
-          <h1>Book Not Found</h1>
+          <h1>{isSold ? "Sold Out" : "Book Not Found"}</h1>
 
           <p>
-            {message || "This book is not available."}
+            {isSold
+              ? "This book was just sold and removed from the book list."
+              : message || "This book is not available."}
           </p>
 
           <button
@@ -277,8 +383,16 @@ function BookDetails() {
 
           </div>
 
-          {/* Buttons */}
+          {/* Buttons: Back | Buy | Wishlist */}
           <div className="details-actions">
+
+            <button
+              type="button"
+              className="back-button"
+              onClick={handleGoBack}
+            >
+              ← Back
+            </button>
 
             <button
               type="button"
@@ -292,13 +406,25 @@ function BookDetails() {
 
             <button
               type="button"
-              className="back-button"
-              onClick={() => navigate("/books")}
+              className={inWishlist ? "wishlist-button active" : "wishlist-button"}
+              onClick={handleWishlistToggle}
+              disabled={wishlistLoading}
             >
-              ← Back to Books
+              <span>{inWishlist ? "❤️" : "🤍"}</span>
+              <span>
+                {wishlistLoading
+                  ? "Saving..."
+                  : inWishlist
+                    ? "Wishlisted"
+                    : "Add to Wishlist"}
+              </span>
             </button>
 
           </div>
+
+          {actionMessage && (
+            <p className="details-action-message">{actionMessage}</p>
+          )}
 
         </div>
       </section>

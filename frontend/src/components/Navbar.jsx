@@ -9,6 +9,18 @@ function Navbar() {
     () => localStorage.getItem("theme") === "dark"
   );
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    function handleScroll() {
+      setScrolled(window.scrollY > 24);
+    }
+
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user") || "null");
   const isLoggedIn = Boolean(token && user);
@@ -26,7 +38,7 @@ function Navbar() {
   }
 
   return (
-    <nav className="navbar">
+    <nav className={scrolled ? "navbar scrolled" : "navbar"}>
       <NavLink to="/" className="navbar-logo">
         USED BOOK MARKET
       </NavLink>
