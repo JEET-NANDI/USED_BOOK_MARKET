@@ -1,6 +1,7 @@
 const express = require("express");
 
 const authMiddleware = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 const {
   createProduct,
@@ -33,6 +34,16 @@ router.get(
 router.post(
   "/",
   authMiddleware,
+  upload.fields([
+    {
+      name: "bookImages",
+      maxCount: 2,
+    },
+    {
+      name: "bookPdf",
+      maxCount: 1,
+    },
+  ]),
   createProduct
 );
 

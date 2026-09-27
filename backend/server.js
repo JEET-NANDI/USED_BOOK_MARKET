@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
+
 require("dotenv").config();
 
 const userRoutes = require("./routes/userRoutes");
@@ -15,18 +17,24 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-
 // MIDDLEWARE
-
 
 app.use(cors());
 
 app.use(express.json());
 
 
+// SERVE UPLOADED BOOK IMAGES
+
+app.use(
+  "/uploads",
+  express.static(
+    path.join(__dirname, "uploads")
+  )
+);
+
 
 // BASIC ROUTE
-
 
 app.get("/", (req, res) => {
   res.send(
@@ -35,9 +43,7 @@ app.get("/", (req, res) => {
 });
 
 
-
 // USER & AUTH ROUTES
-
 
 app.use(
   "/api/users",
@@ -50,9 +56,7 @@ app.use(
 );
 
 
-
 // PRODUCT ROUTES
-
 
 app.use(
   "/api/products",
@@ -60,9 +64,7 @@ app.use(
 );
 
 
-
 // ORDER ROUTES
-
 
 app.use(
   "/api/orders",
@@ -70,9 +72,7 @@ app.use(
 );
 
 
-
 // WISHLIST ROUTES
-
 
 app.use(
   "/api/wishlist",
@@ -80,9 +80,7 @@ app.use(
 );
 
 
-
 // REVIEW ROUTES
-
 
 app.use(
   "/api/reviews",
@@ -90,9 +88,7 @@ app.use(
 );
 
 
-
 // ADMIN ROUTES
-
 
 app.use(
   "/api/admin",
@@ -100,9 +96,7 @@ app.use(
 );
 
 
-
 // 404 ROUTE
-
 
 app.use((req, res) => {
   res.status(404).json({
@@ -111,9 +105,7 @@ app.use((req, res) => {
 });
 
 
-
 // START SERVER
-
 
 app.listen(PORT, () => {
   console.log(

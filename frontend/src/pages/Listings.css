@@ -5,13 +5,9 @@
 
 .listings-page {
   position: relative;
-
   min-height: 100vh;
-
   padding: 65px 6% 70px;
-
   overflow: hidden;
-
   color: #f3fafa;
 
   background:
@@ -40,37 +36,27 @@
 
 .listings-glow {
   position: absolute;
-
   border-radius: 50%;
-
   pointer-events: none;
-
   filter: blur(12px);
-
   opacity: 0.4;
-
   animation: listingsGlow 7s ease-in-out infinite alternate;
 }
 
 .listings-glow-one {
   width: 300px;
   height: 300px;
-
   top: 100px;
   left: -150px;
-
   background: rgba(0, 220, 200, 0.12);
 }
 
 .listings-glow-two {
   width: 280px;
   height: 280px;
-
   bottom: 120px;
   right: -130px;
-
   background: rgba(255, 165, 0, 0.10);
-
   animation-delay: 2s;
 }
 
@@ -91,11 +77,8 @@
 
 .floating-listing-book {
   position: absolute;
-
   font-size: 40px;
-
   opacity: 0.11;
-
   pointer-events: none;
 
   filter:
@@ -115,7 +98,6 @@
 .floating-book-two {
   right: 4%;
   bottom: 28%;
-
   animation-delay: 2.5s;
 }
 
@@ -141,13 +123,9 @@
 
 .listings-header {
   position: relative;
-
   z-index: 2;
-
   max-width: 850px;
-
   margin: 0 auto 55px;
-
   text-align: center;
 
   animation:
@@ -176,16 +154,13 @@
 .listings-icon {
   width: 75px;
   height: 75px;
-
   margin: 0 auto 18px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   border-radius: 23px;
-
   font-size: 36px;
 
   background:
@@ -227,13 +202,9 @@
 
 .listings-label {
   margin: 0 0 7px;
-
   color: #00d7c4;
-
   font-size: 11px;
-
   font-weight: 800;
-
   letter-spacing: 5px;
 
   animation:
@@ -265,11 +236,8 @@
     clamp(48px, 7vw, 78px);
 
   line-height: 1;
-
   font-weight: 900;
-
   letter-spacing: -3px;
-
   color: #f4f8f7;
 
   text-shadow:
@@ -313,11 +281,8 @@
 
 .listings-subtitle {
   margin: 18px auto 0;
-
   color: #809794;
-
   font-size: 15px;
-
   line-height: 1.7;
 }
 
@@ -328,21 +293,14 @@
 
 .listings-toolbar {
   position: relative;
-
   z-index: 2;
-
   max-width: 1200px;
-
   margin: 0 auto 25px;
-
   padding: 22px 25px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   gap: 20px;
 
   border-radius: 19px;
@@ -380,21 +338,15 @@
 
 .toolbar-label {
   margin: 0 0 5px;
-
   color: #ffa500;
-
   font-size: 10px;
-
   font-weight: 800;
-
   letter-spacing: 3px;
 }
 
 .listings-toolbar h2 {
   margin: 0;
-
   font-size: 23px;
-
   color: #edf5f4;
 }
 
@@ -405,21 +357,15 @@
 
 .add-listing {
   display: flex;
-
   align-items: center;
-
   gap: 8px;
 
   padding: 13px 20px;
-
   border-radius: 12px;
-
   text-decoration: none;
 
   color: #041313;
-
   font-size: 13px;
-
   font-weight: 800;
 
   background:
@@ -466,19 +412,13 @@
 
 .listings-message {
   position: relative;
-
   z-index: 2;
-
   max-width: 1200px;
-
   margin: 0 auto 25px;
-
   padding: 16px 20px;
 
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 
   border-radius: 14px;
@@ -498,7 +438,6 @@
 
 .listings-message p {
   margin: 0;
-
   font-size: 14px;
 }
 
@@ -525,11 +464,9 @@
 
 .listings-list {
   position: relative;
-
   z-index: 2;
 
   max-width: 1200px;
-
   margin: 0 auto;
 
   display: grid;
@@ -547,11 +484,8 @@
 
 .listing-card {
   position: relative;
-
   min-height: 330px;
-
   padding: 25px;
-
   overflow: hidden;
 
   border-radius: 21px;
@@ -610,11 +544,9 @@
   position: absolute;
 
   top: -100%;
-
   left: -80%;
 
   width: 50%;
-
   height: 300%;
 
   transform:
@@ -664,9 +596,7 @@
 
 .listing-card-top {
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 }
 
@@ -675,12 +605,10 @@
   height: 57px;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
   border-radius: 16px;
-
   font-size: 27px;
 
   background:
@@ -707,6 +635,89 @@
 
 
 /* =========================================
+   FRONT BOOK IMAGE
+========================================= */
+
+.listing-book-image {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  width: 100%;
+  height: 210px;
+
+  margin-top: 18px;
+  padding: 8px;
+
+  object-fit: contain;
+
+  border-radius: 15px;
+
+  background:
+    rgba(255, 255, 255, 0.035);
+
+  border:
+    1px solid
+    rgba(0, 215, 195, 0.12);
+
+  box-shadow:
+    0 10px 25px
+    rgba(0, 0, 0, 0.18);
+
+  transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.listing-card:hover .listing-book-image {
+  transform: scale(1.02);
+
+  box-shadow:
+    0 14px 32px
+    rgba(0, 215, 195, 0.12);
+}
+
+.listing-book-image-placeholder {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+
+  width: 100%;
+  height: 210px;
+
+  margin-top: 18px;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  border:
+    1px dashed
+    rgba(82, 130, 125, 0.3);
+
+  color: #5f7875;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  font-size: 38px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 650px) {
+  .listing-book-image,
+  .listing-book-image-placeholder {
+    height: 230px;
+  }
+}
+
+
+/* =========================================
    STATUS
 ========================================= */
 
@@ -716,11 +727,8 @@
   border-radius: 30px;
 
   font-size: 10px;
-
   font-weight: 800;
-
   letter-spacing: 1px;
-
   text-transform: uppercase;
 
   color: #ffbd4d;
@@ -772,9 +780,7 @@
   margin: 0;
 
   color: #f1f7f6;
-
   font-size: 21px;
-
   font-weight: 800;
 
   transition:
@@ -792,9 +798,7 @@
   margin-top: 8px;
 
   color: #00cbb9;
-
   font-size: 12px;
-
   font-weight: 700;
 }
 
@@ -820,7 +824,6 @@
   padding: 13px 10px;
 
   display: flex;
-
   align-items: center;
 
   gap: 9px;
@@ -849,7 +852,6 @@
 
 .detail-icon {
   font-size: 18px;
-
   flex-shrink: 0;
 }
 
@@ -865,15 +867,12 @@
   color: #5f7875;
 
   font-size: 8px;
-
   font-weight: 800;
-
   letter-spacing: 1px;
 }
 
 .listing-detail strong {
   display: block;
-
   overflow: hidden;
 
   color: #c8d8d6;
@@ -881,13 +880,11 @@
   font-size: 11px;
 
   white-space: nowrap;
-
   text-overflow: ellipsis;
 }
 
 .listing-detail strong.price {
   color: #ffb01c;
-
   font-size: 14px;
 }
 
@@ -898,13 +895,10 @@
 
 .listing-card-bottom {
   margin-top: 20px;
-
   padding-top: 15px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 
   border-top:
@@ -912,22 +906,370 @@
     rgba(255, 255, 255, 0.055);
 
   color: #526967;
-
   font-size: 10px;
 }
 
-.listing-arrow {
-  color: #00cbb9;
 
-  font-size: 20px;
+/* =========================================
+   LISTING EXTRA DETAILS
+========================================= */
 
-  transition:
-    transform 0.3s ease;
+.listing-extra-images {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 22px;
+  padding-top: 18px;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.055);
+
+  animation:
+    listingDetailsAppear 0.35s ease both;
 }
 
-.listing-card:hover .listing-arrow {
+@keyframes listingDetailsAppear {
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =========================================
+   EXTRA DETAILS HEADING
+========================================= */
+
+.listing-extra-images-heading {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.listing-extra-images-heading span {
+  color: #00d4c1;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.listing-extra-images-heading small {
+  color: #526967;
+  font-size: 9px;
+}
+
+
+/* =========================================
+   EXTRA DETAILS GRID
+========================================= */
+
+.listing-extra-images-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+
+/* =========================================
+   BACK BOOK IMAGE
+========================================= */
+
+.listing-extra-image-card {
+  overflow: hidden;
+
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  border:
+    1px solid
+    rgba(0, 215, 195, 0.12);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.listing-extra-image-card:hover {
   transform:
-    translateX(6px);
+    translateY(-3px);
+
+  border-color:
+    rgba(0, 215, 195, 0.3);
+
+  box-shadow:
+    0 10px 25px
+    rgba(0, 0, 0, 0.2),
+
+    0 0 18px
+    rgba(0, 215, 195, 0.06);
+}
+
+.listing-extra-image {
+  display: block;
+
+  width: 100%;
+  height: 180px;
+
+  padding: 6px;
+
+  object-fit: contain;
+
+  background:
+    rgba(255, 255, 255, 0.02);
+}
+
+.listing-extra-image-card span {
+  display: block;
+
+  padding: 8px;
+
+  color: #78918e;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  text-align: center;
+
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.04);
+}
+
+
+/* =========================================
+   PDF CARD
+========================================= */
+
+.listing-pdf-card {
+  min-height: 180px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  text-align: center;
+
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.025);
+
+  border:
+    1px solid
+    rgba(255, 165, 0, 0.14);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.listing-pdf-card:hover {
+  transform:
+    translateY(-3px);
+
+  border-color:
+    rgba(255, 165, 0, 0.35);
+
+  box-shadow:
+    0 10px 25px
+    rgba(0, 0, 0, 0.2),
+
+    0 0 18px
+    rgba(255, 165, 0, 0.07);
+}
+
+.listing-pdf-icon {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.listing-pdf-card h4 {
+  margin: 0;
+
+  color: #f1f7f6;
+
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.listing-pdf-card p {
+  margin: 0;
+
+  color: #718783;
+
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.listing-pdf-link {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 6px;
+
+  margin-top: 3px;
+  padding: 8px 14px;
+
+  border-radius: 9px;
+
+  text-decoration: none;
+
+  color: #041313;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffa500,
+      #ff8700
+    );
+
+  font-size: 10px;
+  font-weight: 800;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.listing-pdf-link:hover {
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 20px
+    rgba(255, 165, 0, 0.22);
+}
+
+
+/* =========================================
+   WARNING
+========================================= */
+
+.listing-images-warning {
+  grid-column: 1 / -1;
+
+  margin: 5px 0;
+  padding: 10px;
+
+  color: #ff9ca8;
+
+  font-size: 10px;
+  text-align: center;
+
+  border-radius: 9px;
+
+  background:
+    rgba(255, 70, 90, 0.05);
+
+  border:
+    1px solid
+    rgba(255, 70, 90, 0.1);
+}
+
+
+/* =========================================
+   SEE IN DETAILS BUTTON
+========================================= */
+
+.listing-details-button {
+  padding: 8px 14px;
+
+  border:
+    1px solid
+    rgba(0, 215, 195, 0.22);
+
+  border-radius: 9px;
+
+  background:
+    rgba(0, 215, 195, 0.06);
+
+  color: #00d7c4;
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.listing-details-button:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(0, 215, 195, 0.12);
+
+  border-color:
+    rgba(0, 215, 195, 0.45);
+
+  color: #42f2df;
+}
+
+.listing-details-button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+  transform: none;
+}
+
+
+/* =========================================
+   MOBILE EXTRA DETAILS
+========================================= */
+
+@media (max-width: 650px) {
+  .listing-extra-images-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .listing-extra-image {
+    height: 220px;
+  }
+
+  .listing-pdf-card {
+    min-height: 220px;
+  }
+
+  .listing-extra-images-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 
@@ -937,7 +1279,6 @@
 
 .empty-listings {
   position: relative;
-
   z-index: 2;
 
   max-width: 600px;
@@ -1003,7 +1344,6 @@
   margin: 17px 0 7px;
 
   color: #f1f7f6;
-
   font-size: 25px;
 }
 
@@ -1011,7 +1351,6 @@
   margin: 0 0 22px;
 
   color: #718783;
-
   font-size: 14px;
 }
 
@@ -1034,7 +1373,6 @@
     );
 
   font-size: 12px;
-
   font-weight: 800;
 
   transition:
@@ -1058,7 +1396,6 @@
 
 .listings-footer {
   position: relative;
-
   z-index: 2;
 
   max-width: 1200px;
@@ -1068,7 +1405,6 @@
   padding: 25px 30px;
 
   display: flex;
-
   align-items: center;
 
   gap: 20px;
@@ -1097,7 +1433,6 @@
   flex-shrink: 0;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
 
@@ -1136,9 +1471,7 @@
   color: #00d4c1;
 
   font-size: 9px;
-
   font-weight: 800;
-
   letter-spacing: 3px;
 }
 
@@ -1154,7 +1487,6 @@
   flex-shrink: 0;
 
   display: flex;
-
   align-items: center;
 
   gap: 9px;
@@ -1175,7 +1507,6 @@
     );
 
   font-size: 12px;
-
   font-weight: 800;
 
   box-shadow:
@@ -1213,7 +1544,6 @@
 
 .back-dashboard-wrapper {
   position: relative;
-
   z-index: 2;
 
   max-width: 1200px;
@@ -1231,7 +1561,6 @@
   text-decoration: none;
 
   font-size: 13px;
-
   font-weight: 700;
 
   transition:
@@ -1252,7 +1581,6 @@
 ========================================= */
 
 @media (max-width: 900px) {
-
   .listings-page {
     padding: 50px 5% 60px;
   }
@@ -1267,14 +1595,12 @@
 
   .footer-sell-button {
     width: 100%;
-
     justify-content: center;
   }
 }
 
 
 @media (max-width: 650px) {
-
   .listings-page {
     padding: 40px 18px 50px;
   }
@@ -1286,19 +1612,16 @@
   .listings-icon {
     width: 64px;
     height: 64px;
-
     font-size: 30px;
   }
 
   .listings-label {
     font-size: 9px;
-
     letter-spacing: 3px;
   }
 
   .listings-header h1 {
     font-size: 48px;
-
     letter-spacing: -2px;
   }
 
@@ -1308,13 +1631,11 @@
 
   .listings-toolbar {
     align-items: flex-start;
-
     flex-direction: column;
   }
 
   .add-listing {
     width: 100%;
-
     justify-content: center;
   }
 
@@ -1328,7 +1649,6 @@
 
   .listings-footer {
     padding: 22px;
-
     align-items: flex-start;
   }
 
@@ -1343,7 +1663,6 @@
 ========================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
