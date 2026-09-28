@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./PendingProducts.css";
 
 function PendingProducts() {
   const [products, setProducts] = useState([]);
@@ -150,8 +151,8 @@ function PendingProducts() {
   };
 
   return (
-    <div>
-      <h1>Pending Products</h1>
+    <div className="pending-products-page">
+      <h1>Pending <span>Products</span></h1>
 
       <p>
         Review book listings before making

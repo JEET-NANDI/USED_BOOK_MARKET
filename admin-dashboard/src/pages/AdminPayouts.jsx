@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./AdminPayouts.css";
 
 function AdminPayouts() {
   const [payouts, setPayouts] = useState([]);
@@ -91,168 +92,326 @@ function AdminPayouts() {
     });
 
   return (
-    <div>
-      <h1>Seller Payouts</h1>
+    <main className="payouts-page">
 
-      <p>
-        Manage payments that are due to
-        sellers after completed orders.
-      </p>
+      {/* Background decoration */}
+      <div className="payouts-glow payouts-glow-one"></div>
+      <div className="payouts-glow payouts-glow-two"></div>
 
-      {message && (
-        <p>{message}</p>
-      )}
-
-      <div>
-        <input
-          type="text"
-          placeholder="Search payout, seller or transaction..."
-          value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-        />
-
-        {" "}
-
-        <button
-          type="button"
-          onClick={() =>
-            setSearch("")
-          }
-        >
-          Clear Search
-        </button>
-
-        {" "}
-
-        <label>
-          Status:{" "}
-
-          <select
-            value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(
-                e.target.value
-              )
-            }
-          >
-            <option value="All">
-              All
-            </option>
-
-            <option value="pending">
-              Pending
-            </option>
-
-            <option value="processing">
-              Processing
-            </option>
-
-            <option value="paid">
-              Paid
-            </option>
-
-            <option value="failed">
-              Failed
-            </option>
-          </select>
-        </label>
+      <div className="payouts-floating-icon payouts-floating-one">
+        💰
       </div>
 
-      <br />
+      <div className="payouts-floating-icon payouts-floating-two">
+        ₹
+      </div>
 
-      <p>
-        Showing{" "}
+
+      {/* Header */}
+      <section className="payouts-header">
+
+        <div className="payouts-icon">
+          💰
+        </div>
+
+        <p className="payouts-label">
+          ADMIN CONTROL CENTER
+        </p>
+
+        <h1>
+          Seller <span>Payouts</span>
+        </h1>
+
+        <p className="payouts-subtitle">
+          Manage payments that are due to
+          sellers after completed orders.
+        </p>
+
+      </section>
+
+
+      {/* Search / Filter Panel */}
+      <section className="payouts-controls">
+
+        <div className="payouts-controls-heading">
+
+          <div className="payouts-controls-icon">
+            💰
+          </div>
+
+          <div>
+            <p className="payouts-controls-label">
+              PAYOUT DATABASE
+            </p>
+
+            <h2>
+              All Payouts
+            </h2>
+          </div>
+
+        </div>
+
+
+        <div className="payouts-filters">
+
+          <div className="payout-search">
+
+            <span className="payout-search-icon">
+              🔎
+            </span>
+
+            <input
+              type="text"
+              placeholder="Search payout, seller or transaction..."
+              value={search}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
+            />
+
+          </div>
+
+
+          <button
+            type="button"
+            className="payout-clear-button"
+            onClick={() =>
+              setSearch("")
+            }
+          >
+            Clear Search
+          </button>
+
+
+          <label className="payout-status-filter">
+
+            <span>
+              Status
+            </span>
+
+            <select
+              value={statusFilter}
+              onChange={(e) =>
+                setStatusFilter(
+                  e.target.value
+                )
+              }
+            >
+              <option value="All">
+                All
+              </option>
+
+              <option value="pending">
+                Pending
+              </option>
+
+              <option value="processing">
+                Processing
+              </option>
+
+              <option value="paid">
+                Paid
+              </option>
+
+              <option value="failed">
+                Failed
+              </option>
+            </select>
+
+          </label>
+
+        </div>
+
+      </section>
+
+
+      {/* Message */}
+      {message && (
+        <div className="payout-message">
+          ⚠️
+          <span>{message}</span>
+        </div>
+      )}
+
+
+      {/* Results information */}
+      <div className="payout-results">
+
+        <span>
+          Showing
+        </span>
+
         <strong>
           {filteredPayouts.length}
-        </strong>{" "}
-        of{" "}
+        </strong>
+
+        <span>
+          of
+        </span>
+
         <strong>
           {payouts.length}
-        </strong>{" "}
-        payouts
-      </p>
+        </strong>
 
+        <span>
+          payouts
+        </span>
+
+      </div>
+
+
+      {/* Loading */}
       {loading ? (
-        <p>
-          Loading payouts...
-        </p>
+        <div className="payout-state">
+          <span className="payout-state-icon">
+            ⏳
+          </span>
+
+          <p>
+            Loading payouts...
+          </p>
+        </div>
       ) : filteredPayouts.length === 0 ? (
-        <p>
-          No payouts found.
-        </p>
+
+        <div className="payout-state">
+
+          <span className="payout-state-icon">
+            💸
+          </span>
+
+          <p>
+            No payouts found.
+          </p>
+
+        </div>
+
       ) : (
-        <table
-          border="1"
-          cellPadding="10"
-        >
-          <thead>
-            <tr>
-              <th>Payout ID</th>
-              <th>Order ID</th>
-              <th>Seller</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>Transaction ID</th>
-              <th>Paid At</th>
-              <th>Created At</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            {filteredPayouts.map(
-              (payout) => (
-                <tr key={payout.id}>
-                  <td>
-                    #{payout.id}
-                  </td>
+        /* Payout Table */
+        <section className="payouts-table-section">
 
-                  <td>
-                    #{payout.order_id}
-                  </td>
+          <div className="payouts-table-top">
 
-                  <td>
-                    {payout.seller_name ||
-                      "Unknown"}
-                    <br />
-                    {payout.seller_email ||
-                      ""}
-                  </td>
+            <div>
+              <p>
+                TRANSACTION RECORDS
+              </p>
 
-                  <td>
-                    ₹{payout.amount}
-                  </td>
+              <h2>
+                Payout History
+              </h2>
+            </div>
 
-                  <td>
-                    {payout.payout_status}
-                  </td>
+            <span className="payout-count">
+              {filteredPayouts.length} Records
+            </span>
 
-                  <td>
-                    {payout.transaction_id ||
-                      "Not available"}
-                  </td>
+          </div>
 
-                  <td>
-                    {payout.paid_at
-                      ? new Date(
-                          payout.paid_at
-                        ).toLocaleString()
-                      : "Not paid"}
-                  </td>
 
-                  <td>
-                    {new Date(
-                      payout.created_at
-                    ).toLocaleString()}
-                  </td>
+          <div className="payouts-table-wrapper">
+
+            <table className="payouts-table">
+
+              <thead>
+                <tr>
+                  <th>Payout ID</th>
+                  <th>Order ID</th>
+                  <th>Seller</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Transaction ID</th>
+                  <th>Paid At</th>
+                  <th>Created At</th>
                 </tr>
-              )
-            )}
-          </tbody>
-        </table>
+              </thead>
+
+
+              <tbody>
+
+                {filteredPayouts.map(
+                  (payout) => (
+
+                    <tr key={payout.id}>
+
+                      <td className="payout-id">
+                        #{payout.id}
+                      </td>
+
+
+                      <td className="order-id">
+                        #{payout.order_id}
+                      </td>
+
+
+                      <td className="seller-cell">
+
+                        <strong>
+                          {payout.seller_name ||
+                            "Unknown"}
+                        </strong>
+
+                        <span>
+                          {payout.seller_email ||
+                            ""}
+                        </span>
+
+                      </td>
+
+
+                      <td className="payout-amount">
+                        ₹{payout.amount}
+                      </td>
+
+
+                      <td>
+
+                        <span
+                          className={`payout-status payout-status-${payout.payout_status}`}
+                        >
+                          {payout.payout_status}
+                        </span>
+
+                      </td>
+
+
+                      <td className="transaction-cell">
+                        {payout.transaction_id ||
+                          "Not available"}
+                      </td>
+
+
+                      <td className="date-cell">
+                        {payout.paid_at
+                          ? new Date(
+                              payout.paid_at
+                            ).toLocaleString()
+                          : "Not paid"}
+                      </td>
+
+
+                      <td className="date-cell">
+                        {new Date(
+                          payout.created_at
+                        ).toLocaleString()}
+                      </td>
+
+                    </tr>
+
+                  )
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
       )}
-    </div>
+
+    </main>
   );
 }
 

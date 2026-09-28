@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./AdminReports.css";
 
 function AdminReports() {
   const [reports, setReports] = useState([]);
@@ -145,203 +146,394 @@ function AdminReports() {
     });
 
   return (
-    <div>
-      <h1>Reports</h1>
+    <main className="reports-page">
 
-      <p>
-        Review reports submitted by
-        users about book listings.
-      </p>
+      {/* Background decoration */}
+      <div className="reports-glow reports-glow-one"></div>
+      <div className="reports-glow reports-glow-two"></div>
 
-      {message && (
-        <p>{message}</p>
-      )}
-
-      <div>
-        <input
-          type="text"
-          placeholder="Search report, user, book or reason..."
-          value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
-        />
-
-        {" "}
-
-        <button
-          type="button"
-          onClick={() =>
-            setSearch("")
-          }
-        >
-          Clear Search
-        </button>
-
-        {" "}
-
-        <label>
-          Status:{" "}
-
-          <select
-            value={statusFilter}
-            onChange={(e) =>
-              setStatusFilter(
-                e.target.value
-              )
-            }
-          >
-            <option value="All">
-              All
-            </option>
-
-            <option value="pending">
-              Pending
-            </option>
-
-            <option value="reviewed">
-              Reviewed
-            </option>
-
-            <option value="resolved">
-              Resolved
-            </option>
-
-            <option value="rejected">
-              Rejected
-            </option>
-          </select>
-        </label>
+      <div className="reports-floating-icon reports-floating-one">
+        ⚠️
       </div>
 
-      <br />
+      <div className="reports-floating-icon reports-floating-two">
+        📋
+      </div>
 
-      <p>
-        Showing{" "}
+
+      {/* Header */}
+      <section className="reports-header">
+
+        <div className="reports-icon">
+          📋
+        </div>
+
+        <p className="reports-label">
+          ADMIN CONTROL CENTER
+        </p>
+
+        <h1>
+          User <span>Reports</span>
+        </h1>
+
+        <p className="reports-subtitle">
+          Review reports submitted by users
+          about book listings.
+        </p>
+
+      </section>
+
+
+      {/* Message */}
+      {message && (
+        <div className="reports-message">
+
+          <span className="reports-message-icon">
+            {message.includes("successfully")
+              ? "✓"
+              : "⚠"}
+          </span>
+
+          <span>
+            {message}
+          </span>
+
+        </div>
+      )}
+
+
+      {/* Report Database / Controls */}
+      <section className="reports-controls">
+
+        <div className="reports-controls-heading">
+
+          <div className="reports-controls-icon">
+            🚨
+          </div>
+
+          <div>
+
+            <p className="reports-controls-label">
+              REPORT DATABASE
+            </p>
+
+            <h2>
+              All Reports
+            </h2>
+
+          </div>
+
+        </div>
+
+
+        <div className="reports-filters">
+
+          <div className="report-search">
+
+            <span className="report-search-icon">
+              🔎
+            </span>
+
+            <input
+              type="text"
+              placeholder="Search report, user, book or reason..."
+              value={search}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
+            />
+
+          </div>
+
+
+          <button
+            type="button"
+            className="report-clear-button"
+            onClick={() =>
+              setSearch("")
+            }
+          >
+            Clear Search
+          </button>
+
+
+          <label className="report-status-filter">
+
+            <span>
+              Status
+            </span>
+
+            <select
+              value={statusFilter}
+              onChange={(e) =>
+                setStatusFilter(
+                  e.target.value
+                )
+              }
+            >
+
+              <option value="All">
+                All
+              </option>
+
+              <option value="pending">
+                Pending
+              </option>
+
+              <option value="reviewed">
+                Reviewed
+              </option>
+
+              <option value="resolved">
+                Resolved
+              </option>
+
+              <option value="rejected">
+                Rejected
+              </option>
+
+            </select>
+
+          </label>
+
+        </div>
+
+      </section>
+
+
+      {/* Results */}
+      <div className="reports-results">
+
+        <span>
+          Showing
+        </span>
+
         <strong>
           {filteredReports.length}
-        </strong>{" "}
-        of{" "}
+        </strong>
+
+        <span>
+          of
+        </span>
+
         <strong>
           {reports.length}
-        </strong>{" "}
-        reports
-      </p>
+        </strong>
 
+        <span>
+          reports
+        </span>
+
+      </div>
+
+
+      {/* Loading */}
       {loading ? (
-        <p>
-          Loading reports...
-        </p>
+
+        <div className="report-state">
+
+          <span className="report-state-icon">
+            ⏳
+          </span>
+
+          <p>
+            Loading reports...
+          </p>
+
+        </div>
+
       ) : filteredReports.length === 0 ? (
-        <p>
-          No reports found.
-        </p>
+
+        <div className="report-state">
+
+          <span className="report-state-icon">
+            📭
+          </span>
+
+          <h3>
+            No Reports Found
+          </h3>
+
+          <p>
+            There are currently no reports
+            matching your search or filter.
+          </p>
+
+        </div>
+
       ) : (
-        <table
-          border="1"
-          cellPadding="10"
-        >
-          <thead>
-            <tr>
-              <th>Report ID</th>
-              <th>Reporter</th>
-              <th>Book</th>
-              <th>Reason</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Created At</th>
-              <th>Action</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            {filteredReports.map(
-              (report) => (
-                <tr key={report.id}>
-                  <td>
-                    #{report.id}
-                  </td>
+        /* Report Table */
+        <section className="reports-table-section">
 
-                  <td>
-                    {report.reporter_name ||
-                      "Unknown"}
-                    <br />
-                    {report.reporter_email ||
-                      ""}
-                  </td>
+          <div className="reports-table-top">
 
-                  <td>
-                    {report.product_title ||
-                      "Product removed"}
-                  </td>
+            <div>
 
-                  <td>
-                    {report.reason}
-                  </td>
+              <p>
+                USER REPORTS
+              </p>
 
-                  <td>
-                    {report.description ||
-                      "No description"}
-                  </td>
+              <h2>
+                Report History
+              </h2>
 
-                  <td>
-                    {report.status}
-                  </td>
+            </div>
 
-                  <td>
-                    {new Date(
-                      report.created_at
-                    ).toLocaleString()}
-                  </td>
+            <span className="report-count">
+              {filteredReports.length} Records
+            </span>
 
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleUpdateStatus(
-                          report.id,
-                          "reviewed"
-                        )
-                      }
-                    >
-                      Reviewed
-                    </button>
+          </div>
 
-                    {" "}
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleUpdateStatus(
-                          report.id,
-                          "resolved"
-                        )
-                      }
-                    >
-                      Resolve
-                    </button>
+          <div className="reports-table-wrapper">
 
-                    {" "}
+            <table className="reports-table">
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleUpdateStatus(
-                          report.id,
-                          "rejected"
-                        )
-                      }
-                    >
-                      Reject
-                    </button>
-                  </td>
+              <thead>
+
+                <tr>
+                  <th>Report ID</th>
+                  <th>Reporter</th>
+                  <th>Book</th>
+                  <th>Reason</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Action</th>
                 </tr>
-              )
-            )}
-          </tbody>
-        </table>
+
+              </thead>
+
+
+              <tbody>
+
+                {filteredReports.map(
+                  (report) => (
+
+                    <tr key={report.id}>
+
+                      <td className="report-id">
+                        #{report.id}
+                      </td>
+
+
+                      <td className="reporter-cell">
+
+                        <strong>
+                          {report.reporter_name ||
+                            "Unknown"}
+                        </strong>
+
+                        <span>
+                          {report.reporter_email ||
+                            ""}
+                        </span>
+
+                      </td>
+
+
+                      <td className="report-book">
+                        <span className="book-icon">
+                          📖
+                        </span>
+
+                        {report.product_title ||
+                          "Product removed"}
+                      </td>
+
+
+                      <td className="report-reason">
+                        {report.reason}
+                      </td>
+
+
+                      <td className="report-description">
+                        {report.description ||
+                          "No description"}
+                      </td>
+
+
+                      <td>
+
+                        <span
+                          className={`report-status report-status-${report.status}`}
+                        >
+                          {report.status}
+                        </span>
+
+                      </td>
+
+
+                      <td className="report-date">
+                        {new Date(
+                          report.created_at
+                        ).toLocaleString()}
+                      </td>
+
+
+                      <td className="report-actions">
+
+                        <button
+                          type="button"
+                          className="report-action-reviewed"
+                          onClick={() =>
+                            handleUpdateStatus(
+                              report.id,
+                              "reviewed"
+                            )
+                          }
+                        >
+                          ✓ Reviewed
+                        </button>
+
+
+                        <button
+                          type="button"
+                          className="report-action-resolve"
+                          onClick={() =>
+                            handleUpdateStatus(
+                              report.id,
+                              "resolved"
+                            )
+                          }
+                        >
+                          ✓ Resolve
+                        </button>
+
+
+                        <button
+                          type="button"
+                          className="report-action-reject"
+                          onClick={() =>
+                            handleUpdateStatus(
+                              report.id,
+                              "rejected"
+                            )
+                          }
+                        >
+                          ✕ Reject
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  )
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </section>
+
       )}
-    </div>
+
+    </main>
   );
 }
 

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "./AdminCategories.css";
 
 function AdminCategories() {
   const [categories, setCategories] = useState([]);
@@ -194,149 +195,343 @@ function AdminCategories() {
     });
 
   return (
-    <div>
-      <h1>Categories</h1>
+    <main className="categories-page">
 
-      <p>
-        Manage book categories used
-        throughout USED BOOK MARKET.
-      </p>
+      {/* Background decoration */}
+      <div className="categories-glow categories-glow-one"></div>
+      <div className="categories-glow categories-glow-two"></div>
 
+      <div className="categories-floating-icon categories-floating-one">
+        📚
+      </div>
+
+      <div className="categories-floating-icon categories-floating-two">
+        📖
+      </div>
+
+
+      {/* Header */}
+      <section className="categories-header">
+
+        <div className="categories-icon">
+          📚
+        </div>
+
+        <p className="categories-label">
+          ADMIN CONTROL CENTER
+        </p>
+
+        <h1>
+          Book <span>Categories</span>
+        </h1>
+
+        <p className="categories-subtitle">
+          Manage book categories used
+          throughout USED BOOK MARKET.
+        </p>
+
+      </section>
+
+
+      {/* Message */}
       {message && (
-        <p>{message}</p>
+        <div className="categories-message">
+          <span className="categories-message-icon">
+            {message.includes("successfully")
+              ? "✓"
+              : "⚠"}
+          </span>
+
+          <span>
+            {message}
+          </span>
+        </div>
       )}
 
-      <hr />
 
-      <h2>Add Category</h2>
+      {/* Add Category + Category Info */}
+      <section className="category-management">
 
-      <form onSubmit={handleAddCategory}>
-        <div>
-          <input
-            type="text"
-            placeholder="Category name"
-            value={name}
-            onChange={(e) =>
-              setName(e.target.value)
-            }
-            required
-          />
+        {/* Add Category */}
+        <div className="add-category-card">
+
+          <div className="card-heading">
+
+            <div className="card-heading-icon">
+              ➕
+            </div>
+
+            <div>
+              <p>
+                CATEGORY MANAGEMENT
+              </p>
+
+              <h2>
+                Add Category
+              </h2>
+            </div>
+
+          </div>
+
+
+          <form
+            onSubmit={handleAddCategory}
+            className="category-form"
+          >
+
+            <div className="category-input-group">
+
+              <label>
+                Category Name
+              </label>
+
+              <input
+                type="text"
+                placeholder="Enter category name..."
+                value={name}
+                onChange={(e) =>
+                  setName(e.target.value)
+                }
+                required
+              />
+
+            </div>
+
+
+            <div className="category-input-group">
+
+              <label>
+                Description
+              </label>
+
+              <textarea
+                placeholder="Enter category description..."
+                rows="5"
+                value={description}
+                onChange={(e) =>
+                  setDescription(
+                    e.target.value
+                  )
+                }
+              />
+
+            </div>
+
+
+            <button
+              type="submit"
+              className="add-category-button"
+            >
+              <span>＋</span>
+              Add Category
+            </button>
+
+          </form>
+
         </div>
 
-        <br />
 
-        <div>
-          <textarea
-            placeholder="Category description"
-            rows="4"
-            value={description}
-            onChange={(e) =>
-              setDescription(
-                e.target.value
-              )
-            }
-          />
+        {/* Category Summary */}
+        <div className="category-summary-card">
+
+          <div className="summary-icon">
+            📚
+          </div>
+
+          <p className="summary-label">
+            TOTAL CATEGORIES
+          </p>
+
+          <strong>
+            {categories.length}
+          </strong>
+
+          <span>
+            Categories available
+          </span>
+
+          <div className="summary-line"></div>
+
+          <p className="summary-info">
+            Keep your marketplace
+            organized with clear and
+            useful book categories.
+          </p>
+
         </div>
 
-        <br />
+      </section>
 
-        <button type="submit">
-          Add Category
-        </button>
-      </form>
 
-      <hr />
+      {/* Category List */}
+      <section className="category-list-section">
 
-      <h2>Category List</h2>
+        <div className="category-list-header">
 
-      <input
-        type="text"
-        placeholder="Search categories..."
-        value={search}
-        onChange={(e) =>
-          setSearch(e.target.value)
-        }
-      />
+          <div className="category-list-title">
 
-      {" "}
+            <div className="list-icon">
+              🗂️
+            </div>
 
-      <button
-        type="button"
-        onClick={() =>
-          setSearch("")
-        }
-      >
-        Clear
-      </button>
+            <div>
+              <p>
+                CATEGORY DATABASE
+              </p>
 
-      <br />
-      <br />
+              <h2>
+                Category List
+              </h2>
+            </div>
 
-      {loading ? (
-        <p>
-          Loading categories...
-        </p>
-      ) : filteredCategories.length === 0 ? (
-        <p>
-          No categories found.
-        </p>
-      ) : (
-        <table
-          border="1"
-          cellPadding="10"
-        >
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Created At</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+          </div>
 
-          <tbody>
-            {filteredCategories.map(
-              (category) => (
-                <tr key={category.id}>
-                  <td>
-                    {category.id}
-                  </td>
 
-                  <td>
-                    {category.name}
-                  </td>
+          <span className="category-count">
+            {filteredCategories.length} Results
+          </span>
 
-                  <td>
-                    {category.description ||
-                      "No description"}
-                  </td>
+        </div>
 
-                  <td>
-                    {new Date(
-                      category.created_at
-                    ).toLocaleString()}
-                  </td>
 
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        handleDeleteCategory(
-                          category.id
-                        )
-                      }
-                    >
-                      Delete
-                    </button>
-                  </td>
+        {/* Search */}
+        <div className="category-search-area">
+
+          <div className="category-search">
+
+            <span>
+              🔎
+            </span>
+
+            <input
+              type="text"
+              placeholder="Search categories..."
+              value={search}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
+            />
+
+          </div>
+
+
+          <button
+            type="button"
+            className="category-clear-button"
+            onClick={() =>
+              setSearch("")
+            }
+          >
+            Clear
+          </button>
+
+        </div>
+
+
+        {/* Category Content */}
+        {loading ? (
+
+          <div className="category-state">
+            <span>⏳</span>
+            <p>
+              Loading categories...
+            </p>
+          </div>
+
+        ) : filteredCategories.length === 0 ? (
+
+          <div className="category-state">
+            <span>📂</span>
+            <p>
+              No categories found.
+            </p>
+          </div>
+
+        ) : (
+
+          <div className="categories-table-wrapper">
+
+            <table className="categories-table">
+
+              <thead>
+
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Created At</th>
+                  <th>Action</th>
                 </tr>
-              )
-            )}
-          </tbody>
-        </table>
-      )}
-    </div>
+
+              </thead>
+
+
+              <tbody>
+
+                {filteredCategories.map(
+                  (category) => (
+
+                    <tr key={category.id}>
+
+                      <td className="category-id">
+                        #{category.id}
+                      </td>
+
+
+                      <td className="category-name">
+                        <span className="category-book-icon">
+                          📖
+                        </span>
+
+                        {category.name}
+                      </td>
+
+
+                      <td className="category-description">
+                        {category.description ||
+                          "No description"}
+                      </td>
+
+
+                      <td className="category-date">
+                        {new Date(
+                          category.created_at
+                        ).toLocaleString()}
+                      </td>
+
+
+                      <td>
+
+                        <button
+                          type="button"
+                          className="delete-category-button"
+                          onClick={() =>
+                            handleDeleteCategory(
+                              category.id
+                            )
+                          }
+                        >
+                          🗑 Delete
+                        </button>
+
+                      </td>
+
+                    </tr>
+
+                  )
+                )}
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        )}
+
+      </section>
+
+    </main>
   );
 }
 

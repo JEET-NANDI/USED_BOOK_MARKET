@@ -1,0 +1,760 @@
+/* =========================================================
+   PENDING PRODUCTS
+   ADMIN CONTROL CENTER STYLE
+   ========================================================= */
+
+.pending-products-page {
+  position: relative;
+  isolation: isolate;
+
+  min-height: 100vh;
+
+  padding: 55px 4% 100px;
+
+  background:
+    radial-gradient(
+      circle at 8% 18%,
+      rgba(20, 184, 166, 0.15),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 92% 18%,
+      rgba(249, 115, 22, 0.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(20, 184, 166, 0.06),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #06191e,
+      #082b31 48%,
+      #071a1f
+    ) !important;
+
+  color: #f8fafc !important;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   TOP SMALL BOOK ICON
+   ========================================================= */
+
+.pending-products-page::before {
+  content: "📚";
+
+  position: absolute;
+
+  top: 38px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 72px;
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(20, 184, 166, 0.20),
+      rgba(249, 115, 22, 0.13)
+    );
+
+  border: 1px solid rgba(45, 212, 191, 0.38);
+
+  box-shadow:
+    0 0 25px rgba(20, 184, 166, 0.15),
+    0 0 45px rgba(249, 115, 22, 0.06),
+    inset 0 0 20px rgba(20, 184, 166, 0.05);
+
+  font-size: 32px;
+
+  z-index: 2;
+
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   BOTTOM DECORATIVE GLOW
+   ========================================================= */
+
+.pending-products-page::after {
+  content: "";
+
+  position: absolute;
+
+  width: 500px;
+  height: 260px;
+
+  left: 50%;
+  bottom: -190px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(20, 184, 166, 0.13),
+      rgba(249, 115, 22, 0.06),
+      transparent 70%
+    );
+
+  filter: blur(20px);
+
+  pointer-events: none;
+
+  z-index: -1;
+}
+
+
+/* =========================================================
+   HEADER AREA
+   ========================================================= */
+
+.pending-products-page h1 {
+  position: relative;
+
+  width: fit-content;
+
+  margin: 75px auto 18px;
+
+  text-align: center;
+
+  color: #f8fafc !important;
+
+  font-size: clamp(42px, 5vw, 68px);
+
+  font-weight: 800;
+
+  line-height: 1.05;
+
+  letter-spacing: -1.5px;
+
+  text-shadow:
+    0 0 30px rgba(20, 184, 166, 0.08);
+}
+
+.pending-products-page h1 span {
+  color: #f97316;
+  text-shadow:
+    0 0 25px rgba(249, 115, 22, 0.15);
+}
+/* =========================================================
+   ADMIN CONTROL CENTER LABEL
+   ========================================================= */
+
+.pending-products-page h1::before {
+  content: "ADMIN CONTROL CENTER";
+
+  display: block;
+
+  margin-bottom: 15px;
+
+  color: #2dd4bf;
+
+  font-size: 13px;
+
+  font-weight: 800;
+
+  letter-spacing: 5px;
+
+  line-height: 1.2;
+
+  text-align: center;
+
+  text-shadow:
+    0 0 18px rgba(20, 184, 166, 0.35);
+}
+
+
+/* =========================================================
+   HEADING DECORATIVE LINE
+   ========================================================= */
+
+.pending-products-page h1::after {
+  content: "";
+
+  display: block;
+
+  width: 175px;
+
+  height: 4px;
+
+  margin: 24px auto 0;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #14b8a6,
+      #2dd4bf,
+      #f97316,
+      #fb923c
+    );
+
+  box-shadow:
+    0 0 14px rgba(20, 184, 166, 0.25),
+    0 0 18px rgba(249, 115, 22, 0.15);
+}
+
+
+/* =========================================================
+   DESCRIPTION
+   ========================================================= */
+
+.pending-products-page p {
+  max-width: 760px;
+
+  margin: 0 auto 52px;
+
+  color: #91aeb5 !important;
+
+  text-align: center;
+
+  font-size: 17px;
+
+  line-height: 1.7;
+
+  letter-spacing: 0.1px;
+}
+
+
+/* =========================================================
+   TABLE
+   ========================================================= */
+
+.pending-products-page table {
+  position: relative;
+
+  width: 100%;
+
+  margin: 38px auto 0;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(8, 31, 38, 0.93),
+      rgba(7, 39, 46, 0.83)
+    ) !important;
+
+  color: #c6d7db !important;
+
+  border: 1px solid rgba(45, 212, 191, 0.22) !important;
+
+  border-radius: 18px;
+
+  border-collapse: separate;
+
+  border-spacing: 0;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.30),
+    0 0 40px rgba(20, 184, 166, 0.05);
+
+  backdrop-filter: blur(16px);
+
+  -webkit-backdrop-filter: blur(16px);
+}
+
+
+/* =========================================================
+   TABLE TOP LIGHT
+   ========================================================= */
+
+.pending-products-page table::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 8%;
+
+  width: 84%;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(45, 212, 191, 0.7),
+      rgba(249, 115, 22, 0.55),
+      transparent
+    );
+}
+
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.pending-products-page thead {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(20, 184, 166, 0.16),
+      rgba(20, 184, 166, 0.07),
+      rgba(249, 115, 22, 0.11)
+    ) !important;
+}
+
+
+.pending-products-page th {
+  background: transparent !important;
+
+  color: #8feee2 !important;
+
+  padding: 18px 14px;
+
+  border-color: rgba(94, 234, 212, 0.13) !important;
+
+  font-size: 15px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.3px;
+
+  text-align: center;
+
+  text-shadow:
+    0 0 14px rgba(45, 212, 191, 0.12);
+}
+
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+.pending-products-page tbody tr {
+  background: transparent;
+
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+
+.pending-products-page td {
+  background: transparent !important;
+
+  color: #c6d7db !important;
+
+  padding: 17px 14px;
+
+  border-color: rgba(255, 255, 255, 0.055) !important;
+
+  font-size: 15px;
+
+  vertical-align: middle;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+
+/* =========================================================
+   ROW HOVER
+   ========================================================= */
+
+.pending-products-page tbody tr:hover {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(20, 184, 166, 0.07),
+      rgba(20, 184, 166, 0.025),
+      rgba(249, 115, 22, 0.04)
+    ) !important;
+}
+
+
+.pending-products-page tbody tr:hover td {
+  background: transparent !important;
+
+  color: #f8fafc !important;
+}
+
+
+/* =========================================================
+   ID
+   ========================================================= */
+
+.pending-products-page td:first-child {
+  color: #8faab1 !important;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   BOOK
+   ========================================================= */
+
+.pending-products-page td:nth-child(2) {
+  color: #eef6f6 !important;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   SELLER
+   ========================================================= */
+
+.pending-products-page td:nth-child(3) {
+  color: #c6d7db !important;
+
+  font-weight: 500;
+}
+
+
+/* =========================================================
+   EMAIL
+   ========================================================= */
+
+.pending-products-page td:nth-child(4) {
+  color: #9db8bf !important;
+}
+
+
+/* =========================================================
+   CATEGORY
+   ========================================================= */
+
+.pending-products-page td:nth-child(5) {
+  color: #5eead4 !important;
+
+  font-weight: 650;
+}
+
+
+/* =========================================================
+   CONDITION
+   ========================================================= */
+
+.pending-products-page td:nth-child(6) {
+  color: #c6d7db !important;
+}
+
+
+/* =========================================================
+   PRICE
+   ========================================================= */
+
+.pending-products-page td:nth-child(7) {
+  color: #fb923c !important;
+
+  font-weight: 800;
+
+  text-shadow:
+    0 0 14px rgba(249, 115, 22, 0.15);
+}
+
+
+/* =========================================================
+   LOCATION
+   ========================================================= */
+
+.pending-products-page td:nth-child(8) {
+  color: #a7c1c8 !important;
+}
+
+
+/* =========================================================
+   ACTION COLUMN
+   ========================================================= */
+
+.pending-products-page td:last-child {
+  white-space: nowrap;
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.pending-products-page button {
+  position: relative;
+
+  min-width: 78px;
+
+  padding: 9px 15px;
+
+  margin: 3px;
+
+  border-radius: 8px;
+
+  color: #ffffff !important;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  border: 1px solid transparent !important;
+
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    background 0.22s ease,
+    border-color 0.22s ease;
+}
+
+
+.pending-products-page button:hover {
+  transform: translateY(-2px);
+}
+
+
+.pending-products-page button:active {
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   APPROVE
+   ========================================================= */
+
+.pending-products-page button:first-child {
+  background:
+    linear-gradient(
+      135deg,
+      #0d9488,
+      #14b8a6
+    ) !important;
+
+  border-color:
+    rgba(94, 234, 212, 0.38) !important;
+
+  box-shadow:
+    0 6px 20px rgba(20, 184, 166, 0.16);
+}
+
+
+.pending-products-page button:first-child:hover {
+  background:
+    linear-gradient(
+      135deg,
+      #0f766e,
+      #14b8a6,
+      #2dd4bf
+    ) !important;
+
+  border-color: #5eead4 !important;
+
+  box-shadow:
+    0 8px 28px rgba(20, 184, 166, 0.28);
+}
+
+
+/* =========================================================
+   REJECT
+   ========================================================= */
+
+.pending-products-page button:last-child {
+  color: #fed7aa !important;
+
+  background:
+    rgba(249, 115, 22, 0.10) !important;
+
+  border-color:
+    rgba(251, 146, 60, 0.32) !important;
+
+  box-shadow:
+    0 5px 18px rgba(249, 115, 22, 0.06);
+}
+
+
+.pending-products-page button:last-child:hover {
+  color: #ffffff !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ea580c,
+      #f97316
+    ) !important;
+
+  border-color: #fb923c !important;
+
+  box-shadow:
+    0 8px 28px rgba(249, 115, 22, 0.24);
+}
+
+
+/* =========================================================
+   TABLE CORNERS
+   ========================================================= */
+
+.pending-products-page th:first-child {
+  border-top-left-radius: 18px;
+}
+
+
+.pending-products-page th:last-child {
+  border-top-right-radius: 18px;
+}
+
+
+.pending-products-page tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 18px;
+}
+
+
+.pending-products-page tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 18px;
+}
+
+
+/* =========================================================
+   SUBTLE BOTTOM LINE
+   ========================================================= */
+
+.pending-products-page {
+  border-bottom:
+    1px solid rgba(20, 184, 166, 0.16);
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+.pending-products-page ::selection {
+  background: rgba(20, 184, 166, 0.35);
+
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .pending-products-page {
+    padding-left: 25px;
+    padding-right: 25px;
+
+    overflow-x: auto;
+  }
+
+  .pending-products-page table {
+    min-width: 950px;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .pending-products-page {
+    padding:
+      35px 18px 70px;
+  }
+
+  .pending-products-page::before {
+    top: 25px;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 17px;
+
+    font-size: 27px;
+  }
+
+  .pending-products-page h1 {
+    margin-top: 110px;
+
+    font-size: 40px;
+
+    letter-spacing: -1px;
+  }
+
+  .pending-products-page h1::before {
+    font-size: 10px;
+
+    letter-spacing: 3px;
+  }
+
+  .pending-products-page h1::after {
+    width: 120px;
+
+    margin-top: 18px;
+  }
+
+  .pending-products-page p {
+    margin-bottom: 35px;
+
+    font-size: 15px;
+  }
+
+  .pending-products-page th {
+    padding: 14px 10px;
+
+    font-size: 13px;
+  }
+
+  .pending-products-page td {
+    padding: 14px 10px;
+
+    font-size: 13px;
+  }
+
+  .pending-products-page button {
+    min-width: 70px;
+
+    padding: 7px 10px;
+
+    font-size: 12px;
+  }
+}
+
+
+@media (max-width: 500px) {
+
+  .pending-products-page h1 {
+    font-size: 34px;
+  }
+
+  .pending-products-page h1::before {
+    font-size: 9px;
+
+    letter-spacing: 2px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .pending-products-page *,
+  .pending-products-page *::before,
+  .pending-products-page *::after {
+    transition: none !important;
+
+    animation: none !important;
+  }
+}
